@@ -18,7 +18,7 @@ if(RunNumber==1)
   % Small Deformation
   Eps = 0.02;
   Nx = 64;
-  Ny = 16; %??
+  Ny = 16; %??what is Ny
   a = 0.1;
   N = 16;
 elseif(RunNumber==2)
@@ -57,7 +57,7 @@ for j=1:Nx
     betap(j) = 1i*sqrt(alphap(j)^2 - k^2);
   end
 end
-%[Dy,y] = cheb(Ny);
+%[Dy,y] = cheb(Ny); %%??Ny here
 eem = exp(-1i*alpha*x);
 eep = exp(1i*alpha*x);
 
