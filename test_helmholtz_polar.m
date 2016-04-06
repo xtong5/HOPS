@@ -10,7 +10,7 @@ if(RunNumber==1)
   % Small Deformation
   Eps = 0.02;
   N_theta = 64;
-  a = 0.1; % ??
+  a = 0.1; 
   N = 16;
 elseif(RunNumber==2)
   % Big Deformation (inside disk)
@@ -41,9 +41,11 @@ p = [0:N_theta/2-1,-N_theta/2:-1]';
 f = exp(cos(theta));
 f_theta = -sin(theta).*f;
 
-Ar = -3.0; r = 2; alphap_r = alphap(r+1); betap_r = betap(r+1); 
-xi = Ar*exp(1i*alphap_r*theta).*exp(1i*betap_r*Eps*f); 
-nu = (-1i*betap_r+1i*alphap_r*Eps*f_theta).*xi; %DNO
+Ar = -3.0; r = 2; % compute a special index 
+xi = Ar*besselh(r,k*a)*exp(li*r.*theta);
+A=a+Eps.*f;
+nu =(-0.5*k.*A*(besselh(r-1,k.*A)-besselh(r+1,k.*A))+...
+    li*r*Eps.f_theta*besselh(r,k.*A)./A ).*exp(li*r.*theta); %DNOß
 
 tic;
 apn = field_fe_helmholtz(xi,f,p,alphap,betap,eep,eem,N_theta,N);
