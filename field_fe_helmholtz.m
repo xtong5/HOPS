@@ -9,6 +9,6 @@ for n=1:N
   anp(:,n+1) = 0*xi;
   for m=0:n-1
     anp(:,n+1) = anp(:,n+1) - fft(eem.*( fn(:,n-m+1).*...
-        eep.*ifft((1i*gammap).^(n-m).*anp(:,m+1)) )); %??
+        eep.*ifft((1i*gammap).^(n-m).*anp(:,m+1)) )); 
   end
 end
