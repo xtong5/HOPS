@@ -10,7 +10,7 @@ if(RunNumber==1)
   % Small Deformation
   Eps = 0.02;
   N_theta = 64;
-  a = 0.1; 
+  a = 1; 
   N = 16;
 elseif(RunNumber==2)
   % Big Deformation (inside disk)
@@ -41,25 +41,24 @@ p = [0:N_theta/2-1,-N_theta/2:-1]';
 f = exp(cos(theta));
 f_theta = -sin(theta).*f;
 
-Ar = -3.0; r = 2; % compute a special wavenumber
+Ar = 1; r = 2; % compute a special wavenumber
 xi = Ar*besselh(r,k*a)*exp(1i*r.*theta);
 A=a+Eps.*f;
 nu =(-k.*A.*(diff_besselh(r,1,k.*A))+...
     1i*r*Eps.*f_theta.*besselh(r,k.*A)./A ).*exp(1i*r.*theta); %DNO
 dnp = field_fe_helmholtz_polar(xi,f,k,p,N_theta,N,a);
-
-
-% Gn_fe = dno_fe_helmholtz(apn,f,p,alphap,betap,eep,eem,N_theta,N);
-% t_fe = toc;
-% tic;
-% %Gn_oe = dno_oe_helmholtz(xi,f,p,alphap,betap,eep,eem,N_theta,N);
+Gn_fe = dno_fe_helmholtz_polar(dnp,f,f_theta,p,a,k,N_theta,N);
+t_fe = toc;
+tic;
+% Gn_oe = dno_oe_helmholtz(xi,f,p,alphap,betap,eep,eem,N_theta,N);
 % Gn_oe = Gn_fe;
 % t_oe = toc;
 % tic;
-% %un = field_tfe_helmholtz(xi,f,p,alphap,betap,eep,eem,Dy,a,N_theta,Ny,N);
-% %Gn_tfe = dno_tfe_helmholtz(un,f,p,alphap,betap,eep,eem,Dy,a,N_theta,Ny,N);
+% un = field_tfe_helmholtz(xi,f,p,alphap,betap,eep,eem,Dy,a,N_theta,Ny,N);
+% Gn_tfe = dno_tfe_helmholtz(un,f,p,alphap,betap,eep,eem,Dy,a,N_theta,Ny,N);
 % Gn_tfe = Gn_fe;
 % t_tfe = toc;
+fprintf('  t_fe = %g\n',t_fe);
 % fprintf('  t_fe = %g  t_oe = %g  t_tfe = %g\n',t_oe,t_fe,t_tfe);
 % fprintf('  t_fe/t_oe = %g  t_tfe/t_fe = %g  t_tfe/t_oe = %g\n',...
 %     t_fe/t_oe,t_tfe/t_fe,t_tfe/t_oe);
