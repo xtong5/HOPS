@@ -6,24 +6,25 @@ for n=1:N
   fn(:,n+1) = f.*fn(:,n-1+1)/n;
 end
 %f_theta = ifft( (1i*p).*fft(f) ); %f' ??use f_theta
-Gn(:,1) = -a*ifft(k.*diff_besselh(p,1,z).*dnp(:,1));
+Gn(:,1) = -a*ifft(k.*diff_besselh(p,1,z).*dnp(:,1)./(besselh(p.',z).'));
 for n=1:N
-    Gn(:,n+1) = -f.* Gn(:,n)/a+f_theta.^2.*ifft(dnp(:,n))/a;%f=fn(:,2)
+%     Gn(:,n+1) = -f.* Gn(:,n)/a+f_theta.^2.*ifft(dnp(:,n))/a;%f=fn(:,2)
+    Gn(:,n+1) = -f.* Gn(:,n)/a;
     for m=0:n
         Gn(:,n+1) = Gn(:,n+1)-a*fn(:,n-m+1).*ifft(k^(n-m+1).*...
             diff_besselh(p,n-m+1,z).*dnp(:,m+1)./(besselh(p.',z).'));
     end
     for m=0:n-2
         Gn(:,n+1) = Gn(:,n+1)-f.^2.*fn(:,n-m-1).*ifft(k^(n-m-1).*...
-            diff_besselh(p,n-m-1,z).*dnp(:,m+1)./(besselh(p.',z).'))/a...
-            +f_theta.^2.*fn(:,n-m-1).*ifft(k^(n-m-1).*...
             diff_besselh(p,n-m-1,z).*dnp(:,m+1)./(besselh(p.',z).'))/a;
+%             +f_theta.^2.*fn(:,n-m-1).*ifft(k^(n-m-1).*...
+%             diff_besselh(p,n-m-1,z).*dnp(:,m+1)./(besselh(p.',z).'))/a;
     end
     for m=0:n-1
         Gn(:,n+1) = Gn(:,n+1)-2*f.*fn(:,n-m).*ifft(k^(n-m).*...
             diff_besselh(p,n-m,z).*dnp(:,m+1)./(besselh(p.',z).'))...
             +f_theta.*fn(:,n-m).*ifft(k^(n-m).*(1i*p).*...
-            diff_besselh(p,n-m-1,z).*dnp(:,m+1)/(besselh(p.',z).'))/a;
+            diff_besselh(p,n-m-1,z).*dnp(:,m+1)./(besselh(p.',z).'))/a;
     end
 end
 end

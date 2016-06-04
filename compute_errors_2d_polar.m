@@ -1,7 +1,7 @@
 function [relerr,nplot] = compute_errors_2d_polar(nu,Gn_fe,Eps,N,N_theta)
 
-% relerr = zeros(N+1,6);
-relerr = zeros(N+1,2);
+relerr = zeros(N+1,6);
+%relerr = zeros(N+1,2);
 nplot = zeros(N+1,1);
 
 % nu_oe_taylor = Gn_oe(:,0+1);
