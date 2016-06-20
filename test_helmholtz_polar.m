@@ -69,4 +69,4 @@ fprintf('  t_fe = %g\n',t_fe);
 % [relerr,nplot] = compute_errors_2d(nu,Gn_oe,Gn_fe,Gn_tfe,Eps,N,N_theta);
 [relerr,nplot] = compute_errors_2d_polar(nu,Gn_fe,Eps,N,N_theta);
 
-make_plots(SavePlots,nplot,relerr);
+make_plots_polar(SavePlots,nplot,relerr);
