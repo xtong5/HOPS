@@ -210,7 +210,7 @@ end
 figure(102);
 clf;
 hh102 = gca;
-semilogy(nplot,relerr(:,2),'k-*',nplot,relerr(:,4),'k-*',...
+semilogy(nplot,relerr(:,3),'k-*',nplot,relerr(:,4),'k-*',...
     'LineWidth',2,'MarkerSize',8,'MarkerFaceColor','k');
 ll = legend('FE(Taylor)','FE(Pade)');
 set(ll,'interpreter','latex');
@@ -227,7 +227,7 @@ end
 figure(103);
 clf;
 hh103 = gca;
-semilogy(nplot,relerr(:,3),'k-o',nplot,relerr(:,6),'k-o',...
+semilogy(nplot,relerr(:,5),'k-o',nplot,relerr(:,6),'k-o',...
     'LineWidth',2,'MarkerSize',8,'MarkerFaceColor','k');
 ll = legend('TFE(Taylor)','TFE(Pade)');
 set(ll,'interpreter','latex');

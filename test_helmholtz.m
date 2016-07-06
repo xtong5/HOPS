@@ -87,4 +87,4 @@ fprintf('  t_fe/t_oe = %g  t_tfe/t_fe = %g  t_tfe/t_oe = %g\n',...
 
 [relerr,nplot] = compute_errors_2d(nu,Gn_oe,Gn_fe,Gn_tfe,Eps,N,Nx);
 
-% make_plots(SavePlots,nplot,relerr);
+make_plots(SavePlots,nplot,relerr);

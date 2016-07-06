@@ -50,6 +50,7 @@ nu =(k.*A.*(diff_besselj(r,1,k.*A))-...
 
 tic;
 dnp = field_fe_helmholtz_polar_interior(xi,f,k,p,N_theta,N,a);
+dnp1 = field_fe_helmholtz_polar_interior1(xi,f,k,p,N_theta,N,a);
 Gn_fe = dno_fe_helmholtz_polar_interior(dnp,f,f_theta,p,a,k,N_theta,N);
 t_fe = toc;
 % tic;
@@ -69,4 +70,4 @@ fprintf('  t_fe = %g\n',t_fe);
 % [relerr,nplot] = compute_errors_2d(nu,Gn_oe,Gn_fe,Gn_tfe,Eps,N,N_theta);
 [relerr,nplot] = compute_errors_2d_polar(nu,Gn_fe,Eps,N,N_theta);
 
-make_plots_polar(SavePlots,nplot,relerr);
+% make_plots_polar(SavePlots,nplot,relerr);
