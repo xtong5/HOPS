@@ -18,14 +18,14 @@ Mode = 2;
 
 L = 2*pi;
 alpha = 0.1;
-beta_u = 1.21; 
+beta_u = 1.21;
 beta_w = 2.23;
 if(RunNumber==1)
   % Small Deformation
   Eps = 0.02;
   Nx = 32;
   Ny = 16;
-  a = 0.5; % why a and b? 
+  a = 0.5;
   b = 0.5;
   N = 16;
 elseif(RunNumber==2)
@@ -74,7 +74,7 @@ for j=1:Nx
     beta_wp(j) = 1i*sqrt(alphap(j)^2 - k_w^2);
   end
 end
-[Dy,y] = cheb(Ny); %for what? 
+[Dy,y] = cheb(Ny);
 eem = exp(-1i*alpha*x);
 eep = exp(1i*alpha*x);
 
@@ -127,8 +127,8 @@ psi_n = -nu_u_n - tau2*nu_w_n;
 tic;
 [apn,dpn] = field_fe_helmholtz_twolayer(zeta_n,psi_n,f,tau2,...
     p,alphap,beta_up,beta_wp,eep,eem,Nx,N);
-Gn_fe_u = dno_fe_helmholtz_upper(apn,f,p,alphap,beta_up,eep,eem,Nx,N);% for what?
-Gn_fe_w = dno_fe_helmholtz_lower(dpn,f,p,alphap,beta_wp,eep,eem,Nx,N);% relation
+Gn_fe_u = dno_fe_helmholtz_upper(apn,f,p,alphap,beta_up,eep,eem,Nx,N);
+Gn_fe_w = dno_fe_helmholtz_lower(dpn,f,p,alphap,beta_wp,eep,eem,Nx,N);
 t_fe = toc;
 
 tic;
@@ -184,7 +184,7 @@ pause;
 fprintf('\n\nTwo-layer scattering by DNO\n\n');
 
 tic;
-U_n = dno_fe_helmholtz_twolayer(zeta_n,psi_n,f,tau2,...
+U_n = twolayer_dno_fe_helmholtz(zeta_n,psi_n,f,tau2,...
     p,alphap,beta_up,beta_wp,eep,eem,Nx,N);
 apn_fe = field_fe_helmholtz_upper(U_n,f,p,alphap,beta_up,eep,eem,Nx,N);
 Gn_fe_u = dno_fe_helmholtz_upper(apn_fe,f,p,alphap,beta_up,eep,eem,Nx,N);
@@ -194,7 +194,7 @@ Gn_fe_w = dno_fe_helmholtz_lower(dpn_fe,f,p,alphap,beta_wp,eep,eem,Nx,N);
 t_fe = toc;
 
 tic;
-U_n = dno_tfe_helmholtz_twolayer(zeta_n,psi_n,f,tau2,...
+U_n = twolayer_dno_tfe_helmholtz(zeta_n,psi_n,f,tau2,...
     p,alphap,beta_up,beta_wp,eep,eem,Dy,a,b,Nx,Ny,N);
 un = field_tfe_helmholtz_upper(U_n,f,...
     p,alphap,beta_up,eep,eem,Dy,a,Nx,Ny,N);

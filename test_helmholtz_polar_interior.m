@@ -45,13 +45,34 @@ f_theta = -sin(theta).*f;
 Ar = 1; r = 2; % compute a special wavenumber
 A=a+Eps.*f;
 xi = Ar*besselj(r,k.*A).*exp(1i*r.*theta);
-nu =(k.*A.*(diff_besselj(r,1,k.*A))-...
-    1i*r*Eps.*f_theta.*besselj(r,k.*A)./A ).*exp(1i*r.*theta); %DNO
+nu =Ar*((k.*A.*(diff_besselj(r,1,k.*A))-...
+    1i*r*Eps.*f_theta.*besselj(r,k.*A)./A ).*exp(1i*r.*theta)); %DNO
+xi_n = zeros(N_theta,N); nu_n = zeros(N_theta,N+1);
+f_n = ones(N_theta,1); f_nmo = ones(N_theta,1);f_nmt = ones(N_theta,1);
+xi_n(:,0+1) = Ar*besselj(r,k*a).*exp(1i*r.*theta);
+nu_n(:,0+1) = -Ar*k*a*diff_besselh(r,1,k*a).*exp(1i*r.*theta);
+
+for n=1:N
+  f_n = f.*f_n/n;
+  if(n>1)
+    f_nmo = f.*f_nmo/(n-1);
+  end
+  if(n>2)
+    f_nmo = f.*f_nmt/(n-2);
+  end
+  xi_n(:,n+1) = Ar*k^n*diff_besselj(r,n,k*a).*f_n.*exp(1i*r.*theta);
+  nu_n(:,n+1) = -f/a.*nu_n(:,n-1+1)...
+      +Ar*a*k^(n+1).*diff_besselj(r,n+1,k*a).*f_n.*exp(1i*r.*theta)...
+      +Ar*(2*f).*k^n.*diff_besselj(r,n,k*a).*f_nmo.*exp(1i*r.*theta)...
+      +Ar*(f.^2/a)*k^(n-1).*diff_besselj(r,n-1,k*a).*f_nmt.*exp(1i*r.*theta)...
+      -Ar*(f_theta/a)*k^(n-1).*(1i*r).*diff_besselj(r,n-1,k*a)...
+      .*f_nmo.*exp(1i*r.*theta);
+end
 
 tic;
-dnp = field_fe_helmholtz_polar_interior(xi,f,k,p,N_theta,N,a);
-dnp1 = field_fe_helmholtz_polar_interior1(xi,f,k,p,N_theta,N,a);
-Gn_fe = dno_fe_helmholtz_polar_interior(dnp,f,f_theta,p,a,k,N_theta,N);
+dnp = field_fe_helmholtz_polar_interior(xi_n,f,k,a,p,N_theta,N);
+% dnp1 = field_fe_helmholtz_polar_interior1(xi,f,k,p,N_theta,N,a);
+Gn_fe = dno_fe_helmholtz_polar_interior(dnp,f,f_theta,k,a,p,N_theta,N);
 t_fe = toc;
 % tic;
 % Gn_oe = dno_oe_helmholtz(xi,f,p,alphap,betap,eep,eem,N_theta,N);

@@ -1,4 +1,4 @@
-function [Gn] = dno_fe_helmholtz_polar(anp,f,f_theta,p,a,k,N_theta,N)
+function [Gn] = dno_fe_helmholtz_polar_exterior(anp,f,f_theta,k,a,p,N_theta,N)
 Gn = zeros(N_theta,N+1); fn = zeros(N_theta,N+1);
 fn(:,0+1) = ones(N_theta,1);
 z=k*a;
