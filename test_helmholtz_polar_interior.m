@@ -58,7 +58,7 @@ for n=1:N
     f_nmo = f.*f_nmo/(n-1);
   end
   if(n>2)
-    f_nmo = f.*f_nmt/(n-2);
+    f_nmt = f.*f_nmt/(n-2);
   end
   xi_n(:,n+1) = Ar*k^n*diff_besselj(r,n,k*a).*f_n.*exp(1i*r.*theta);
   nu_n(:,n+1) = -f/a.*nu_n(:,n-1+1)...

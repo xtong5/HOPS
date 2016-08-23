@@ -1,5 +1,5 @@
 clear all;
-clf;
+% clf;
 SavePlots = 0;
 
 RunNumber = 1;
@@ -7,14 +7,15 @@ RunNumber = 1;
 Mode = 1;
 
 L = 2*pi;
-k_u = 1; 
-k_w = 1;
+k_u = 3; 
+k_w = 2;
 
 if(RunNumber==1)
   % Small Deformation
   Eps = 0.02;
-  N_theta = 64;
-  a = 1; 
+  %N_theta = 64;
+  N_theta = 8;
+  a = 2.0/5.0; 
   N = 16;
 elseif(RunNumber==2)
   % Big Deformation (inside disk)
@@ -130,8 +131,6 @@ Gn_fe_u = dno_fe_helmholtz_polar_exterior(apn_fe,f,f_theta,k_u,a,p,N_theta,N);
 W_n = U_n - zeta_n;
 dpn_fe = field_fe_helmholtz_polar_interior(W_n,f,k_w,a,p,N_theta,N);
 Gn_fe_w = dno_fe_helmholtz_polar_interior(dpn_fe,f,f_theta,k_w,a,p,N_theta,N);
-% apn = field_fe_helmholtz_polar_exterior(zeta_n,f,k_u,a,p,N_theta,N);
-% Gn = dno_fe_helmholtz_polar_exterior(apn,f,f_theta,k_u,a,p,N_theta,N);
 t_fe = toc;
 
 fprintf('Press key to compute exterior layer errors...\n');
@@ -139,38 +138,96 @@ pause;
 
 fprintf('  t_fe = %g\n',t_fe);
 fprintf('\nEXTERIOR LAYER\n\n');
-[relerrU,nplotU] = compute_errors_2d_polar(nu_u,Gn_fe_u,Eps,N,N_theta);
-% [relerrU1,nplotU1] = compute_errors_2d_polar(nu_u,Gn,Eps,N,N_theta);
+[relerrU,nplotU] = compute_errors_2d_polar(xi_u,U_n,Eps,N,N_theta);
+[relerrDNOU,nplotDNOU] = compute_errors_2d_polar(nu_u,Gn_fe_u,Eps,N,N_theta);
+make_plots_polar(SavePlots,nplotU,relerrU);
+% make_plots_polar(SavePlots,nplotDNOU,relerrDNOU);
 fprintf('\n');
 
 fprintf('Press key to compute interior layer errors...\n');
 pause;
 
 fprintf('\nINTERIOR LAYER\n\n');
-[relerrW,nplotW] = compute_errors_2d_polar(nu_w,Gn_fe_w,Eps,N,N_theta);
-
+[relerrW,nplotW] = compute_errors_2d_polar(xi_w,W_n,Eps,N,N_theta);
+[relerrDNOW,nplotDNOW] = compute_errors_2d_polar(nu_w,Gn_fe_w,Eps,N,N_theta);
+% make_plots_polar(SavePlots,nplotW,relerrW);
+% make_plots_polar(SavePlots,nplotDNOW,relerrDNOW);
 fprintf('\n');
 
 fprintf('Press key to compute the far field behavior...\n');
 pause;
 
-b = 5;
-B_far = zeros(N_theta,1);
-coeff=zeros(N_theta,N+1);
+% hold on;
+% bb = [1 5 10 20 40 80];
+% for jj=1:length(bb)
+%   b = bb(jj);
+%   B_far = zeros(N_theta,1);
+%   coeff=zeros(N_theta,N+1);
+%   for n=1:N+1
+%     coeff(:,n)=ifft(apn_fe(:,n).*besselh(p,k_u.*b)./besselh(p,k_u.*a)); 
+%   end 
+% 
+%   for j=1:N_theta
+%     B_far(j) = taylorsum(coeff(j,:).',Eps,N);
+%   end
+%   if(jj>1)
+%     u_tilde_prev = u_tilde;
+%   end
+%   u_tilde= sqrt(b)*exp(-1i*k_u*b).*B_far;
+%   if(jj>1)
+%     fprintf('  |u_tilde-u_tilde_prev| = %g\n',norm(u_tilde-u_tilde_prev,inf));
+%   end
+% %   
+%   
+%   if(jj==1)
+%     plot(theta,real(u_tilde),'b-o');
+%   elseif(jj==2)
+%     plot(theta,real(u_tilde),'r-o');
+%   elseif(jj==3)
+%     plot(theta,real(u_tilde),'g-o');
+%   elseif(jj==4)
+%     plot(theta,real(u_tilde),'c-o');
+%   elseif(jj==5)
+%     plot(theta,real(u_tilde),'y-o');
+%   else
+%     plot(theta,real(u_tilde),'k-o');
+%   end
+%   hold on;
+% end
+
+b = a + Eps;
+C_b = sqrt(b)*exp(-1i*k_u*b);
+B_far_true = Ar_u*besselh(r,k_u.*b).*exp(1i*r.*theta);
+B_far = zeros(N_theta,N+1);
+B_far1 = zeros(N_theta,1);
 for n=1:N+1
-  coeff(:,n)=apn_fe(:,n).*besselh(p,k_u.*b)./besselh(p,k_u.*a).*exp(1i*p.*theta); 
+  B_far(:,n)=ifft(apn_fe(:,n).*besselh(p,k_u.*b)./besselh(p,k_u.*a)); 
 end 
 
 for j=1:N_theta
-    B_far(j) = taylorsum(coeff(j,:)',Eps,N);
+  B_far1(j) = taylorsum(B_far(j,:),Eps,N);
 end
 
+[relerrB,nplotB] = compute_errors_2d_polar(C_b*B_far_true,C_b*B_far,Eps,N,N_theta);
+% make_plots_polar(SavePlots,nplotB,relerrB);
+plot(1:N_theta,real(B_far_true),'b-o',1:N_theta,real(B_far1),'r-*')
 
-
-
-
-    
-
-
-
-
+% bb = [1 5 10 20 40 80];
+% for jj=1:length(bb)
+%   bbb = bb(jj);
+%   BB_far = zeros(N_theta,1);
+%   Bcoeff=zeros(N_theta,N+1);
+%   for n=1:N+1
+%     Bcoeff(:,n)=ifft(apn_fe(:,n).*besselh(p,k_u.*bbb)./besselh(p,k_u.*a)); 
+%   end 
+%   for j=1:N_theta
+%     B_far(j) = taylorsum(Bcoeff(j,:).',Eps,N);
+%   end
+%   if(jj>1)
+%     u_tilde_prev = u_tilde;
+%   end
+%   u_tilde= sqrt(bbb)*exp(-1i*k_u*bbb).*BB_far;
+%   if(jj>1)
+%   BB_error = log(abs(u_tilde-u_tilde_prev));
+%   end
+% end
