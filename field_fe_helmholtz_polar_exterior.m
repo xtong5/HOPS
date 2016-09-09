@@ -11,6 +11,6 @@ for n=1:N
   anp(:,n+1) = fft(xi_n(:,n+1)); 
   for m=0:n-1
     anp(:,n+1) = anp(:,n+1) - k^(n-m)*fft(fn(:,n-m+1).*...
-        ifft(diff_besselh(p,n-m,k*a).*anp(:,m+1)./besselh(p,k*a)));
+        ifft(diff_bessel(2,p,n-m,k*a).*anp(:,m+1)./besselh(p,k*a)));
   end
 end
