@@ -2,22 +2,29 @@ clear all
 close all
 
 L = 2*pi;
-lambda = [0.2:0.01:1];
+%lambda = [0.2:0.005:1];
+lambda = linspace(0.2,1.0,11);
 M = size(lambda,2);
 % lambda = 0.2;
 k_zero = 2*pi./lambda;
 n_u = 1;
 % n_w = 1.3;
 for i = 1:M
-   n_w = ri_perm(lambda(i),'SILVER');
+   n_w(i) = ri_perm(lambda(i),'SILVER');
 end
 k_u = n_u*k_zero; 
 k_w = n_w.*k_zero; 
-RunNumber = 1;
+RunNumber = 0;
 %Mode = 2; %check 
 Mode = 1;
 
-if(RunNumber==1)
+if(RunNumber==0)
+  Eps = 0;
+  N_theta = 8;
+  a = 1;
+  b = 5;
+  N = 0;
+elseif(RunNumber==1)
   % Small Deformation
   Eps = 0.02;
   N_theta = 64;

@@ -12,7 +12,7 @@ k_w = 2;
 
 if(RunNumber==1)
   % Small Deformation
-  Eps = 0.02;
+  Eps = 0.02s;
   N_theta = 64;
 %   N_theta = 8;
   a = 2.0/5.0; 
