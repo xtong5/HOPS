@@ -1,6 +1,6 @@
 % this function computes and saves the data to file
 function [lambda_crit,U_norm,W_norm,BU_norm] = ...
-    FE_application(M,f,N_theta,a,b,N,Eps,L,theta)
+    FE_application(M,f,N_theta,a,b,N,Eps,L,theta,name)
 
 
 
@@ -98,8 +98,8 @@ end
    
 end
 
-
-save('Perturbation.mat','M','lambda','U_norm','W_norm','BU_norm',...
+filename = sprintf('data_%s.mat',name);
+save(filename,'M','lambda','U_norm','W_norm','BU_norm',...
     'lambda_crit','epsilon_u_plot','epsilon_w_plot','Eps','a','b',...
     'N_theta','N')
 

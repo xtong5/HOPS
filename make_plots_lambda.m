@@ -1,7 +1,30 @@
 % plot
 clear all
 
-load('Perturbation.mat')
+mode = 0; % choose functions
+
+if mode == 1
+    load('expcos.mat');
+end
+if mode == 2
+    load('cos2.mat');
+end
+if mode == 4
+    load('cos4.mat');
+end
+if mode == 8
+    load('cos8.mat');
+end
+if mode == 0
+    load('square.mat');
+end
+
+
+fprintf('-------------\n');
+fprintf('Eps = %g  a = %g  b = %g\n',Eps,a,b);
+fprintf('N_theta = %d N = %d M = %d\n',N_theta,N,M);
+fprintf('\n');
+
 
 lambda_crit_plot = lambda_crit*ones(M,1);
 norm_max = max([max(U_norm),max(W_norm),max(BU_norm)]);
