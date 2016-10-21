@@ -87,9 +87,10 @@ end
    end 
 
    for j=1:N_theta
-     BU(j,m) = padesum(B_far(j,:),Eps,N);
-     U(j,m) = padesum(U_n(j,:,m),Eps,N);
-     W(j,m) = padesum(W_n(j,:,m),Eps,N);
+     k = floor(N/2);
+     BU(j,m) = padesum(B_far(j,:).',Eps,k);
+     U(j,m) = padesum(U_n(j,:,m).',Eps,k);
+     W(j,m) = padesum(W_n(j,:,m).',Eps,k);
    end
    
    U_norm(m) = norm(U(:,m),2)/sqrt(N_theta);

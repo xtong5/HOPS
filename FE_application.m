@@ -87,9 +87,9 @@ end
    end 
 
    for j=1:N_theta
-     BU(j,m) = taylorsum(B_far(j,:),Eps,N);
-     U(j,m) = taylorsum(U_n(j,:,m),Eps,N);
-     W(j,m) = taylorsum(W_n(j,:,m),Eps,N);
+     BU(j,m) = taylorsum(B_far(j,:).',Eps,N);
+     U(j,m) = taylorsum(U_n(j,:,m).',Eps,N);
+     W(j,m) = taylorsum(W_n(j,:,m).',Eps,N);
    end
    
    U_norm(m) = norm(U(:,m),2)/sqrt(N_theta);
