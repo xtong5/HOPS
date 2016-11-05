@@ -46,35 +46,33 @@ W_norm = zeros(M,N_eps);
 U_n = zeros(N_theta,N+1,M);
 W_n = zeros(N_theta,N+1,M); 
 
-for l = 1:N_eps
-    Eps = epsvec(l);
-    for m =1:M
-        A = a+Eps*f;
-        zeta = -P_0*exp(-1i*k_u(m).*A.*sin(theta));
-        psi = (1i*k_u(m)).*A.*zeta;
-        zeta_n = zeros(N_theta,N+1);
-        psi_n = zeros(N_theta,N+1);
-        f_n = ones(N_theta,1); f_nmo = ones(N_theta,1);
-        Sin = sin(theta);
-        Exp = exp(-1i*k_u(m)*a.*Sin);
-        zeta_n(:,0+1) = -Exp; 
-        psi_n(:,0+1) = (1i*k_u(m))*a*Sin.*Exp;
+for m =1:M
+%   A = a+Eps*f;
+%         zeta = -P_0*exp(-1i*k_u(m).*A.*sin(theta));
+%         psi = (1i*k_u(m)).*A.*zeta;
+zeta_n = zeros(N_theta,N+1);
+psi_n = zeros(N_theta,N+1);
+f_n = ones(N_theta,1); f_nmo = ones(N_theta,1);
+Sin = sin(theta);
+Exp = exp(-1i*k_u(m)*a.*Sin);
+zeta_n(:,0+1) = -Exp; 
+psi_n(:,0+1) = (1i*k_u(m))*a*Sin.*Exp;
 
-        for n=1:N
-            f_n = f.*f_n/n;
-            if n > 1
-            f_nmo = f.*f_nmo/(n-1);
-            end
-            zeta_n(:,n+1) = -Exp.*(-1i*k_u(m))^n.*f_n.*Sin.^n;
-            psi_n(:,n+1) = (1i*k_u(m)).*Exp.*(a*(-1i*k_u(m))^n.*f_n.*...
-                Sin.^(n+1)+(f.*Sin-f_theta.*cos(theta)).*...
-                (-1i*k_u(m))^(n-1).*f_nmo.*Sin.^(n-1));
-        end
-        if(Mode==1)
-            tau2 = 1;
-        else
-            tau2 = k_u(m)^2/k_w(m)^2;
-        end
+for n=1:N
+    f_n = f.*f_n/n;
+    if n > 1
+        f_nmo = f.*f_nmo/(n-1);
+    end
+    zeta_n(:,n+1) = -Exp.*(-1i*k_u(m))^n.*f_n.*Sin.^n;
+    psi_n(:,n+1) = (1i*k_u(m)).*Exp.*(a*(-1i*k_u(m))^n.*f_n.*...
+    Sin.^(n+1)+(f.*Sin-f_theta.*cos(theta)).*...
+    (-1i*k_u(m))^(n-1).*f_nmo.*Sin.^(n-1));
+ end
+if(Mode==1)
+    tau2 = 1;
+else
+    tau2 = k_u(m)^2/k_w(m)^2;
+end
 
    U_n(:,:,m) = twolayer_dno_fe_helmholtz_polar(zeta_n,psi_n,f,f_theta,tau2,...
     p,k_u(m),k_w(m),a,N_theta,N);
@@ -85,18 +83,19 @@ for l = 1:N_eps
      B_far(:,n)=ifft(apn_fe(:,n).*besselh(p,k_u(m).*b)./besselh(p,k_u(m).*a));
    end 
 
-   for j=1:N_theta
-     BU(j,m) = taylorsum(B_far(j,:).',Eps,N);
-     U(j,m) = taylorsum(U_n(j,:,m).',Eps,N);
-     W(j,m) = taylorsum(W_n(j,:,m).',Eps,N);
-   end
+   for l=1:N_eps
+       Eps = epsvec(l);
+       for j=1:N_theta
+        BU(j,m) = taylorsum(B_far(j,:).',Eps,N);
+        U(j,m) = taylorsum(U_n(j,:,m).',Eps,N);
+        W(j,m) = taylorsum(W_n(j,:,m).',Eps,N);
+       end
    
    U_norm(m,l) = norm(U(:,m),2)/sqrt(N_theta);
    BU_norm(m,l) = norm(BU(:,m),2)/sqrt(N_theta);
    W_norm(m,l) = norm(W(:,m),2)/sqrt(N_theta);
+   end
    
-end
-
 end
 
 filename = sprintf('data_%s.mat',name);

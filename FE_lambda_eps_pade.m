@@ -46,13 +46,8 @@ W_norm = zeros(M,N_eps);
 U_n = zeros(N_theta,N+1,M);
 W_n = zeros(N_theta,N+1,M); 
 
-for l = 1:N_eps
-    Eps = epsvec(l);
 for m =1:M
     
-A = a+Eps*f;
-zeta = -P_0*exp(-1i*k_u(m).*A.*sin(theta));
-psi = (1i*k_u(m)).*A.*zeta;
 zeta_n = zeros(N_theta,N+1);
 psi_n = zeros(N_theta,N+1);
 f_n = ones(N_theta,1); f_nmo = ones(N_theta,1);
@@ -87,18 +82,19 @@ end
      B_far(:,n)=ifft(apn_fe(:,n).*besselh(p,k_u(m).*b)./besselh(p,k_u(m).*a));
    end 
 
-   for j=1:N_theta
-     BU(j,m) = padesum(B_far(j,:).',Eps,N);
-     U(j,m) = padesum(U_n(j,:,m).',Eps,N);
-     W(j,m) = padesum(W_n(j,:,m).',Eps,N);
-   end
-   
+   for l = 1:N_eps
+       Eps = epsvec(l);
+       for j=1:N_theta
+           BU(j,m) = padesum(B_far(j,:).',Eps,N);
+           U(j,m) = padesum(U_n(j,:,m).',Eps,N);
+           W(j,m) = padesum(W_n(j,:,m).',Eps,N);
+       end
+  
    U_norm(m,l) = norm(U(:,m),2)/sqrt(N_theta);
    BU_norm(m,l) = norm(BU(:,m),2)/sqrt(N_theta);
    W_norm(m,l) = norm(W(:,m),2)/sqrt(N_theta);
+   end
    
-end
-
 end
 
 filename = sprintf('data_%s.mat',name);
