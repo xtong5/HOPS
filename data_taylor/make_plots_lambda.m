@@ -1,10 +1,10 @@
 % plot
 clear all
 
-mode = 1000; % choose functions
+mode = 2; % choose functions
 
 if mode == 1
-    load('data_expcos_eps.mat');
+    load('data_expcos52.mat');
 %     load('data_expcos10.mat');
 %     load('data_expcos100.mat');
 %     load('data_expcos5.mat');
@@ -22,16 +22,11 @@ if mode == 8
     load('data_cos8.mat');
 end
 
-load('data_NoPer.mat');
 
 fprintf('-------------\n');
-fprintf(' a = %g  b = %g\n',a,b);
+fprintf('Eps = %g  a = %g  b = %g\n',Eps,a,b);
 fprintf('N_theta = %d N = %d M = %d\n',N_theta,N,M);
 fprintf('\n');
-
-% U_norm1 = U_norm(:,2);
-% W_norm1 = W_norm(:,2);
-% BU_norm1 = BU_norm(:,2);
 
 
 lambda_crit_plot = lambda_crit*ones(M,1);

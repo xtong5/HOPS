@@ -9,6 +9,7 @@ warning('off');
 theta = (L/N_theta)*[0:N_theta-1]';
 
 %% N=8;
+N=8;
 Eps = 0.01*a;
 
 f = exp(cos(theta));
@@ -63,6 +64,7 @@ FE_application(M,f,N_theta,a,b,N,Eps,L,theta,name);
 
 
 %% N=12;
+N=12;
 Eps = 0.01*a;
 
 f = exp(cos(theta));

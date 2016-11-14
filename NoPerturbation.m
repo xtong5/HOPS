@@ -73,9 +73,9 @@ fprintf('\n');
 theta = (L/N_theta)*[0:N_theta-1]';
 p = [0:N_theta/2-1,-N_theta/2:-1]';
 
-f = exp(cos(theta));
-f_theta = -sin(theta).*f;
-A = a+Eps*f;
+% f = exp(cos(theta));
+% f_theta = -sin(theta).*f;
+% A = a+Eps*f;
 
 P_0 = 1;
 
