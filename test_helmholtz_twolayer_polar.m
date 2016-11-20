@@ -3,19 +3,23 @@ clear all;
 SavePlots = 0;
 
 RunNumber = 1;
-%Mode = 2; %check 
-Mode = 1;
+Mode = 2; %check 
+% Mode = 1;
 
 L = 2*pi;
-k_u = 3; 
-k_w = 2;
+lambda = 0.45;
+n_u = 1;
+n_w = 2.5;
+k_0 = L/lambda;
+k_u = n_u*k_0; 
+k_w = n_w*k_0;
 
 if(RunNumber==1)
   % Small Deformation
-  Eps = 0.02s;
+  Eps = 0.02;
   N_theta = 64;
-%   N_theta = 8;
-  a = 2.0/5.0; 
+  a = 0.025;
+  b = 10*a;
   N = 16;
 elseif(RunNumber==2)
   % Big Deformation (inside disk)
@@ -195,7 +199,6 @@ pause;
 %   hold on;
 % end
 
-b = a + Eps;
 C_b = sqrt(b)*exp(-1i*k_u*b);
 B_far_true = Ar_u*besselh(r,k_u.*b).*exp(1i*r.*theta);
 B_far = zeros(N_theta,N+1);
@@ -209,8 +212,8 @@ for j=1:N_theta
 end
 
 [relerrB,nplotB] = compute_errors_2d_polar(C_b*B_far_true,C_b*B_far,Eps,N,N_theta);
-% make_plots_polar(SavePlots,nplotB,relerrB);
-plot(1:N_theta,real(B_far_true),'b-o',1:N_theta,real(B_far1),'r-*')
+make_plots_polar(SavePlots,nplotB,relerrB);
+% plot(1:N_theta,real(B_far_true),'b-o',1:N_theta,real(B_far1),'r-*')
 
 % bb = [1 5 10 20 40 80];
 % for jj=1:length(bb)

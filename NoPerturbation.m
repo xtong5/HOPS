@@ -3,21 +3,23 @@ clear all
 close all
 
 L = 2*pi;
-%lambda = [0.2:0.005:1];
-M = 401;
+M = 201;
 lambda = linspace(0.3,0.8,M);
-% lambda = 0.6;
-k_zero = 2*pi./lambda;
-n_u = 2.5;
-% n_w = 1.3;
-m_w = zeros(M,1);
+% IN = 'VACCUM'; OUT = 'SILVER'; name = 'VACAu';
+% IN = 'VACCUM'; OUT = 'GOLD'; name = 'VACAg';
+% IN = 'WATER'; OUT = 'SILVER'; name = 'WATERAu';
+IN = 'WATER'; OUT = 'GOLD'; name = 'WATERAg';
+k_zero = (2*pi./lambda)';
+n_u = zeros(M,1);
+n_w = zeros(M,1);
+epsilon_u = zeros(M,1);
 epsilon_w = zeros(M,1);
 epsilon_u_plot = zeros(M,1);
 epsilon_w_plot = zeros(M,1);
-epsilon_u = n_u^2;
 for i = 1:M
+    [n_u(i),epsilon_u(i)] = ri_perm(lambda(i),'SILVER');
     [n_w(i),epsilon_w(i)] = ri_perm(lambda(i),'SILVER');
-    epsilon_u_plot(i) = epsilon_u;
+    epsilon_u_plot(i) = epsilon_u(i);
     epsilon_w_plot(i) = epsilon_w(i);
 end
 
@@ -25,7 +27,7 @@ end
 lambda_crit = lambda(r);
 
 
-k_u = n_u*k_zero; 
+k_u = n_u.*k_zero; 
 k_w = n_w.*k_zero; 
 RunNumber = 0;
 Mode = 2; %check 
@@ -117,7 +119,7 @@ W_norm(m) = norm(W_exact(:,m),2)/sqrt(N_theta);
 
 end
 
-filename = sprintf('data_%s.mat','NoPer');
+filename = sprintf('data_NoPer_%s.mat',name);
 save(filename,'M','lambda','U_norm','W_norm','BU_norm',...
     'lambda_crit','epsilon_u_plot','epsilon_w_plot','Eps','a','b',...
     'N_theta','N')

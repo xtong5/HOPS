@@ -1,6 +1,6 @@
 % this function computes and saves the data to file
 function [lambda_crit,U_norm,W_norm,BU_norm] = ...
-    FE_application(M,f,N_theta,a,b,N,Eps,L,theta,name)
+    FE_application(M,f,N_theta,a,b,N,Eps,theta,name)
 
 
 
@@ -50,8 +50,8 @@ W_n = zeros(N_theta,N+1,M);
 
 for m =1:M
 
-zeta = -P_0*exp(-1i*k_u(m).*A.*sin(theta));
-psi = (1i*k_u(m)).*A.*zeta;
+% zeta = -P_0*exp(-1i*k_u(m).*A.*sin(theta));
+% psi = (1i*k_u(m)).*A.*zeta;
 zeta_n = zeros(N_theta,N+1);
 psi_n = zeros(N_theta,N+1);
 f_n = ones(N_theta,1); f_nmo = ones(N_theta,1);

@@ -1,25 +1,41 @@
 % plot
 clear all
-close all
 
-%     load('data_squareEps1pade.mat');
-load('data_square.mat');
-%     load('data_squareEps1.mat');
+mode = 8; % choose functions
 
+if mode == 1
+    load('data_expcos5_eps_VACAu.mat');
+end
+if mode == 2
+    load('data_cos252.mat');
+end
+if mode == 4
+    load('data_cos410.mat');
+end
+if mode == 8
+    load('data_cos85_eps_WATERAu.mat');
+end
+
+% load('data_NoPer.mat');
 
 fprintf('-------------\n');
-fprintf('Eps = %g  a = %g  b = %g\n',Eps,a,b);
-fprintf('N_theta = %d N = %d M = %d\n',N_theta,N,M);
+fprintf('a = %g  b = %g  Eps_max = %g\n',a,b,Eps_max);
+fprintf('N_theta = %d N = %d M = %d N_eps = %d\n',N_theta,N,M,N_eps);
+fprintf('Material: outer = %s, inner = %s\n',OUT,IN);
 fprintf('\n');
+
+U_norm1 = U_norm(end,:);
+W_norm1 = W_norm(end,:);
+BU_norm1 = BU_norm(end,:);
 
 
 lambda_crit_plot = lambda_crit*ones(M,1);
-norm_max = max([max(U_norm),max(W_norm),max(BU_norm)]);
+norm_max = max([max(U_norm1),max(W_norm1),max(BU_norm1)]);
 yy = linspace(0,norm_max,M)';
 
 figure(1);
-plot(lambda,U_norm,'b-o',lambda,W_norm,'g-*',...
-    lambda,BU_norm,'c-d',lambda_crit_plot,yy,'r--');
+plot(lambda,U_norm1,'b-o',lambda,W_norm1,'g-*',...
+    lambda,BU_norm1,'c-d',lambda_crit_plot,yy,'r--');
 xlabel('$\lambda$','interpreter','latex');
 ylabel('$|U|_2$ and $|W|_2$','interpreter','latex');
 title('$|U|_2$ and $|W|_2$ versus $\lambda$','interpreter','latex');

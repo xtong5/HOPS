@@ -10,7 +10,7 @@ N_theta = 64;
 a = 0.025;
 b = 10*a;
 N = 16;
-Eps = 0.01*a; %0.1*a
+Eps = 1; %0.1*a
 M=1;
 
 Mode = 2; %check 
@@ -52,13 +52,13 @@ k_w = n_w.*k_zero;
 fprintf('test\n');
 fprintf('-------------\n');
 fprintf('Eps = %g  a = %g  b = %g\n',Eps,a,b);
-fprintf('lambda = %g  k_u = %g  k_w = %g\n',k_u,k_w,lambda);
+fprintf('lambda = %g  k_u = %g  k_w = %g\n',lambda,k_u,k_w);
 fprintf('N_theta = %d N = %d M = %d\n',N_theta,N,M);
 fprintf('\n');
 
 p = [0:N_theta/2-1,-N_theta/2:-1]';
 f_theta = ifft(1i*p.*fft(f));
-A = a+Eps*f;
+
 
 P_0 = 1;
 
@@ -73,8 +73,8 @@ U_n = zeros(N_theta,N+1);
 W_n = zeros(N_theta,N+1); 
 
 
-zeta = -P_0*exp(-1i*k_u.*A.*sin(theta));
-psi = (1i*k_u).*A.*zeta;
+% zeta = -P_0*exp(-1i*k_u.*A.*sin(theta));
+% psi = (1i*k_u).*A.*zeta;
 zeta_n = zeros(N_theta,N+1);
 psi_n = zeros(N_theta,N+1);
 f_n = ones(N_theta,1); f_nmo = ones(N_theta,1);
