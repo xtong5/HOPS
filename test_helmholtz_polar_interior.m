@@ -1,3 +1,9 @@
+% test_helmholtz_polar_interior.m
+%
+% Script to test Helmholtz DNO solvers in polar (interior)
+%
+% XT 12/16
+
 clear all;
 close all;
 

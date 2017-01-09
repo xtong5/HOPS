@@ -1,3 +1,9 @@
+% test_helmholtz_polar_exterior.m
+%
+% Script to test Helmholtz DNO solvers in polar (exterior)
+%
+% XT 12/16
+
 clear all;
 close all;
 
@@ -79,20 +85,8 @@ for n=2:N
       .*f_nmo.*exp(1i*r.*theta);
 end
 
-% test
-% xi_approx = 0*xi;
-% nu_approx = 0*nu;
-% for n=0:N
-%   xi_approx = xi_approx + xi_n(:,n+1)*Eps^n;
-%   nu_approx = nu_approx + nu_n(:,n+1)*Eps^n;
-%   fprintf('    n=%d: e_xi = %g e_nu = %g\n',...
-%       n,norm(xi_approx-xi,inf),norm(nu_approx-nu,inf));
-% end
-% end test
-
 tic;
 anp = field_fe_helmholtz_polar_exterior(xi_n,f,k,a,p,N_theta,N);
-% anp1 = field_fe_helmholtz_polar_exterior1(xi,f,k,p,N_theta,N);
 Gn_fe = dno_fe_helmholtz_polar_exterior(anp,f,f_theta,k,a,p,N_theta,N);
 t_fe = toc;
 % tic;
@@ -112,4 +106,4 @@ fprintf('  t_fe = %g\n',t_fe);
 % [relerr,nplot] = compute_errors_2d(nu,Gn_oe,Gn_fe,Gn_tfe,Eps,N,N_theta);
 [relerr,nplot] = compute_errors_2d_polar(nu,Gn_fe,Eps,N,N_theta);
 
-%make_plots_polar(SavePlots,nplot,relerr);
+make_plots_polar(SavePlots,nplot,relerr);

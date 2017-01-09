@@ -1,5 +1,5 @@
 function [lambda_crit,U_norm,W_norm,BU_norm] = ...
-    FE_app_taylor(M,f,N_theta,theta,a,b,N,Eps_max,N_eps,OUT,IN,name)
+    FE_app_pade(M,f,N_theta,theta,a,b,N,Eps_max,N_eps,OUT,IN,name)
 % this function computes and saves the data to file
 %% example
 % N_theta = 64;N = 16;M = 201;N_eps = 101;
@@ -7,7 +7,7 @@ function [lambda_crit,U_norm,W_norm,BU_norm] = ...
 % L = 2*pi;theta = (L/N_theta)*[0:N_theta-1]';
 % f = exp(cos(theta));name = 'expcos100_eps';
 % OUT = 'VACUUM'; IN = 'SILVER';
-% FE_app_taylor(M,f,N_theta,theta,a,b,N,Eps_max,N_eps,OUT,IN,name);
+% FE_app_pade(M,f,N_theta,theta,a,b,N,Eps_max,N_eps,OUT,IN,name);
 
 lambda = linspace(0.3,0.8,M);
 epsvec = linspace(0,Eps_max,N_eps);
@@ -87,9 +87,10 @@ end
    for l=1:N_eps
        Eps = epsvec(l);
        for j=1:N_theta
-        BU(j,m) = taylorsum(B_far(j,:).',Eps,N);
-        U(j,m) = taylorsum(U_n(j,:,m).',Eps,N);
-        W(j,m) = taylorsum(W_n(j,:,m).',Eps,N);
+           k = floor(N/2);
+           BU(j,m) = padesum(B_far(j,:).',Eps,k);
+           U(j,m) = padesum(U_n(j,:,m).',Eps,k);
+           W(j,m) = padesum(W_n(j,:,m).',Eps,k);
        end
        
        U_norm(l,m) = norm(U(:,m),2)/sqrt(N_theta);

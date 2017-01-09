@@ -1,9 +1,5 @@
 function [U_n] = twolayer_dno_fe_helmholtz_polar(zeta_n,psi_n,f,f_theta,tau2,...
     p,k_u,k_w,a,N_theta,N)
-% function [anp,dnp] = field_fe_helmholtz_twolayer_polar(zeta,psi,f,f_theta,tau2,...
-%     p,k,a,N_theta,N)
-% can simplify some matrix such as zetaDnp
-%check the order of the input
 
 %% set up
 U_n = zeros(N_theta,N+1);

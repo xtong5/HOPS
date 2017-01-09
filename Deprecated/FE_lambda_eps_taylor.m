@@ -1,39 +1,37 @@
-function [lambda_crit,U_norm,W_norm,BU_norm] = ...
-    FE_app_taylor(M,f,N_theta,theta,a,b,N,Eps_max,N_eps,OUT,IN,name)
 % this function computes and saves the data to file
-%% example
-% N_theta = 64;N = 16;M = 201;N_eps = 101;
-% a = 0.025;b = 10*a;Eps_max = 0.01*a;
-% L = 2*pi;theta = (L/N_theta)*[0:N_theta-1]';
-% f = exp(cos(theta));name = 'expcos100_eps';
-% OUT = 'VACUUM'; IN = 'SILVER';
-% FE_app_taylor(M,f,N_theta,theta,a,b,N,Eps_max,N_eps,OUT,IN,name);
+function [lambda_crit,U_norm,W_norm,BU_norm] = ...
+    FE_lambda_eps_taylor(M,f,N_theta,a,b,N,Eps_max,N_eps,theta,name)
+% this function computes and saves the data to file
+% data given by different lambda and epsilon (taylorsum)
 
 lambda = linspace(0.3,0.8,M);
 epsvec = linspace(0,Eps_max,N_eps);
-k_zero = (2*pi./lambda).';
-n_u = zeros(M,1);
-n_w = zeros(M,1);
-epsilon_u = zeros(M,1);
+k_zero = 2*pi./lambda;
+n_u = 2.5;
+m_w = zeros(M,1);
 epsilon_w = zeros(M,1);
 epsilon_u_plot = zeros(M,1);
 epsilon_w_plot = zeros(M,1);
-
+epsilon_u = n_u^2;
 for i = 1:M
-    [n_u(i),epsilon_u(i)] = ri_perm(lambda(i),OUT);
-    [n_w(i),epsilon_w(i)] = ri_perm(lambda(i),IN);
-    epsilon_u_plot(i) = epsilon_u(i);
+    [n_w(i),epsilon_w(i)] = ri_perm(lambda(i),'SILVER');
+    epsilon_u_plot(i) = epsilon_u;
     epsilon_w_plot(i) = epsilon_w(i);
 end
 
 [mini,r] = min(abs(epsilon_u - real(-epsilon_w)));
 lambda_crit = lambda(r);
 
-k_u = n_u.*k_zero; 
+k_u = n_u*k_zero; 
 k_w = n_w.*k_zero; 
 Mode = 2; 
 % Mode = 1;
 
+% fprintf('test\n');
+% fprintf('-------------\n');
+% fprintf('Eps = %g  a = %g  b = %g\n',Eps,a,b);
+% fprintf('N_theta = %d N = %d M = %d\n',N_theta,N,M);
+% fprintf('\n');
 
 p = [0:N_theta/2-1,-N_theta/2:-1]';
 f_theta = ifft(1i*p.*fft(f));
@@ -44,13 +42,16 @@ BU = zeros(N_theta,M);
 U = zeros(N_theta,M);
 W = zeros(N_theta,M);
 B_far = zeros(N_theta,N+1);
-BU_norm = zeros(N_eps,M);
-U_norm = zeros(N_eps,M);
-W_norm = zeros(N_eps,M);
+BU_norm = zeros(M,N_eps);
+U_norm = zeros(M,N_eps);
+W_norm = zeros(M,N_eps);
 U_n = zeros(N_theta,N+1,M);
 W_n = zeros(N_theta,N+1,M); 
 
 for m =1:M
+%   A = a+Eps*f;
+%         zeta = -P_0*exp(-1i*k_u(m).*A.*sin(theta));
+%         psi = (1i*k_u(m)).*A.*zeta;
 zeta_n = zeros(N_theta,N+1);
 psi_n = zeros(N_theta,N+1);
 f_n = ones(N_theta,1); f_nmo = ones(N_theta,1);
@@ -91,10 +92,10 @@ end
         U(j,m) = taylorsum(U_n(j,:,m).',Eps,N);
         W(j,m) = taylorsum(W_n(j,:,m).',Eps,N);
        end
-       
-       U_norm(l,m) = norm(U(:,m),2)/sqrt(N_theta);
-       BU_norm(l,m) = norm(BU(:,m),2)/sqrt(N_theta);
-       W_norm(l,m) = norm(W(:,m),2)/sqrt(N_theta);
+   
+   U_norm(m,l) = norm(U(:,m),2)/sqrt(N_theta);
+   BU_norm(m,l) = norm(BU(:,m),2)/sqrt(N_theta);
+   W_norm(m,l) = norm(W(:,m),2)/sqrt(N_theta);
    end
    
 end
@@ -102,7 +103,7 @@ end
 filename = sprintf('data_%s.mat',name);
 save(filename,'M','lambda','U_norm','W_norm','BU_norm',...
     'lambda_crit','epsilon_u_plot','epsilon_w_plot','epsvec','a','b',...
-    'N_theta','N','N_eps','Eps_max','OUT','IN')
+    'N_theta','N','N_eps','Eps_max')
 
 
 
