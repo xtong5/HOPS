@@ -40,15 +40,21 @@ f_theta = ifft(1i*p.*fft(f));
 
 P_0 = 1;
 
-BU = zeros(N_theta,M);
+% BU = zeros(N_theta,M);
 U = zeros(N_theta,M);
 W = zeros(N_theta,M);
-B_far = zeros(N_theta,N+1);
-BU_norm = zeros(N_eps,M);
-U_norm = zeros(N_eps,M);
-W_norm = zeros(N_eps,M);
+Gn_U = zeros(N_theta,M);
+Gn_W = zeros(N_theta,M);
+% B_far = zeros(N_theta,N+1);
+% BU_norm = zeros(N_eps,M);
 U_n = zeros(N_theta,N+1,M);
 W_n = zeros(N_theta,N+1,M); 
+Gn_U_n = zeros(N_theta,N+1,M);
+Gn_W_n = zeros(N_theta,N+1,M);
+U_norm = zeros(N_eps,M);
+W_norm = zeros(N_eps,M);
+Gn_U_norm = zeros(N_eps,M);
+Gn_W_norm = zeros(N_eps,M);
 
 for m =1:M
 zeta_n = zeros(N_theta,N+1);
@@ -75,33 +81,40 @@ else
     tau2 = k_u(m)^2/k_w(m)^2;
 end
 
-   U_n(:,:,m) = twolayer_dno_fe_helmholtz_polar(zeta_n,psi_n,f,f_theta,tau2,...
+  U_n(:,:,m) = twolayer_dno_fe_helmholtz_polar(zeta_n,psi_n,f,f_theta,tau2,...
     p,k_u(m),k_w(m),a,N_theta,N);
-   apn_fe = field_fe_helmholtz_polar_exterior(U_n(:,:,m),f,k_u(m),a,p,N_theta,N);
-   W_n(:,:,m) = U_n(:,:,m) - zeta_n;
+  apn_fe = field_fe_helmholtz_polar_exterior(U_n(:,:,m),f,k_u(m),a,p,N_theta,N);
+  Gn_U_n(:,:,m) = dno_fe_helmholtz_polar_exterior(apn_fe,f,f_theta,k_u(m),a,p,N_theta,N);
+  W_n(:,:,m) = U_n(:,:,m) - zeta_n;
+  dpn_fe = field_fe_helmholtz_polar_interior(W_n(:,:,m),f,k_w(m),a,p,N_theta,N);
+  Gn_W_n(:,:,m) = dno_fe_helmholtz_polar_interior(dpn_fe,f,f_theta,k_w(m),a,p,N_theta,N);
    
-   for n=1:N+1
-     B_far(:,n)=ifft(apn_fe(:,n).*besselh(p,k_u(m).*b)./besselh(p,k_u(m).*a));
-   end 
+%    for n=1:N+1
+%      B_far(:,n)=ifft(apn_fe(:,n).*besselh(p,k_u(m).*b)./besselh(p,k_u(m).*a));
+%    end 
 
    for l=1:N_eps
        Eps = epsvec(l);
        for j=1:N_theta
            k = floor(N/2);
-           BU(j,m) = padesum(B_far(j,:).',Eps,k);
+%            BU(j,m) = padesum(B_far(j,:).',Eps,k);
            U(j,m) = padesum(U_n(j,:,m).',Eps,k);
            W(j,m) = padesum(W_n(j,:,m).',Eps,k);
+           Gn_U(j,m) = padesum(Gn_U_n(j,:,m).',Eps,k);
+           Gn_W(j,m) = padesum(Gn_W_n(j,:,m).',Eps,k);          
        end
        
        U_norm(l,m) = norm(U(:,m),2)/sqrt(N_theta);
-       BU_norm(l,m) = norm(BU(:,m),2)/sqrt(N_theta);
+%        BU_norm(l,m) = norm(BU(:,m),2)/sqrt(N_theta);
        W_norm(l,m) = norm(W(:,m),2)/sqrt(N_theta);
+       Gn_U_norm(l,m) = norm(Gn_U(:,m),2)/sqrt(N_theta);
+       Gn_W_norm(l,m) = norm(Gn_W(:,m),2)/sqrt(N_theta);
    end
    
 end
 
 filename = sprintf('data_%s.mat',name);
-save(filename,'M','lambda','U_norm','W_norm','BU_norm',...
+save(filename,'M','lambda','U_norm','W_norm','Gn_U_norm','Gn_W_norm',...
     'lambda_crit','epsilon_u_plot','epsilon_w_plot','epsvec','a','b',...
     'N_theta','N','N_eps','Eps_max','OUT','IN')
 
