@@ -13,36 +13,37 @@ warning('off')
 f4 = cos(4*theta);
 % f8 = cos(8*theta);
 
-%% N20
-N_theta = 64;N = 20;
-OUT = 'VACUUM';
-IN = 'SILVER';
-Eps_max = 0.2*a;
-name = 'cos45_eps_VACAgN20';
-FE_app_pade(M,f4,N_theta,theta,a,b,N,Eps_max,N_eps,OUT,IN,name);
-OUT = 'WATER';
-IN = 'SILVER';
-Eps_max = 0.2*a;
-name = 'cos45_eps_WATERAgN20';
-FE_app_pade(M,f4,N_theta,theta,a,b,N,Eps_max,N_eps,OUT,IN,name);
+% %% N20
+% N_theta = 64;N = 20;
+% OUT = 'VACUUM';
+% IN = 'SILVER';
+% Eps_max = 0.2*a;
+% name = 'cos45_eps_VACAgN20';
+% FE_app_pade(M,f4,N_theta,theta,a,b,N,Eps_max,N_eps,OUT,IN,name);
+% OUT = 'WATER';
+% IN = 'SILVER';
+% Eps_max = 0.2*a;
+% name = 'cos45_eps_WATERAgN20';
+% FE_app_pade(M,f4,N_theta,theta,a,b,N,Eps_max,N_eps,OUT,IN,name);
 
 
-%% N24
-N_theta = 64;N = 24;
-OUT = 'VACUUM';
-IN = 'SILVER';
-Eps_max = 0.2*a;
-name = 'cos45_eps_VACAgN24';
-FE_app_pade(M,f4,N_theta,theta,a,b,N,Eps_max,N_eps,OUT,IN,name);
-OUT = 'WATER';
-IN = 'SILVER';
-Eps_max = 0.2*a;
-name = 'cos45_eps_WATERAgN24';
-FE_app_pade(M,f4,N_theta,theta,a,b,N,Eps_max,N_eps,OUT,IN,name);
+% %% N24
+% N_theta = 64;N = 24;
+% OUT = 'VACUUM';
+% IN = 'SILVER';
+% Eps_max = 0.2*a;
+% name = 'cos45_eps_VACAgN24';
+% FE_app_pade(M,f4,N_theta,theta,a,b,N,Eps_max,N_eps,OUT,IN,name);
+% OUT = 'WATER';
+% IN = 'SILVER';
+% Eps_max = 0.2*a;
+% name = 'cos45_eps_WATERAgN24';
+% FE_app_pade(M,f4,N_theta,theta,a,b,N,Eps_max,N_eps,OUT,IN,name);
 
 
 %% N_theta96 N16
 N_theta = 96;N = 16;
+theta = (L/N_theta)*[0:N_theta-1]';
 OUT = 'VACUUM';
 IN = 'SILVER';
 Eps_max = 0.2*a;
