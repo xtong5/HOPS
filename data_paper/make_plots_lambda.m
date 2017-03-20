@@ -2,18 +2,20 @@
 clear all
 close all
 
-SavePlots = 1;
+SavePlots = 0;
 
-mode = 1; % choose functions
+mode = 4; % choose functions
 
 if mode == 1
     name = 'expcos';
 %     load('data_expcos5_eps_VACAg.mat');
 %     load('data_expcos5_eps_WATERAg.mat');
 %     load('data_expcos10_eps_VACAg.mat');
-    load('data_expcos10_eps_WATERAg.mat');
+%     load('data_expcos10_eps_WATERAg.mat');
 %     load('data_expcos100_eps_VACAg.mat');
 %     load('data_expcos100_eps_WATERAg.mat');
+    load('data_expcos15_eps_VACAg.mat');
+%     load('data_expcos15_eps_WATERAg.mat');
 end
 if mode == 2
     name = 'cos2';
@@ -23,15 +25,29 @@ if mode == 2
 %     load('data_cos210_eps_WATERAg.mat');
 %     load('data_cos2100_eps_VACAg.mat');
 %     load('data_cos2100_eps_WATERAg.mat');
+%     load('data_cos215_eps_VACAg.mat');
+    load('data_cos215_eps_WATERAg.mat');
 end
 if mode == 4
     name = 'cos4';
 %     load('data_cos45_eps_VACAg.mat');
 %     load('data_cos45_eps_WATERAg.mat');
 %     load('data_cos410_eps_VACAg.mat');
-    load('data_cos410_eps_WATERAg.mat');
+%     load('data_cos410_eps_WATERAg.mat');
 %     load('data_cos4100_eps_VACAg.mat');
 %     load('data_cos4100_eps_WATERAg.mat');
+%     load('data_cos45_eps_VACAgN20.mat');
+%     load('data_cos45_eps_VACAgN24.mat');
+%     load('data_cos45_eps_VACAgNt96N16.mat');
+%     load('data_cos45_eps_VACAgNt96N20.mat');
+%     load('data_cos45_eps_VACAgNt96N24.mat');
+%     load('data_cos45_eps_WATERAgN20.mat');
+%     load('data_cos45_eps_WATERAgN24.mat');
+%     load('data_cos45_eps_WATERAgNt96N16.mat');
+%     load('data_cos45_eps_WATERAgNt96N20.mat');
+%     load('data_cos45_eps_WATERAgNt96N24.mat');
+%     load('data_cos415_eps_VACAg.mat');
+    load('data_cos415_eps_WATERAg.mat');
 end
 
 
@@ -75,8 +91,10 @@ title('$\epsilon_u$ and -Real($\epsilon_w$) versus $\lambda$','interpreter','lat
 legend('epsilon_u','-Re[epsilon_w]','lambda_c');
 
 if(SavePlots==1)
-    filename = sprintf('fig_UWlam_%s_%s%s%.0f',name,IN,OUT,a/Eps_max);
+    filename = sprintf('fig_UWlam_%s_%s%s%.0f',name,IN,OUT,...
+        Eps_max/a*100);
     saveas(1,filename,'epsc');
-    filename = sprintf('fig_index_%s_eps%s%s%.0f',name,IN,OUT,a/Eps_max);
+    filename = sprintf('fig_index_%s_eps%s%s%.0f',name,IN,OUT,...
+        Eps_max/a*100);
     saveas(2,filename,'epsc');
 end
