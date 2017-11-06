@@ -4,25 +4,23 @@
 %
 % XT 12/16
 
-clear all;
-close all;
+% clear all;
+% close all;
 
 SavePlots = 0;
 RunNumber = 1;
 L = 2*pi;
 %k=1;
-k=2;
+k=2.1;
 
 
 if(RunNumber==1)
   % Small Deformation
-  %Eps = 0.02;
-  Eps = 0.0000002;
+  Eps = 0.02;
+%   Eps = 0;
   N_theta = 64;
-  %a = 1; 
-  a = 1.0/2.0;
+  a = 1.0;
   N = 16;
-  %N = 0;
 elseif(RunNumber==2)
   % Big Deformation (inside disk)
   Eps = 0.3;
@@ -57,7 +55,7 @@ A=a+Eps.*f;
 xi = Ar*besselh(r,k.*A).*exp(1i*r.*theta);
 nu =Ar*((-k.*A.*(diff_bessel(2,r,1,k.*A))+...
     1i*r*Eps.*f_theta.*besselh(r,k.*A)./A ).*exp(1i*r.*theta)); %DNO
-xi_n = zeros(N_theta,N); nu_n = zeros(N_theta,N+1);
+xi_n = zeros(N_theta,N+1); nu_n = zeros(N_theta,N+1);
 f_n = ones(N_theta,1); f_nmo = ones(N_theta,1); f_nmt = ones(N_theta,1);
 xi_n(:,0+1) = Ar*besselh(r,k*a).*exp(1i*r.*theta);
 nu_n(:,0+1) = -Ar*k*a*diff_bessel(2,r,1,k*a).*exp(1i*r.*theta);
@@ -106,4 +104,5 @@ fprintf('  t_fe = %g\n',t_fe);
 % [relerr,nplot] = compute_errors_2d(nu,Gn_oe,Gn_fe,Gn_tfe,Eps,N,N_theta);
 [relerr,nplot] = compute_errors_2d_polar(nu,Gn_fe,Eps,N,N_theta);
 
-make_plots_polar(SavePlots,nplot,relerr);
+
+% make_plots_polar(SavePlots,nplot,relerr);

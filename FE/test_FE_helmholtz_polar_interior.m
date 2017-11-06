@@ -56,7 +56,7 @@ nu =Ar*((k.*A.*(diff_bessel(1,r,1,k.*A))-...
 xi_n = zeros(N_theta,N); nu_n = zeros(N_theta,N+1);
 f_n = ones(N_theta,1); f_nmo = ones(N_theta,1);f_nmt = ones(N_theta,1);
 xi_n(:,0+1) = Ar*besselj(r,k*a).*exp(1i*r.*theta);
-nu_n(:,0+1) = -Ar*k*a*diff_bessel(1,r,1,k*a).*exp(1i*r.*theta);
+nu_n(:,0+1) = Ar*k*a*diff_bessel(1,r,1,k*a).*exp(1i*r.*theta);
 f_n = f.*f_n;
 xi_n(:,1+1) = Ar*k^1*diff_bessel(1,r,1,k*a).*f_n.*exp(1i*r.*theta);
 nu_n(:,1+1) = -f/a.*nu_n(:,1)...

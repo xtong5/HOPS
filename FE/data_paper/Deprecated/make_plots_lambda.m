@@ -1,6 +1,7 @@
 % plot
 clear all
 close all
+
 SavePlots = 0;
 
 mode = 4; % choose functions
@@ -13,8 +14,8 @@ if mode == 1
 %     load('data_expcos10_eps_WATERAg.mat');
 %     load('data_expcos100_eps_VACAg.mat');
 %     load('data_expcos100_eps_WATERAg.mat');
-%     load('data_expcos15_eps_VACAg.mat');
-    load('data_expcos15_eps_WATERAg.mat');
+    load('data_expcos15_eps_VACAg.mat');
+%     load('data_expcos15_eps_WATERAg.mat');
 end
 if mode == 2
     name = 'cos2';
@@ -49,31 +50,57 @@ if mode == 4
     load('data_cos415_eps_WATERAg.mat');
 end
 
+
 fprintf('-------------\n');
 fprintf('a = %g  Eps_max = %g\n',a,Eps_max);
 fprintf('N_theta = %d N = %d N_lamb = %d N_eps = %d\n',N_theta,N,M,N_eps);
 fprintf('Material: outer = %s, inner = %s\n',OUT,IN);
 fprintf('\n');
 
+U_norm1 = U_norm(end,:);
+W_norm1 = W_norm(end,:);
+Gn_U_norm1 = Gn_U_norm(end,:);
+Gn_W_norm1 = Gn_W_norm(end,:);
+
+lambda_crit_plot = lambda_crit*ones(M,1)';
+% norm_max = max([max(U_norm1),max(W_norm1));
+norm_max = max([max(Gn_U_norm1),max(Gn_W_norm1)]);
+
+yy = linspace(0,norm_max,M)';
+
 figure(1);
-contourf(lambda,epsvec,Gn_U_norm,40);
-colorbar;
+hh = gca;
+% plot(lambda,U_norm1,'b-o',lambda,W_norm1,'g-*',...
+%     lambda,Gn_U_norm1,'c-d',lambda,Gn_W_norm1,'y-+',lambda_crit_plot,yy,'r--');
+% plot(lambda,U_norm1,'b-o',lambda,W_norm1,'g-*',lambda_crit_plot,yy,'r--');
+plot(lambda,Gn_U_norm1,'b-o',lambda,Gn_W_norm1,'g-*',lambda_crit_plot,yy,'r--');
+
 xlabel('$\lambda$','interpreter','latex');
-ylabel('$\epsilon$','interpreter','latex');
-title('$|\widetilde{U}|_2$ versus $\lambda$ and $\epsilon$','interpreter','latex');
+ylabel('$|\widetilde{U}|_2$ and $|\widetilde{W}|_2$','interpreter','latex');
+title('$|\widetilde{U}|_2$ and $|\widetilde{W}|_2$ versus $\lambda$','interpreter','latex');
+set(hh,'FontSize',16);
+ll = legend('$|\widetilde{U}|_2$','$|\widetilde{W}|_2$','$\lambda_c$');
+set(ll,'FontSize',16,'interpreter','latex');
+
+eps_max = max(max(epsilon_u_plot),max(-real(epsilon_w_plot)));
+yy= linspace(0,eps_max,M)';
 
 figure(2);
-contourf(lambda,epsvec,Gn_W_norm,40);
-colorbar;
+hh = gca;
+plot(lambda,epsilon_u_plot,'b-o',lambda,-real(epsilon_w_plot),'g-*',...
+    lambda_crit_plot,yy,'r--');
 xlabel('$\lambda$','interpreter','latex');
 ylabel('$\epsilon$','interpreter','latex');
-title('$|\widetilde{W}|_2$ versus $\lambda$ and $\epsilon$','interpreter','latex');
+title('$\epsilon_u$ and -Re[$\epsilon_w$] versus $\lambda$','interpreter','latex');
+set(hh,'FontSize',16);
+ll = legend('$\epsilon_u$','-Re[$\epsilon_w$]','$\lambda_c$');
+set(ll,'FontSize',16,'interpreter','latex');
 
 if(SavePlots==1)
-    filename = sprintf('fig_U_%s_epslam%s%s%.0f',name,IN,OUT,...
+    filename = sprintf('fig_UWlam_%s_%s%s%.0f',name,IN,OUT,...
         Eps_max/a*100);
     saveas(1,filename,'epsc');
-    filename = sprintf('fig_W_%s_epslam%s%s%.0f',name,IN,OUT,...
+    filename = sprintf('fig_index_%s_eps%s%s%.0f',name,IN,OUT,...
         Eps_max/a*100);
     saveas(2,filename,'epsc');
 end

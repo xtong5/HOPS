@@ -1,14 +1,14 @@
 % plot
 clear all
 
-mode = 1; % choose functions
+mode = 2; % choose functions
 
 if mode == 1
-    %load('data_expcos10_eps_VACAu.mat');
-    load('data_cos410_eps_WATERAg.mat');
+    load('data_expcos10_eps_WATERAg.mat');
+    %load('data_cos410_eps_WATERAg.mat');
 end
 if mode == 2
-    load('data_cos252.mat');
+    load('data_cos45_eps_WATERAg.mat');
 end
 if mode == 4
     load('data_cos410.mat');

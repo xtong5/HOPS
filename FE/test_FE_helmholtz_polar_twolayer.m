@@ -1,3 +1,4 @@
+
 % test_helmholtz_polar_twolayer.m
 %
 % Script to test Helmholtz DNO solvers in polar (two layers)
@@ -22,10 +23,12 @@ k_w = n_w*k_0;
 
 if(RunNumber==1)
   % Small Deformation
-  Eps = 0.02;
+  Eps = 0.002;
   N_theta = 64;
-  a = 0.025;
-  b = 10*a;
+%   a = 0.025;
+%   b = 10*a;
+  a = 1;
+  b = 1.6;
   N = 16;
 elseif(RunNumber==2)
   % Big Deformation (inside disk)
@@ -148,24 +151,24 @@ pause;
 
 fprintf('  t_fe = %g\n',t_fe);
 fprintf('\nEXTERIOR LAYER\n\n');
-[relerrU,nplotU] = compute_errors_2d_polar(xi_u,U_n,Eps,N,N_theta);
-% [relerrDNOU,nplotDNOU] = compute_errors_2d_polar(nu_u,Gn_fe_u,Eps,N,N_theta);
+% [relerrU,nplotU] = compute_errors_2d_polar(xi_u,U_n,Eps,N,N_theta);
+[relerrDNOU,nplotDNOU] = compute_errors_2d_polar(nu_u,Gn_fe_u,Eps,N,N_theta);
 % make_plots_polar(SavePlots,nplotU,relerrU);
-% make_plots_polar(SavePlots,nplotDNOU,relerrDNOU);
+make_plots_polar(SavePlots,nplotDNOU,relerrDNOU);
 fprintf('\n');
 
 fprintf('Press key to compute interior layer errors...\n');
-pause;
+% pause;
 
 fprintf('\nINTERIOR LAYER\n\n');
-[relerrW,nplotW] = compute_errors_2d_polar(xi_w,W_n,Eps,N,N_theta);
-[relerrDNOW,nplotDNOW] = compute_errors_2d_polar(nu_w,Gn_fe_w,Eps,N,N_theta);
+% [relerrW,nplotW] = compute_errors_2d_polar(xi_w,W_n,Eps,N,N_theta);
+% [relerrDNOW,nplotDNOW] = compute_errors_2d_polar(nu_w,Gn_fe_w,Eps,N,N_theta);
 % make_plots_polar(SavePlots,nplotW,relerrW);
 % make_plots_polar(SavePlots,nplotDNOW,relerrDNOW);
 fprintf('\n');
 
-fprintf('Press key to compute the far field behavior...\n');
-pause;
+% fprintf('Press key to compute the far field behavior...\n');
+% pause;
 
 % hold on;
 % bb = [1 5 10 20 40 80];
@@ -217,8 +220,8 @@ for j=1:N_theta
   B_far1(j) = taylorsum(B_far(j,:),Eps,N);
 end
 
-[relerrB,nplotB] = compute_errors_2d_polar(C_b*B_far_true,C_b*B_far,Eps,N,N_theta);
-make_plots_polar(SavePlots,nplotB,relerrB);
+% [relerrB,nplotB] = compute_errors_2d_polar(C_b*B_far_true,C_b*B_far,Eps,N,N_theta);
+% make_plots_polar(SavePlots,nplotB,relerrB);
 % plot(1:N_theta,real(B_far_true),'b-o',1:N_theta,real(B_far1),'r-*')
 
 % bb = [1 5 10 20 40 80];
