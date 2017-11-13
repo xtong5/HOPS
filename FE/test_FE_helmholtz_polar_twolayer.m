@@ -25,10 +25,8 @@ if(RunNumber==1)
   % Small Deformation
   Eps = 0.002;
   N_theta = 64;
-%   a = 0.025;
-%   b = 10*a;
-  a = 1;
-  b = 1.6;
+  a = 0.025;
+  b = 10*a;
   N = 16;
 elseif(RunNumber==2)
   % Big Deformation (inside disk)
@@ -157,15 +155,15 @@ fprintf('\nEXTERIOR LAYER\n\n');
 make_plots_polar(SavePlots,nplotDNOU,relerrDNOU);
 fprintf('\n');
 
-fprintf('Press key to compute interior layer errors...\n');
-% pause;
-
-fprintf('\nINTERIOR LAYER\n\n');
-% [relerrW,nplotW] = compute_errors_2d_polar(xi_w,W_n,Eps,N,N_theta);
-% [relerrDNOW,nplotDNOW] = compute_errors_2d_polar(nu_w,Gn_fe_w,Eps,N,N_theta);
-% make_plots_polar(SavePlots,nplotW,relerrW);
-% make_plots_polar(SavePlots,nplotDNOW,relerrDNOW);
-fprintf('\n');
+% fprintf('Press key to compute interior layer errors...\n');
+% % pause;
+% 
+% fprintf('\nINTERIOR LAYER\n\n');
+% % [relerrW,nplotW] = compute_errors_2d_polar(xi_w,W_n,Eps,N,N_theta);
+% % [relerrDNOW,nplotDNOW] = compute_errors_2d_polar(nu_w,Gn_fe_w,Eps,N,N_theta);
+% % make_plots_polar(SavePlots,nplotW,relerrW);
+% % make_plots_polar(SavePlots,nplotDNOW,relerrDNOW);
+% fprintf('\n');
 
 % fprintf('Press key to compute the far field behavior...\n');
 % pause;
@@ -207,18 +205,18 @@ fprintf('\n');
 %   end
 %   hold on;
 % end
-
-C_b = sqrt(b)*exp(-1i*k_u*b);
-B_far_true = Ar_u*besselh(r,k_u.*b).*exp(1i*r.*theta);
-B_far = zeros(N_theta,N+1);
-B_far1 = zeros(N_theta,1);
-for n=1:N+1
-  B_far(:,n)=ifft(apn_fe(:,n).*besselh(p,k_u.*b)./besselh(p,k_u.*a)); 
-end 
-
-for j=1:N_theta
-  B_far1(j) = taylorsum(B_far(j,:),Eps,N);
-end
+% 
+% C_b = sqrt(b)*exp(-1i*k_u*b);
+% B_far_true = Ar_u*besselh(r,k_u.*b).*exp(1i*r.*theta);
+% B_far = zeros(N_theta,N+1);
+% B_far1 = zeros(N_theta,1);
+% for n=1:N+1
+%   B_far(:,n)=ifft(apn_fe(:,n).*besselh(p,k_u.*b)./besselh(p,k_u.*a)); 
+% end 
+% 
+% for j=1:N_theta
+%   B_far1(j) = taylorsum(B_far(j,:),Eps,N);
+% end
 
 % [relerrB,nplotB] = compute_errors_2d_polar(C_b*B_far_true,C_b*B_far,Eps,N,N_theta);
 % make_plots_polar(SavePlots,nplotB,relerrB);

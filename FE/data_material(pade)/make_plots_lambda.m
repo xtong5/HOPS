@@ -1,7 +1,7 @@
 % plot
 clear all
 
-mode = 2; % choose functions
+mode = 8; % choose functions
 
 if mode == 1
     load('data_expcos10_eps_WATERAg.mat');
@@ -14,7 +14,7 @@ if mode == 4
     load('data_cos410.mat');
 end
 if mode == 8
-    load('data_cos85_eps_WATERAu.mat');
+    load('data_cos810_eps_WATERAg.mat');
 end
 
 % load('data_NoPer.mat');

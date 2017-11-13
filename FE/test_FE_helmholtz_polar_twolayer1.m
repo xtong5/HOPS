@@ -1,15 +1,14 @@
-
-% test_helmholtz_polar_twolayer.m
+% test_helmholtz_polar_twolayer1.m%
 %
-% Script to test Helmholtz DNO solvers in polar (two layers)
+% Script to find a bad example (two layers)
 %
-% XT 12/16
+% XT 11/17
 
 clear all;
 close all;
 SavePlots = 0;
 
-RunNumber = 1;
+RunNumber = 3;
 Mode = 2; %check 
 % Mode = 1;
 
@@ -36,9 +35,9 @@ elseif(RunNumber==2)
   N = 16;
 elseif(RunNumber==3)
   % Big Deformation (outside disk)
-  Eps = 0.75;
+  Eps = 0.005;
   N_theta = 64;
-  a = 2.0;
+  a = 0.025;
   N = 16;
 end
 
@@ -145,7 +144,7 @@ Gn_fe_w = dno_fe_helmholtz_polar_interior(dpn_fe,f,f_theta,k_w,a,p,N_theta,N);
 t_fe = toc;
 
 fprintf('Press key to compute exterior layer errors...\n');
-pause;
+% pause;
 
 fprintf('  t_fe = %g\n',t_fe);
 fprintf('\nEXTERIOR LAYER\n\n');
@@ -155,15 +154,15 @@ fprintf('\nEXTERIOR LAYER\n\n');
 make_plots_polar(SavePlots,nplotDNOU,relerrDNOU);
 fprintf('\n');
 
-fprintf('Press key to compute interior layer errors...\n');
-% pause;
-
-fprintf('\nINTERIOR LAYER\n\n');
-% [relerrW,nplotW] = compute_errors_2d_polar(xi_w,W_n,Eps,N,N_theta);
-% [relerrDNOW,nplotDNOW] = compute_errors_2d_polar(nu_w,Gn_fe_w,Eps,N,N_theta);
-% make_plots_polar(SavePlots,nplotW,relerrW);
-% make_plots_polar(SavePlots,nplotDNOW,relerrDNOW);
-fprintf('\n');
+% fprintf('Press key to compute interior layer errors...\n');
+% % pause;
+% 
+% fprintf('\nINTERIOR LAYER\n\n');
+% % [relerrW,nplotW] = compute_errors_2d_polar(xi_w,W_n,Eps,N,N_theta);
+% % [relerrDNOW,nplotDNOW] = compute_errors_2d_polar(nu_w,Gn_fe_w,Eps,N,N_theta);
+% % make_plots_polar(SavePlots,nplotW,relerrW);
+% % make_plots_polar(SavePlots,nplotDNOW,relerrDNOW);
+% fprintf('\n');
 
 % fprintf('Press key to compute the far field behavior...\n');
 % pause;
@@ -205,18 +204,18 @@ fprintf('\n');
 %   end
 %   hold on;
 % end
-
-C_b = sqrt(b)*exp(-1i*k_u*b);
-B_far_true = Ar_u*besselh(r,k_u.*b).*exp(1i*r.*theta);
-B_far = zeros(N_theta,N+1);
-B_far1 = zeros(N_theta,1);
-for n=1:N+1
-  B_far(:,n)=ifft(apn_fe(:,n).*besselh(p,k_u.*b)./besselh(p,k_u.*a)); 
-end 
-
-for j=1:N_theta
-  B_far1(j) = taylorsum(B_far(j,:),Eps,N);
-end
+% 
+% C_b = sqrt(b)*exp(-1i*k_u*b);
+% B_far_true = Ar_u*besselh(r,k_u.*b).*exp(1i*r.*theta);
+% B_far = zeros(N_theta,N+1);
+% B_far1 = zeros(N_theta,1);
+% for n=1:N+1
+%   B_far(:,n)=ifft(apn_fe(:,n).*besselh(p,k_u.*b)./besselh(p,k_u.*a)); 
+% end 
+% 
+% for j=1:N_theta
+%   B_far1(j) = taylorsum(B_far(j,:),Eps,N);
+% end
 
 % [relerrB,nplotB] = compute_errors_2d_polar(C_b*B_far_true,C_b*B_far,Eps,N,N_theta);
 % make_plots_polar(SavePlots,nplotB,relerrB);
