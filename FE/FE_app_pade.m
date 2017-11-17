@@ -56,14 +56,13 @@ W_norm = zeros(N_eps,M);
 Gn_U_norm = zeros(N_eps,M);
 Gn_W_norm = zeros(N_eps,M);
 
-for m =1:M
 zeta_n = zeros(N_theta,N+1);
 psi_n = zeros(N_theta,N+1);
 f_n = ones(N_theta,1); f_nmo = ones(N_theta,1);
 Sin = sin(theta);
-Exp = exp(-1i*k_u(m)*a.*Sin);
+Exp = exp(-1i*k_u*a.*Sin);
 zeta_n(:,0+1) = -Exp; 
-psi_n(:,0+1) = (1i*k_u(m))*a*Sin.*Exp;
+psi_n(:,0+1) = (1i*k_u)*a*Sin.*Exp;
 
 for n=1:N
     f_n = f.*f_n/n;

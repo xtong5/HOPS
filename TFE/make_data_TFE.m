@@ -1,4 +1,4 @@
-% test_TFE_helmholtz_polar_twolayer1.m
+% make_data_TFE.m
 %
 % Script to find good results compared to FE (two layers)
 %
@@ -44,7 +44,7 @@ elseif(RunNumber==2)
   N_r = 16;
 elseif(RunNumber==3)
   % Big Deformation (outside disk)
-  Eps = 0.01;
+  Eps = 0.1;
   N_theta = 64;
   a = 0.025;
   b = 10*a;
@@ -64,8 +64,8 @@ fprintf('\n');
 theta = (L/N_theta)*[0:N_theta-1]';
 p = [0:N_theta/2-1,-N_theta/2:-1]';
 
-f = exp(cos(theta));
-f_theta = -sin(theta).*f;
+f2 = cos(2*theta);
+f2_theta = ifft((1i*p).*fft(f2));
 AA=a+Eps.*f;
 
 Ar_u = 2; Ar_w = 1; pp = 2; % take a special wavenumber

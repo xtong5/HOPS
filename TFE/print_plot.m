@@ -1,6 +1,28 @@
 close all
+SavePlots = 0;
+% warning off
 
-load('TFE_Eps_0.005.mat')
+% load('TFE_Eps_0.0025_Nr64.mat')
+% load('TFE_Eps_0.008_Nr64.mat')
+% load('TFE_Eps_0.005_Nr64.mat')
+% load('TFE_Eps_0.002_Nr64.mat')
+% load('TFE_Eps_0.01_Nr64.mat')
+% load('TFE_Eps_0.05_Nr64.mat')
+% load('TFE_Eps_0.1_Nr64.mat')
+% load('TFE_Eps_0.5_Nr64.mat')
+% load('TFE_Eps_0.75_Nr64.mat')
+load('TFE_cos2_eps20_Nr64_WATERAg.mat')
+
+
+fprintf('k_u = %g  k_w = %g\n\n',k_u,k_w);
+fprintf('Eps = %g  a = %g  b = %g  c = %g\n',Eps,a,b,c);
+fprintf('N_theta = %d N = %d  N_r = %d\n',N_theta,N,N_r);
+fprintf('\n');
+
+L = 2*pi;
+
+theta = (L/N_theta)*[0:N_theta-1]';
+p = [0:N_theta/2-1,-N_theta/2:-1]';
 
 
 f = exp(cos(theta));
@@ -56,6 +78,5 @@ for n=2:N
       .*f_nmo.*exp(1i*pp.*theta);
 end
 
-load('TFE_Eps_0.005.mat')
 [relerrDNOU,nplotDNOU] = compute_errors_2d_polar(nu_u,Gn_tfe_u,Eps,N,N_theta);
-make_plots_polar(SavePlots,nplotDNOU,relerrDNOU);
+% make_plots_polar(SavePlots,nplotDNOU,relerrDNOU);

@@ -35,7 +35,7 @@ elseif(RunNumber==2)
   N = 16;
 elseif(RunNumber==3)
   % Big Deformation (outside disk)
-  Eps = 0.005;
+  Eps = 0.01;
   N_theta = 64;
   a = 0.025;
   N = 16;
@@ -151,7 +151,7 @@ fprintf('\nEXTERIOR LAYER\n\n');
 % [relerrU,nplotU] = compute_errors_2d_polar(xi_u,U_n,Eps,N,N_theta);
 [relerrDNOU,nplotDNOU] = compute_errors_2d_polar(nu_u,Gn_fe_u,Eps,N,N_theta);
 % make_plots_polar(SavePlots,nplotU,relerrU);
-make_plots_polar(SavePlots,nplotDNOU,relerrDNOU);
+% make_plots_polar(SavePlots,nplotDNOU,relerrDNOU);
 fprintf('\n');
 
 % fprintf('Press key to compute interior layer errors...\n');

@@ -4,7 +4,7 @@ close all
 
 SavePlots = 0;
 
-mode = 4; % choose functions
+mode = 2; % choose functions
 
 if mode == 1
     name = 'expcos';
@@ -16,9 +16,9 @@ end
 if mode == 2
     name = 'cos2';
 %     load('data_cos2_eps20_VACAg.mat');
-%     load('data_cos2_eps20_WATERAg.mat');
+    load('data_cos2_eps20_WATERAg.mat');
 %     load('data_cos2_eps10_VACAg.mat');
-    load('data_cos2_eps10_WATERAg.mat');
+%     load('data_cos2_eps10_WATERAg.mat');
 end
 if mode == 4
     name = 'cos4';
