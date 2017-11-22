@@ -44,12 +44,12 @@ elseif(RunNumber==2)
   N_r = 16;
 elseif(RunNumber==3)
   % Big Deformation (outside disk)
-  Eps = 0.01;
+  Eps = 0.02;
   N_theta = 64;
   a = 0.025;
   b = 10*a;
   c = 0.1*a;
-  N = 16;
+  N = 24;
   N_r = 64;
 end
 
@@ -163,7 +163,7 @@ t_tfe = toc;
 % fprintf('\n');
 
 
-filename = sprintf('TFE_Eps_%g_Nr%g.mat',Eps,N_r);
+filename = sprintf('TFE_Eps_%g_Nr%g_N%g.mat',Eps,N_r,N);
 save(filename,'t_tfe','Eps','N','N_theta','N_r','lambda','k_u','k_w','a','b','c','Gn_tfe_u');
 
 

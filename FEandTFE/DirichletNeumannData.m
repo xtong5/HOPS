@@ -1,54 +1,6 @@
-% test_helmholtz_polar_twolayer1.m%
-%
-% Script to find a bad example (two layers)
-%
-% XT 11/17
-
-clear all;
-close all;
-SavePlots = 0;
-
-RunNumber = 3;
-Mode = 2; %check 
-% Mode = 1;
+% DirichletNeumannData
 
 L = 2*pi;
-lambda = 0.45;
-n_u = 1;
-n_w = 2.5;
-k_0 = L/lambda;
-k_u = n_u*k_0; 
-k_w = n_w*k_0;
-
-if(RunNumber==1)
-  % Small Deformation
-  Eps = 0.002;
-  N_theta = 64;
-  a = 0.025;
-  b = 10*a;
-  N = 16;
-elseif(RunNumber==2)
-  % Big Deformation (inside disk)
-  Eps = 0.3;
-  N_theta = 64;
-  a = 2.0;
-  N = 16;
-elseif(RunNumber==3)
-  % Big Deformation (outside disk)
-  Eps = 0.02;
-  N_theta = 64;
-  a = 0.025;
-  N = 24;
-end
-
-fprintf('test_helmholtz_twolayer_polar\n');
-fprintf('-------------\n');
-fprintf('RunNumber = %d\n',RunNumber);
-fprintf('k_u = %g  k_w = %g\n\n',k_u,k_w);
-fprintf('Eps = %g  a = %g\n',Eps,a);
-fprintf('N_theta = %d N = %d\n',N_theta,N);
-fprintf('\n');
-
 theta = (L/N_theta)*[0:N_theta-1]';
 p = [0:N_theta/2-1,-N_theta/2:-1]';
 
@@ -106,53 +58,4 @@ for n=2:N
       .*f_nmo.*exp(1i*r.*theta);
 end
 
-% testing
-%xi_u_n = zeros(N_theta,N+1);
-%nu_u_n = zeros(N_theta,N+1);
-%xi_w_n = zeros(N_theta,N+1);
-%nu_w_n = zeros(N_theta,N+1);
-%xi_u_n(:,0+1) = xi_u;
-%nu_u_n(:,0+1) = nu_u;
-%xi_w_n(:,0+1) = xi_w;
-%nu_w_n(:,0+1) = nu_w;
-% end testing
-
-if(Mode==1)
-  tau2 = 1;
-else
-  tau2 = k_u^2/k_w^2;
-end
-zeta_n = xi_u_n - xi_w_n;
-% nu_u points downwards!
-psi_n = -nu_u_n - tau2*nu_w_n;
-%psi_n = nu_u_n - tau2*nu_w_n;
-
-
-% Two-layer scattering by DNO
-
-
-fprintf('\n\nTwo-layer scattering by DNO\n\n');
-
-tic;
-U_n = twolayer_dno_fe_helmholtz_polar(zeta_n,psi_n,f,f_theta,tau2,...
-    p,k_u,k_w,a,N_theta,N);
-apn_fe = field_fe_helmholtz_polar_exterior(U_n,f,k_u,a,p,N_theta,N);
-Gn_fe_u = dno_fe_helmholtz_polar_exterior(apn_fe,f,f_theta,k_u,a,p,N_theta,N);
-W_n = U_n - zeta_n;
-dpn_fe = field_fe_helmholtz_polar_interior(W_n,f,k_w,a,p,N_theta,N);
-Gn_fe_w = dno_fe_helmholtz_polar_interior(dpn_fe,f,f_theta,k_w,a,p,N_theta,N);
-t_fe = toc;
-
-fprintf('Press key to compute exterior layer errors...\n');
-
-fprintf('  t_fe = %g\n',t_fe);
-fprintf('\nEXTERIOR LAYER\n\n');
-[relerrDNOU,nplotDNOU] = compute_errors_2d_polar(nu_u,Gn_fe_u,Eps,N,N_theta);
-make_plots_polar(SavePlots,nplotDNOU,relerrDNOU);
-fprintf('\n');
-
-% filename = sprintf('FE_Eps_%g_N%g.mat',Eps,N);
-% save(filename,'t_fe','Eps','N','N_theta','lambda','k_u','k_w','a','Gn_fe_u');
-% 
-% 
 

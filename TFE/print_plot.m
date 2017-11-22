@@ -11,7 +11,10 @@ SavePlots = 0;
 % load('TFE_Eps_0.1_Nr64.mat')
 % load('TFE_Eps_0.5_Nr64.mat')
 % load('TFE_Eps_0.75_Nr64.mat')
-load('TFE_cos2_eps20_Nr64_WATERAg.mat')
+% load('TFE_cos2_eps20_Nr64_WATERAg.mat')
+% load('TFE_Eps_0.01_Nr64_N24.mat')
+% load('TFE_Eps_0.05_Nr64_N24.mat')
+load('TFE_Eps_0.02_Nr64_N24.mat')
 
 
 fprintf('k_u = %g  k_w = %g\n\n',k_u,k_w);
@@ -79,4 +82,4 @@ for n=2:N
 end
 
 [relerrDNOU,nplotDNOU] = compute_errors_2d_polar(nu_u,Gn_tfe_u,Eps,N,N_theta);
-% make_plots_polar(SavePlots,nplotDNOU,relerrDNOU);
+make_plots_polar(SavePlots,nplotDNOU,relerrDNOU);

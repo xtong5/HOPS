@@ -4,7 +4,7 @@ close all
 
 SavePlots = 0;
 
-mode = 2; % choose functions
+mode = 4; % choose functions
 
 if mode == 1
     name = 'expcos';
