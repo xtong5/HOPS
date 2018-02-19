@@ -1,11 +1,10 @@
 % plot
 clear all
 
-mode = 4; % choose functions
+mode = 8; % choose functions
 
 if mode == 1
     load('data_expcos10_eps_WATERAg.mat');
-    %load('data_cos410_eps_WATERAg.mat');
 end
 if mode == 2
     load('data_cos25_eps_WATERAg.mat');
@@ -14,11 +13,11 @@ if mode == 4
     load('data_cos45_eps_WATERAg.mat');
 end
 if mode == 8
+%     load('data_cos85_eps_WATERAg.mat');
     load('data_cos810_eps_WATERAg.mat');
 end
 
 % load('data_NoPer.mat');
-
 fprintf('-------------\n');
 fprintf('a = %g  b = %g  Eps_max = %g\n',a,b,Eps_max);
 fprintf('N_theta = %d N = %d M = %d N_eps = %d\n',N_theta,N,M,N_eps);

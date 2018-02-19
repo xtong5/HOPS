@@ -2,7 +2,7 @@
 %
 % generate DNO data of exterior layer campared to FE 
 % 
-% exterior = water, interior = silver, lambda = 0.4125, f = cos(4*theta)
+% exterior = water, interior = silver, lambda = 0.37, f = cos(4*theta)
 %
 % XT 11/17
 
@@ -15,14 +15,13 @@ Mode = 2;
 
 OUT = 'WATER'; IN = 'SILVER';
 a = 0.025; b = 10*a; c = 0.1*a;
-N = 16;
-% N = 24;
+% N = 16;
+N = 24;
 N_r = 64;
 N_theta = 128;
 Eps = a/5;
   
-% lambda = 0.415;
-lambda = 0.4275;
+lambda = 0.37;
 [n_u,epsilon_u] = ri_perm(lambda,OUT);
 [n_w,epsilon_w] = ri_perm(lambda,IN);
 
@@ -86,7 +85,7 @@ Gn_tfe_u = dno_tfe_helmholtz_polar_exterior(Dr_Un,Dp_Un,f4,f4_theta,k_u,a,b,p,N_
 t_tfe = toc;
 
 
-filename = sprintf('TFE_cos4_eps%g_Nr%g_Nt%d_WATERAg.mat',Eps,N_r,N_theta);
+filename = sprintf('TFE_cos4_eps%g_Nr%g_Nt%d_N%d_WATERAg.mat',Eps,N_r,N_theta,N);
 save(filename,'t_tfe','Eps','N','N_theta','N_r','lambda','k_u','k_w','a',...
     'b','c','Gn_tfe_u','OUT','IN')
 

@@ -1,15 +1,26 @@
-function [lambda_crit,U_norm,W_norm,BU_norm] = ...
-    FE_app_pade(M,f,N_theta,theta,a,b,N,Eps_max,N_eps,OUT,IN,name)
-% this function computes and saves the data to file
-%% example
-% N_theta = 64;N = 16;M = 201;N_eps = 101;
-% a = 0.025;b = 10*a;Eps_max = 0.01*a;
-% L = 2*pi;theta = (L/N_theta)*[0:N_theta-1]';
-% f = exp(cos(theta));name = 'expcos100_eps';
-% OUT = 'VACUUM'; IN = 'SILVER';
-% FE_app_pade(M,f,N_theta,theta,a,b,N,Eps_max,N_eps,OUT,IN,name);
+% compute and save the date to file 
+L = 2*pi;
+a = 0.025;
+b = 10*a;
+M = 1;
+N_eps = 1;
+N_theta = 64;
+theta = (L/N_theta)*[0:N_theta-1]';
 
-lambda = linspace(0.3,0.8,M);
+warning('off')
+
+f8 = cos(8*theta);
+
+
+%% N_theta96 N24
+N_theta = 64;N = 16;
+OUT = 'WATER';
+IN = 'SILVER';
+Eps_max = 0.1*a;
+name = 'cos5';
+m=1;
+
+lambda = 0.3875;
 epsvec = linspace(0,Eps_max,N_eps);
 k_zero = (2*pi./lambda).';
 n_u = zeros(M,1);
@@ -36,7 +47,7 @@ Mode = 2;
 
 
 p = [0:N_theta/2-1,-N_theta/2:-1]';
-f_theta = ifft(1i*p.*fft(f));
+f8_theta = ifft(1i*p.*fft(f8));
 
 P_0 = 1;
 
@@ -56,23 +67,22 @@ W_norm = zeros(N_eps,M);
 Gn_U_norm = zeros(N_eps,M);
 Gn_W_norm = zeros(N_eps,M);
 
-for m=1:M
 zeta_n = zeros(N_theta,N+1);
 psi_n = zeros(N_theta,N+1);
 f_n = ones(N_theta,1); f_nmo = ones(N_theta,1);
 Sin = sin(theta);
-Exp = exp(-1i*k_u(m)*a.*Sin);
+Exp = exp(-1i*k_u*a.*Sin);
 zeta_n(:,0+1) = -Exp; 
-psi_n(:,0+1) = (1i*k_u(m))*a*Sin.*Exp;
+psi_n(:,0+1) = (1i*k_u)*a*Sin.*Exp;
 
 for n=1:N
-    f_n = f.*f_n/n;
+    f_n = f8.*f_n/n;
     if n > 1
-        f_nmo = f.*f_nmo/(n-1);
+        f_nmo = f8.*f_nmo/(n-1);
     end
     zeta_n(:,n+1) = -Exp.*(-1i*k_u(m))^n.*f_n.*Sin.^n;
     psi_n(:,n+1) = (1i*k_u(m)).*Exp.*(a*(-1i*k_u(m))^n.*f_n.*...
-    Sin.^(n+1)+(f.*Sin-f_theta.*cos(theta)).*...
+    Sin.^(n+1)+(f8.*Sin-f8_theta.*cos(theta)).*...
     (-1i*k_u(m))^(n-1).*f_nmo.*Sin.^(n-1));
  end
 if(Mode==1)
@@ -81,13 +91,13 @@ else
     tau2 = k_u(m)^2/k_w(m)^2;
 end
 
-  U_n(:,:,m) = twolayer_dno_fe_helmholtz_polar(zeta_n,psi_n,f,f_theta,tau2,...
+  U_n(:,:,m) = twolayer_dno_fe_helmholtz_polar(zeta_n,psi_n,f8,f8_theta,tau2,...
     p,k_u(m),k_w(m),a,N_theta,N);
-  apn_fe = field_fe_helmholtz_polar_exterior(U_n(:,:,m),f,k_u(m),a,p,N_theta,N);
-  Gn_U_n(:,:,m) = dno_fe_helmholtz_polar_exterior(apn_fe,f,f_theta,k_u(m),a,p,N_theta,N);
+  apn_fe = field_fe_helmholtz_polar_exterior(U_n(:,:,m),f8,k_u(m),a,p,N_theta,N);
+  Gn_U_n(:,:,m) = dno_fe_helmholtz_polar_exterior(apn_fe,f8,f8_theta,k_u(m),a,p,N_theta,N);
   W_n(:,:,m) = U_n(:,:,m) - zeta_n;
-  dpn_fe = field_fe_helmholtz_polar_interior(W_n(:,:,m),f,k_w(m),a,p,N_theta,N);
-  Gn_W_n(:,:,m) = dno_fe_helmholtz_polar_interior(dpn_fe,f,f_theta,k_w(m),a,p,N_theta,N);
+  dpn_fe = field_fe_helmholtz_polar_interior(W_n(:,:,m),f8,k_w(m),a,p,N_theta,N);
+  Gn_W_n(:,:,m) = dno_fe_helmholtz_polar_interior(dpn_fe,f8,f8_theta,k_w(m),a,p,N_theta,N);
    
 %    for n=1:N+1
 %      B_far(:,n)=ifft(apn_fe(:,n).*besselh(p,k_u(m).*b)./besselh(p,k_u(m).*a));
@@ -110,17 +120,5 @@ end
        Gn_U_norm(l,m) = norm(Gn_U(:,m),2)/sqrt(N_theta);
        Gn_W_norm(l,m) = norm(Gn_W(:,m),2)/sqrt(N_theta);
    end
-end
-
-filename = sprintf('data_%s.mat',name);
-save(filename,'M','lambda','U_norm','W_norm','Gn_U_norm','Gn_W_norm',...
-    'lambda_crit','epsilon_u_plot','epsilon_w_plot','epsvec','a','b',...
-    'N_theta','N','N_eps','Eps_max','OUT','IN')
-
-
-
-
-
-
- 
+   
 

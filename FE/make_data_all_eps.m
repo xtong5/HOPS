@@ -4,8 +4,8 @@ N_theta = 64;
 a = 0.025;
 b = 10*a;
 N = 16;
-M = 201;
-N_eps = 201;
+M = 11;
+N_eps = 11;
 theta = (L/N_theta)*[0:N_theta-1]';
 
 warning('off')

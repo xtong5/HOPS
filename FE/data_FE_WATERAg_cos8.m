@@ -1,8 +1,8 @@
-% data_FE_WATERAg_cos4.m
+% data_FE_WATERAg_cos8.m
 %
 % generate DNO data of exterior layer campared to FE 
 % 
-% exterior = water, interior = silver, lambda = 0.37, f = cos(4*theta)
+% exterior = water, interior = silver, lambda = 0.3875, f = cos(8*theta)
 %
 % XT 11/17
 
@@ -15,14 +15,12 @@ Mode = 2;
 
 OUT = 'WATER'; IN = 'SILVER';
 a = 0.025;
-N = 24;
-% N = 16;
-% N_theta = 64;
-N_theta = 128;
-Eps = a/5;
+% N = 24;
+N = 16;
+N_theta = 64;
+Eps = a/10;
   
-% lambda = 0.4275;
-lambda = 0.37;
+lambda = 0.3875;
 [n_u,epsilon_u] = ri_perm(lambda,OUT);
 [n_w,epsilon_w] = ri_perm(lambda,IN);
 
@@ -33,7 +31,7 @@ k_w = n_w*k_0;
 
 
 
-fprintf('data_FE_WATERAg_cos4\n');
+fprintf('data_FE_WATERAg_cos8\n');
 fprintf('-------------\n');
 fprintf('k_u = %g  k_w = %g\n\n',k_u,k_w);
 fprintf('Eps = %g  a = %g\n',Eps,a);
@@ -43,8 +41,8 @@ fprintf('\n');
 theta = (L/N_theta)*[0:N_theta-1]';
 p = [0:N_theta/2-1,-N_theta/2:-1]';
 
-f4 = cos(4*theta);
-f4_theta = ifft((1i*p).*fft(f4));
+f8 = cos(8*theta);
+f8_theta = ifft((1i*p).*fft(f8));
 
 zeta_n = zeros(N_theta,N+1);
 psi_n = zeros(N_theta,N+1);
@@ -55,13 +53,13 @@ zeta_n(:,0+1) = -Exp;
 psi_n(:,0+1) = (1i*k_u)*a*Sin.*Exp;
 
 for n=1:N
-    f_n = f4.*f_n/n;
+    f_n = f8.*f_n/n;
     if n > 1
-        f_nmo = f4.*f_nmo/(n-1);
+        f_nmo = f8.*f_nmo/(n-1);
     end
     zeta_n(:,n+1) = -Exp.*(-1i*k_u)^n.*f_n.*Sin.^n;
     psi_n(:,n+1) = (1i*k_u).*Exp.*(a*(-1i*k_u)^n.*f_n.*...
-    Sin.^(n+1)+(f4.*Sin-f4_theta.*cos(theta)).*...
+    Sin.^(n+1)+(f8.*Sin-f8_theta.*cos(theta)).*...
     (-1i*k_u)^(n-1).*f_nmo.*Sin.^(n-1));
  end
 
@@ -77,10 +75,10 @@ end
 fprintf('\n\nTwo-layer scattering by DNO\n\n');
 
 tic;
-U_n = twolayer_dno_fe_helmholtz_polar(zeta_n,psi_n,f4,f4_theta,tau2,...
+U_n = twolayer_dno_fe_helmholtz_polar(zeta_n,psi_n,f8,f8_theta,tau2,...
     p,k_u,k_w,a,N_theta,N);
-apn_fe = field_fe_helmholtz_polar_exterior(U_n,f4,k_u,a,p,N_theta,N);
-Gn_fe_u = dno_fe_helmholtz_polar_exterior(apn_fe,f4,f4_theta,k_u,a,p,N_theta,N);
+apn_fe = field_fe_helmholtz_polar_exterior(U_n,f8,k_u,a,p,N_theta,N);
+Gn_fe_u = dno_fe_helmholtz_polar_exterior(apn_fe,f8,f8_theta,k_u,a,p,N_theta,N);
 % W_n = U_n - zeta_n;
 % dpn_fe = field_fe_helmholtz_polar_interior(W_n,f2,k_w,a,p,N_theta,N);
 % Gn_fe_w = dno_fe_helmholtz_polar_interior(dpn_fe,f2,f2_theta,k_w,a,p,N_theta,N);
@@ -109,7 +107,7 @@ t_fe = toc;
 % fprintf('\n');
 
 
-filename = sprintf('FE_cos4_eps%g_Nt%g_WATERAg.mat',Eps,N_theta);
+filename = sprintf('FE_cos8_eps%g_N%d_WATERAg.mat',Eps,N);
 save(filename,'t_fe','Eps','N','N_theta','lambda','k_u','k_w','a',...
     'Gn_fe_u','OUT','IN')
 
