@@ -56,7 +56,7 @@ dnp = field_fe_helmholtz_polar_interior(xi_n,f,k,a,p,N_theta,N);
 Gn_fe = dno_fe_helmholtz_polar_interior(dnp,f,f_theta,k,a,p,N_theta,N);
 t_fe = toc;
 
-Un, = field_tfe_helmholtz_polar_interior(xi_n,f,f_theta,k,a,c,p,N_theta,N,N_r);
+Un = field_tfe_helmholtz_polar_interior(xi_n,f,f_theta,k,a,c,p,N_theta,N,N_r);
 
-Gn_tfe = dno_tfe_helmholtz_polar_interior(,f,f_theta,k,a,c,p,N_theta,N,N_r);
+Gn_tfe = dno_tfe_helmholtz_polar_interior(Un,f,f_theta,k,a,c,p,N_theta,N,N_r);
 [relerr,nplot] = compute_errors_2d_polar(nu,Gn_tfe,Eps,N,N_theta); 
