@@ -23,7 +23,7 @@ k_w = n_w*k_0;
 
 if(RunNumber==1)
   % Small Deformation
-  Eps = 0.002;
+  Eps = 0.02;
   N_theta = 64;
 %   a = 0.025;
 %   b = 10*a;

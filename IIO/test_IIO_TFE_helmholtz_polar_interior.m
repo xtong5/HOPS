@@ -81,12 +81,9 @@ I_w_n = 1/sigma*nu_w_n+1i*eta*xi_w_n;
 S_w = 1/sigma*nu_w-1i*eta*xi_w;
 Sn_w = 1/sigma*nu_w_n-1i*eta*xi_w_n;
 
-% [Un,Dr_Un,Dp_Un] = field_tfe_IIO_helmholtz_polar_interior(I_w_n,f,f_theta,k,a,c,p,N_theta,N,N_r,sigma,eta);
+[Un,Dr_Un,Dp_Un] = field_tfe_IIO_helmholtz_polar_interior(I_w_n,f,f_theta,k,a,c,p,N_theta,N,N_r,sigma,eta);
 % [relerr,nplot] = compute_errors_2d_polar(u_exact,Un,Eps,N,N_theta);
-% 
-% Sn_tfe = IIO_tfe_helmholtz_polar_interior(Un,Dr_Un,Dp_Un,f,f_theta,a,c,N,sigma,eta);
-% [relerr,nplot] = compute_errors_2d_polar(S_u,Sn_tfe,Eps,N,N_theta);        
-% 
 
-Sn_tfe = IIO_tfe_helmholtz_polar_interior1(I_w_n,f,f_theta,k,a,c,p,N_theta,N,N_r,sigma,eta);
-[relerr,nplot] = compute_errors_2d_polar(S_w,Sn_tfe,Eps,N,N_theta);        
+Sn_tfe = IIO_tfe_helmholtz_polar_interior(Un,Dr_Un,Dp_Un,f,f_theta,a,c,N,sigma,eta);
+[relerr,nplot] = compute_errors_2d_polar(S_u,Sn_tfe,Eps,N,N_theta);        
+

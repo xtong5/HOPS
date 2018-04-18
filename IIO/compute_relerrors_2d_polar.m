@@ -1,4 +1,4 @@
-function [err,nplot] = compute_errors_2d_polar(nu,Gn_tfe,Eps,N,N_theta)
+function [err,nplot] = compute_relerrors_2d_polar(nu,Gn_tfe,Eps,N,N_theta)
 % function [relerr,nplot] = compute_errors_2d_polar(nu,Gn_tfe,Eps,N,N_theta)
 
 
@@ -18,10 +18,8 @@ nplot(0+1) = 0;
 % relerr(0+1,2) = norm(nu-nu_oe_pade,inf)/norm(nu,inf);
 % relerr(0+1,1) = norm(nu-nu_fe_taylor,inf)/norm(nu,inf);
 % relerr(0+1,2) = norm(nu-nu_fe_pade,inf)/norm(nu,inf);
-% relerr(0+1,5) = norm(nu-nu_tfe_taylor,inf)/norm(nu,inf);
-% relerr(0+1,6) = norm(nu-nu_tfe_pade,inf)/norm(nu,inf);
-err(0+1,5) = norm(nu-nu_tfe_taylor,inf);
-err(0+1,6) = norm(nu-nu_tfe_pade,inf);
+relerr(0+1,5) = norm(nu-nu_tfe_taylor,inf)/norm(nu,inf);
+relerr(0+1,6) = norm(nu-nu_tfe_pade,inf)/norm(nu,inf);
 
 
 for n=1:N
@@ -44,10 +42,8 @@ for n=1:N
 %   relerr(n+1,2) = norm(nu-nu_fe_pade,inf)/norm(nu,inf);
 %   relerr(n+1,5) = norm(nu-nu_tfe_taylor,inf)/norm(nu,inf);
 %   relerr(n+1,6) = norm(nu-nu_tfe_pade,inf)/norm(nu,inf);
-%   relerr(n+1,5) = norm(nu-nu_tfe_taylor,inf)/norm(nu,inf);
-%   relerr(n+1,6) = norm(nu-nu_tfe_pade,inf)/norm(nu,inf);
-  err(n+1,5) = norm(nu-nu_tfe_taylor,inf);
-  err(n+1,6) = norm(nu-nu_tfe_pade,inf);
+  relerr(n+1,5) = norm(nu-nu_tfe_taylor,inf)/norm(nu,inf);
+  relerr(n+1,6) = norm(nu-nu_tfe_pade,inf)/norm(nu,inf);
 end
 
 fprintf('\n');
@@ -62,7 +58,6 @@ fprintf('\n');
 fprintf('n  TFE(T)  TFE(P)  \n');
 fprintf('-----------------\n');
 for n=0:N
-%   fprintf('%d  %g  %g\n',nplot(n+1), relerr(n+1,5),relerr(n+1,6));
-  fprintf('%d  %g  %g\n',nplot(n+1), err(n+1,5),err(n+1,6));
+  fprintf('%d  %g  %g\n',nplot(n+1), relerr(n+1,5),relerr(n+1,6));
 end
 return;

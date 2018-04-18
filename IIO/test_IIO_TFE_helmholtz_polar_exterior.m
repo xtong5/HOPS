@@ -84,13 +84,11 @@ I_u_n = 1/sigma*nu_u_n+1i*eta*xi_u_n;
 Q_u = 1/sigma*nu_u-1i*eta*xi_u;
 Qn_u = 1/sigma*nu_u_n-1i*eta*xi_u_n;
 
-% [Un,Dr_Un,Dp_Un] = field_tfe_IIO_helmholtz_polar_exterior(I_u_n,f,f_theta,k,a,b,p,N_theta,N,N_r,sigma,eta);
+[Un,Dr_Un,Dp_Un] = field_tfe_IIO_helmholtz_polar_exterior(I_u_n,f,f_theta,k,a,b,p,N_theta,N,N_r,sigma,eta);
 % [relerr,nplot] = compute_errors_2d_polar(u_exact,Un,Eps,N,N_theta);
-% % 
-% Qn_tfe = IIO_tfe_helmholtz_polar_exterior(Un,Dr_Un,Dp_Un,f,f_theta,a,b,N,sigma,eta);
-% [relerr,nplot] = compute_errors_2d_polar(Q_u,Qn_tfe,Eps,N,N_theta);        
-% 
+ 
+Qn_tfe = IIO_tfe_helmholtz_polar_exterior(Un,Dr_Un,Dp_Un,f,f_theta,a,b,N,sigma,eta);
+[relerr,nplot] = compute_errors_2d_polar(Q_u,Qn_tfe,Eps,N,N_theta);        
 
-Qn_tfe1 = IIO_tfe_helmholtz_polar_exterior1(I_u_n,f,f_theta,k,a,b,p,N_theta,N,N_r,sigma,eta);
-[relerr,nplot] = compute_errors_2d_polar(Q_u,Qn_tfe1,Eps,N,N_theta);        
+
 
