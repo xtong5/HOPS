@@ -10,23 +10,24 @@ SavePlots = 0;
 % RunNumber = 1;
 Mode = 2; 
 L = 2*pi;
-k=2.1;
+%k=2.1;
+k=5.13562230184068;
 if(Mode==1)
   sigma = 1;
 else
   sigma = (0.4*k/L)^2;
 end
 % sigma = Inf;
-eta = 1.5;
+eta = 3.4;
 % eta = -1i;
 
-Eps = 0.02;
-% Eps = 0;
+% Eps = 0.02;
+Eps = 0;
 N_theta = 64;
 N = 16;
 N_r = 16;
-a = 1.6;
-c = 0.9;
+a = 1.2;
+c = 0.8;
 
 
 p = [0:N_theta/2-1,-N_theta/2:-1]';
@@ -85,5 +86,5 @@ Sn_w = 1/sigma*nu_w_n-1i*eta*xi_w_n;
 % [relerr,nplot] = compute_errors_2d_polar(u_exact,Un,Eps,N,N_theta);
 
 Sn_tfe = IIO_tfe_helmholtz_polar_interior(Un,Dr_Un,Dp_Un,f,f_theta,a,c,N,sigma,eta);
-[relerr,nplot] = compute_errors_2d_polar(S_u,Sn_tfe,Eps,N,N_theta);        
+[relerr,nplot] = compute_errors_2d_polar(S_w,Sn_tfe,Eps,N,N_theta);        
 

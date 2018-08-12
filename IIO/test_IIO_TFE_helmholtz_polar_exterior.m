@@ -8,24 +8,25 @@
 %% Default
 SavePlots = 0;
 % RunNumber = 1;
-Mode = 1; 
+Mode = 2; 
 L = 2*pi;
-k=2.1;
+%k=2.1;
+k=13.962634015954636;
 if(Mode==1)
   sigma = 1;
 else
   sigma = (0.4*k/L)^2;
 end
 % sigma = Inf;
-eta = 1.1;
+eta = 3.4;
 % eta = -1i;
 
-Eps = 0.02;
-% Eps = 0;
+% Eps = 0.02;
+Eps = 0;
 N_theta = 64;
 N = 16;
 N_r = 16;
-a = 1;
+a = 1.2;
 b = 1.6;
 
 

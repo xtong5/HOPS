@@ -6,10 +6,10 @@ I_u_n = zeros(N_theta,N+1);
 I_w_n = zeros(N_theta,N+1);
 Qn = zeros(N_theta,N+1,N+1); %IIO for Q_u_jI_u_i
 Sn = zeros(N_theta,N+1,N+1); %IIO for S_w_jI_w_i
-Q0_p = (-k_u * diff_besselh(p,1,k_u*a)/sigma_u - 1i*eta*besselh(p,k_u*a))./...
-    (-k_u * diff_besselh(p,1,k_u*a)/sigma_u+1i*eta*besselh(p,k_u*a));
-S0_p = (k_w * diff_besselj(p,1,k_w*a)/sigma_w - 1i*eta*besselj(p,k_w*a))./...
-    (k_w * diff_besselj(p,1,k_w*a)/sigma_w + 1i*eta*besselj(p,k_w*a));
+Q0_p = (-a*k_u * diff_besselh(p,1,k_u*a)/sigma_u - 1i*eta*besselh(p,k_u*a))./...
+    (-a*k_u * diff_besselh(p,1,k_u*a)/sigma_u+1i*eta*besselh(p,k_u*a));
+S0_p = (a*k_w * diff_besselj(p,1,k_w*a)/sigma_w - 1i*eta*besselj(p,k_w*a))./...
+    (a*k_w * diff_besselj(p,1,k_w*a)/sigma_w + 1i*eta*besselj(p,k_w*a));
 Delta = 1./(1-Q0_p.*S0_p);
 
 

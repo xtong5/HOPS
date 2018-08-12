@@ -8,6 +8,7 @@ clear all;
 close all;
 warning off;
 SavePlots = 0;
+SaveData = 1;
 
 RunNumber = 1;
 Mode = 2; %check 
@@ -16,23 +17,33 @@ Mode = 2; %check
 L = 2*pi;
 lambda = 0.45;
 n_u = 1;
-n_w = 2.5;
+% n_w = 2.5;
 k_0 = L/lambda;
 k_u = n_u*k_0; 
-k_w = n_w*k_0;
+% k_w = n_w*k_0;
+k_w = 5.13562230184068;
+
 
 if(RunNumber==1)
   % Small Deformation
-  Eps = 0.02;
+%   Eps = 0.02;
+%Eps = 0.05;
+  Eps = 0.0;
   N_theta = 64;
 %   a = 0.025;
 %   b = 10*a;
 %   c = 0.1*a;
-  a = 1;
-  b = 1.6;
-  c = 0.6;
-  N = 16;
-  N_r = 16;
+%   a = 1-1e-16;
+%   b = 1.6;
+%   c = 0.6;
+  a = 0.5;
+  b = 0.8;
+  c = 0.3;
+  a = 1.2; b = 1.6; c = 0.6;
+%  N = 16;
+  N = 0;
+   N_r = 16;
+%  N_r = 32;
 elseif(RunNumber==2)
   % Big Deformation (inside disk)
   Eps = 0.3;
@@ -140,13 +151,21 @@ W_n = U_n - zeta_n;
 Gn_tfe_w = dno_tfe_helmholtz_polar_interior(Dr_Wn,Dp_Wn,f,f_theta,k_w,a,c,p,N_theta,N,N_r);
 t_tfe = toc;
 
-fprintf('Press key to compute exterior layer errors...\n');
+if SaveData==1
+filename = sprintf('DNO_Eps_%g_Nr%g.mat',Eps,N_r);
+% filename = sprintf('DNO_Eps_%g_Nr%g_sing16.mat',Eps,N_r);
+save(filename,'t_tfe','Eps','N','N_theta','N_r','lambda','k_u','k_w','a','b','c',...
+    'Un','Wn','Gn_tfe_u','Gn_tfe_w','xi_u','xi_w','nu_u','nu_w');
+end
+
+
+% fprintf('Press key to compute exterior layer errors...\n');
 % pause;
 
 fprintf('  t_tfe = %g\n',t_tfe);
-fprintf('\nEXTERIOR LAYER\n\n');
-[relerrU,nplotU] = compute_errors_2d_polar(xi_u,U_n,Eps,N,N_theta);
-[relerrDNOU,nplotDNOU] = compute_errors_2d_polar(nu_u,Gn_tfe_u,Eps,N,N_theta);
+% fprintf('\nEXTERIOR LAYER\n\n');
+ [relerrU,nplotU] = compute_errors_2d_polar(xi_u,U_n,Eps,N,N_theta);
+ [relerrDNOU,nplotDNOU] = compute_errors_2d_polar(nu_u,Gn_tfe_u,Eps,N,N_theta);
 % make_plots_polar(SavePlots,nplotU,relerrU);
 % make_plots_polar(SavePlots,nplotDNOU,relerrDNOU);
 % fprintf('\n');

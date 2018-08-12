@@ -8,6 +8,7 @@ clear all;
 close all;
 warning off;
 SavePlots = 0;
+SaveData = 1;
 
 RunNumber = 1;
 Mode = 2; %check 
@@ -16,11 +17,12 @@ Mode = 2; %check
 L = 2*pi;
 lambda = 0.45;
 n_u = 1;
-n_w = 2.5;
+% n_w = 2.5;
 k_0 = L/lambda;
 k_u = n_u*k_0; 
-k_w = n_w*k_0;
-eta = 1.1;
+% k_w = n_w*k_0;
+k_w = 5.13562230184068;
+eta = 3.4;
 if(Mode==1)
   sigma_u = 1;
   sigma_w = 1;
@@ -31,17 +33,21 @@ end
 
 if(RunNumber==1)
   % Small Deformation
-  Eps = 0.02;
-%   Eps = 0;
+%  Eps = 0.1;
+  Eps = 0;
   N_theta = 64;
 %   a = 0.025;
 %   b = 10*a;
 %   c = 0.1*a;
-  a = 1;
-  b = 1.6;
-  c = 0.6;
-  N = 16;
+%   a = 1-1e-16;
+   a = 1.0+2e-1;
+%  a = 0.45;
+   b = 1.6;
+   c = 0.6;
+%  N = 16;
+  N = 0;
   N_r = 16;
+%   N_r = 32;
 elseif(RunNumber==2)
   % Big Deformation (inside disk)
   Eps = 0.3;
@@ -144,13 +150,22 @@ Qn_u = IIO_tfe_helmholtz_polar_exterior(Un,Dr_Un,Dp_Un,f,f_theta,a,b,N,sigma_u,e
 Sn_w = IIO_tfe_helmholtz_polar_interior(Wn,Dr_Wn,Dp_Wn,f,f_theta,a,c,N,sigma_w,eta);
 t_tfe = toc;
 
-fprintf('Press key to compute exterior layer errors...\n');
+if SaveData==1
+filename = sprintf('IIO_Eps_%g_Nr%g_eta%g.mat',Eps,N_r,eta);
+% filename = sprintf('IIO_Eps_%g_Nr%g_eta%g_sing16.mat',Eps,N_r,eta);
+save(filename,'t_tfe','Eps','N','N_theta','N_r','lambda','k_u','k_w','a','b','c',...
+    'sigma_u','sigma_w','eta','I_u_n','I_w_n','Un','Qn_u','Wn','Sn_w',...
+    'xi_u','xi_w','Q_u','S_w');
+end
+
+
+% fprintf('Press key to compute exterior layer errors...\n');
 % pause;
 
-fprintf('  t_tfe = %g\n',t_tfe);
-fprintf('\nEXTERIOR LAYER\n\n');
-[relerrU,nplotU] = compute_relerrors_2d_polar(xi_u,Un,Eps,N,N_theta);
-[relerrIIOU,nplotIIOU] = compute_relerrors_2d_polar(Q_u,Qn_u,Eps,N,N_theta);
+% fprintf('  t_tfe = %g\n',t_tfe);
+% fprintf('\nEXTERIOR LAYER\n\n');
+% [relerrU,nplotU] = compute_errors_2d_polar(xi_u,Un,Eps,N,N_theta);
+% [relerrIIOU,nplotIIOU] = compute_errors_2d_polar(Q_u,Qn_u,Eps,N,N_theta);
 % make_plots_polar(SavePlots,nplotU,relerrU);
 % make_plots_polar(SavePlots,nplotIIOU,relerrIIOU);
 % fprintf('\n');
@@ -159,12 +174,13 @@ fprintf('\nEXTERIOR LAYER\n\n');
 % pause;
 
 % fprintf('\nINTERIOR LAYER\n\n');
-% [relerrW,nplotW] = compute_relerrors_2d_polar(xi_w,Wn,Eps,N,N_theta);
-% [relerrIIOW,nplotIIOW] = compute_relerrors_2d_polar(S_w,Sn_w,Eps,N,N_theta);
+% [relerrW,nplotW] = compute_errors_2d_polar(xi_w,Wn,Eps,N,N_theta);
+% [relerrIIOW,nplotIIOW] = compute_errors_2d_polar(S_w,Sn_w,Eps,N,N_theta);
 % make_plots_polar(SavePlots,nplotW,relerrW);
 % make_plots_polar(SavePlots,nplotIIOW,relerrIIOW);
 
 
 
 
-
+-k_u*diff_besselh(1,pp,k_u*a)+1i*eta*besselh(pp,k_u*a);
+k_w*diff_besselj(1,pp,k_w*a)+1i*eta*besselj(pp,k_w*a)
