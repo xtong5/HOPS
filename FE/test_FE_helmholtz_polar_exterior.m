@@ -10,16 +10,16 @@
 SavePlots = 0;
 RunNumber = 1;
 L = 2*pi;
-%k=1;
-k=2.1;
+k=1;
+% k=2.1;
 
 
 if(RunNumber==1)
   % Small Deformation
-  Eps = 0.02;
-%   Eps = 0;
+%   Eps = 0.02;
+  Eps = 0;
   N_theta = 64;
-  a = 1.0;
+  a = 1;
   N = 16;
 elseif(RunNumber==2)
   % Big Deformation (inside disk)

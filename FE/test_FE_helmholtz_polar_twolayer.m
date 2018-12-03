@@ -4,29 +4,35 @@
 % Script to test Helmholtz DNO solvers in polar (two layers)
 %
 % XT 12/16
+% XT 11/18 save data
 
 clear all;
 close all;
+warning off;
 SavePlots = 0;
+SaveData = 1;
 
 RunNumber = 1;
 Mode = 2; %check 
-% Mode = 1;
+
 
 L = 2*pi;
 lambda = 0.45;
 n_u = 1;
-n_w = 2.5;
+% n_w = 2.5;
 k_0 = L/lambda;
 k_u = n_u*k_0; 
-k_w = n_w*k_0;
+% k_w = n_w*k_0;
+k_w = 5.13562230184068;
 
 if(RunNumber==1)
   % Small Deformation
-  Eps = 0.002;
+  Eps = 0.1;
   N_theta = 64;
-  a = 0.025;
-  b = 10*a;
+%   a = 0.5;
+%   a = 1-1e-16;
+  a = 1-1e-12;
+%   b = 10*a;
   N = 16;
 elseif(RunNumber==2)
   % Big Deformation (inside disk)
@@ -57,33 +63,33 @@ f = exp(cos(theta));
 f_theta = -sin(theta).*f;
 A=a+Eps.*f;
 
-Ar_u = 2; r = 2; % take a special wavenumber
+Ar_u = 2; pp = 2; % take a special wavenumber
 Ar_w = 1; %r = 2; % take a special wavenumber ???same
 
-xi_u = Ar_u*besselh(r,k_u.*A).*exp(1i*r.*theta);
-nu_u = Ar_u*((-k_u.*A.*(diff_bessel(2,r,1,k_u.*A))+...
-    1i*r*Eps.*f_theta.*besselh(r,k_u.*A)./A ).*exp(1i*r.*theta)); 
-xi_w = Ar_w*besselj(r,k_w.*A).*exp(1i*r.*theta);
-nu_w = Ar_w*((k_w.*A.*(diff_bessel(1,r,1,k_w.*A))-...
-    1i*r*Eps.*f_theta.*besselj(r,k_w.*A)./A ).*exp(1i*r.*theta)); 
+xi_u = Ar_u*besselh(pp,k_u.*A).*exp(1i*pp.*theta);
+nu_u = Ar_u*((-k_u.*A.*(diff_bessel(2,pp,1,k_u.*A))+...
+    1i*pp*Eps.*f_theta.*besselh(pp,k_u.*A)./A ).*exp(1i*pp.*theta)); 
+xi_w = Ar_w*besselj(pp,k_w.*A).*exp(1i*pp.*theta);
+nu_w = Ar_w*((k_w.*A.*(diff_bessel(1,pp,1,k_w.*A))-...
+    1i*pp*Eps.*f_theta.*besselj(pp,k_w.*A)./A ).*exp(1i*pp.*theta)); 
 xi_u_n = zeros(N_theta,N+1); nu_u_n = zeros(N_theta,N+1);
 xi_w_n = zeros(N_theta,N+1); nu_w_n = zeros(N_theta,N+1);
 f_n = ones(N_theta,1); f_nmo = ones(N_theta,1);f_nmt = ones(N_theta,1);
 f_n = f.*f_n;
-xi_u_n(:,0+1) = Ar_u*besselh(r,k_u*a).*exp(1i*r.*theta);
-xi_u_n(:,1+1) = Ar_u*k_u^1*diff_bessel(2,r,1,k_u*a).*f_n.*exp(1i*r.*theta);
-nu_u_n(:,0+1) = -Ar_u*k_u*a*diff_bessel(2,r,1,k_u*a).*exp(1i*r.*theta);
+xi_u_n(:,0+1) = Ar_u*besselh(pp,k_u*a).*exp(1i*pp.*theta);
+xi_u_n(:,1+1) = Ar_u*k_u^1*diff_bessel(2,pp,1,k_u*a).*f_n.*exp(1i*pp.*theta);
+nu_u_n(:,0+1) = -Ar_u*k_u*a*diff_bessel(2,pp,1,k_u*a).*exp(1i*pp.*theta);
 nu_u_n(:,1+1) = -f/a.*nu_u_n(:,1)...
-      -Ar_u*a*k_u^(1+1).*diff_bessel(2,r,1+1,k_u*a).*f_n.*exp(1i*r.*theta)...
-      -Ar_u*(2*f).*k_u^1.*diff_bessel(2,r,1,k_u*a).*f_nmo.*exp(1i*r.*theta)...
-      +Ar_u*(f_theta/a).*(1i*r).*besselh(r,k_u*a).*f_nmo.*exp(1i*r.*theta);
-xi_w_n(:,0+1) = Ar_w*besselj(r,k_w*a).*exp(1i*r.*theta);
-xi_w_n(:,1+1) = Ar_w*k_w^1*diff_bessel(1,r,1,k_w*a).*f_n.*exp(1i*r.*theta);
-nu_w_n(:,0+1) = Ar_w*k_w*a*diff_bessel(1,r,1,k_w*a).*exp(1i*r.*theta);
+      -Ar_u*a*k_u^(1+1).*diff_bessel(2,pp,1+1,k_u*a).*f_n.*exp(1i*pp.*theta)...
+      -Ar_u*(2*f).*k_u^1.*diff_bessel(2,pp,1,k_u*a).*f_nmo.*exp(1i*pp.*theta)...
+      +Ar_u*(f_theta/a).*(1i*pp).*besselh(pp,k_u*a).*f_nmo.*exp(1i*pp.*theta);
+xi_w_n(:,0+1) = Ar_w*besselj(pp,k_w*a).*exp(1i*pp.*theta);
+xi_w_n(:,1+1) = Ar_w*k_w^1*diff_bessel(1,pp,1,k_w*a).*f_n.*exp(1i*pp.*theta);
+nu_w_n(:,0+1) = Ar_w*k_w*a*diff_bessel(1,pp,1,k_w*a).*exp(1i*pp.*theta);
 nu_w_n(:,1+1) = -f/a.*nu_w_n(:,1)...
-      +Ar_w*a*k_w^(1+1).*diff_bessel(1,r,1+1,k_w*a).*f_n.*exp(1i*r.*theta)...
-      +Ar_w*(2*f).*k_w^1.*diff_bessel(1,r,1,k_w*a).*f_nmo.*exp(1i*r.*theta)...
-      -Ar_w*(f_theta/a).*(1i*r).*besselj(r,k_w*a).*f_nmo.*exp(1i*r.*theta);
+      +Ar_w*a*k_w^(1+1).*diff_bessel(1,pp,1+1,k_w*a).*f_n.*exp(1i*pp.*theta)...
+      +Ar_w*(2*f).*k_w^1.*diff_bessel(1,pp,1,k_w*a).*f_nmo.*exp(1i*pp.*theta)...
+      -Ar_w*(f_theta/a).*(1i*pp).*besselj(pp,k_w*a).*f_nmo.*exp(1i*pp.*theta);
 
 for n=2:N
   f_n = f.*f_n/n;
@@ -91,42 +97,31 @@ for n=2:N
   if(n>2)
     f_nmt = f.*f_nmt/(n-2);
   end
-  xi_u_n(:,n+1) = Ar_u*k_u^n*diff_bessel(2,r,n,k_u*a).*f_n.*exp(1i*r.*theta);
+  xi_u_n(:,n+1) = Ar_u*k_u^n*diff_bessel(2,pp,n,k_u*a).*f_n.*exp(1i*pp.*theta);
   nu_u_n(:,n+1) = -f/a.*nu_u_n(:,n-1+1)...
-      -Ar_u*a*k_u^(n+1).*diff_bessel(2,r,n+1,k_u*a).*f_n.*exp(1i*r.*theta)...
-      -Ar_u*(2*f).*k_u^n.*diff_bessel(2,r,n,k_u*a).*f_nmo.*exp(1i*r.*theta)...
-      -Ar_u*(f.^2/a)*k_u^(n-1).*diff_bessel(2,r,n-1,k_u*a).*f_nmt.*exp(1i*r.*theta)...
-      +Ar_u*(f_theta/a)*k_u^(n-1).*(1i*r).*diff_bessel(2,r,n-1,k_u*a)...
-      .*f_nmo.*exp(1i*r.*theta);
-  xi_w_n(:,n+1) = Ar_w*k_w^n*diff_bessel(1,r,n,k_w*a).*f_n.*exp(1i*r.*theta);
+      -Ar_u*a*k_u^(n+1).*diff_bessel(2,pp,n+1,k_u*a).*f_n.*exp(1i*pp.*theta)...
+      -Ar_u*(2*f).*k_u^n.*diff_bessel(2,pp,n,k_u*a).*f_nmo.*exp(1i*pp.*theta)...
+      -Ar_u*(f.^2/a)*k_u^(n-1).*diff_bessel(2,pp,n-1,k_u*a).*f_nmt.*exp(1i*pp.*theta)...
+      +Ar_u*(f_theta/a)*k_u^(n-1).*(1i*pp).*diff_bessel(2,pp,n-1,k_u*a)...
+      .*f_nmo.*exp(1i*pp.*theta);
+  xi_w_n(:,n+1) = Ar_w*k_w^n*diff_bessel(1,pp,n,k_w*a).*f_n.*exp(1i*pp.*theta);
   nu_w_n(:,n+1) = -f/a.*nu_w_n(:,n-1+1)...
-      +Ar_w*a*k_w^(n+1).*diff_bessel(1,r,n+1,k_w*a).*f_n.*exp(1i*r.*theta)...
-      +Ar_w*(2*f).*k_w^n.*diff_bessel(1,r,n,k_w*a).*f_nmo.*exp(1i*r.*theta)...
-      +Ar_w*(f.^2/a)*k_w^(n-1).*diff_bessel(1,r,n-1,k_w*a).*f_nmt.*exp(1i*r.*theta)...
-      -Ar_w*(f_theta/a)*k_w^(n-1).*(1i*r).*diff_bessel(1,r,n-1,k_w*a)...
-      .*f_nmo.*exp(1i*r.*theta);
+      +Ar_w*a*k_w^(n+1).*diff_bessel(1,pp,n+1,k_w*a).*f_n.*exp(1i*pp.*theta)...
+      +Ar_w*(2*f).*k_w^n.*diff_bessel(1,pp,n,k_w*a).*f_nmo.*exp(1i*pp.*theta)...
+      +Ar_w*(f.^2/a)*k_w^(n-1).*diff_bessel(1,pp,n-1,k_w*a).*f_nmt.*exp(1i*pp.*theta)...
+      -Ar_w*(f_theta/a)*k_w^(n-1).*(1i*pp).*diff_bessel(1,pp,n-1,k_w*a)...
+      .*f_nmo.*exp(1i*pp.*theta);
 end
 
-% testing
-%xi_u_n = zeros(N_theta,N+1);
-%nu_u_n = zeros(N_theta,N+1);
-%xi_w_n = zeros(N_theta,N+1);
-%nu_w_n = zeros(N_theta,N+1);
-%xi_u_n(:,0+1) = xi_u;
-%nu_u_n(:,0+1) = nu_u;
-%xi_w_n(:,0+1) = xi_w;
-%nu_w_n(:,0+1) = nu_w;
-% end testing
 
 if(Mode==1)
   tau2 = 1;
 else
   tau2 = k_u^2/k_w^2;
 end
-zeta_n = xi_u_n - xi_w_n;
-% nu_u points downwards!
+zeta_n = xi_u_n - xi_w_n; % nu_u points downwards!
 psi_n = -nu_u_n - tau2*nu_w_n;
-%psi_n = nu_u_n - tau2*nu_w_n;
+
 
 
 % Two-layer scattering by DNO
@@ -144,16 +139,23 @@ dpn_fe = field_fe_helmholtz_polar_interior(W_n,f,k_w,a,p,N_theta,N);
 Gn_fe_w = dno_fe_helmholtz_polar_interior(dpn_fe,f,f_theta,k_w,a,p,N_theta,N);
 t_fe = toc;
 
-fprintf('Press key to compute exterior layer errors...\n');
-pause;
+if SaveData==1
+% filename = sprintf('DNO_fe_Eps_%g.mat',Eps);
+filename = sprintf('DNO_fe_Eps_%g_sing12.mat',Eps);
+save(filename,'t_fe','Eps','N','N_theta','lambda','k_u','k_w','a',...
+    'U_n','W_n','Gn_fe_u','Gn_fe_w','xi_u','xi_w','nu_u','nu_w');
+end
+
+% fprintf('Press key to compute exterior layer errors...\n');
+% pause;
 
 fprintf('  t_fe = %g\n',t_fe);
-fprintf('\nEXTERIOR LAYER\n\n');
-% [relerrU,nplotU] = compute_errors_2d_polar(xi_u,U_n,Eps,N,N_theta);
+% fprintf('\nEXTERIOR LAYER\n\n');
+[relerrU,nplotU] = compute_errors_2d_polar(xi_u,U_n,Eps,N,N_theta);
 [relerrDNOU,nplotDNOU] = compute_errors_2d_polar(nu_u,Gn_fe_u,Eps,N,N_theta);
 % make_plots_polar(SavePlots,nplotU,relerrU);
-make_plots_polar(SavePlots,nplotDNOU,relerrDNOU);
-fprintf('\n');
+% make_plots_polar(SavePlots,nplotDNOU,relerrDNOU);
+% fprintf('\n');
 
 % fprintf('Press key to compute interior layer errors...\n');
 % % pause;
