@@ -2,16 +2,16 @@
 clear all
 close all
 
-SavePlots = 1;
+SavePlots = 0;
 
-mode = 8; % choose functions
+mode = 4; % choose functions
 
 if mode == 1
     name = 'expcos';
 %     load('data_expcos_eps10_VACAg.mat');
 %     load('data_expcos_eps10_WATERAg.mat');
-%     load('data_expcos_eps20_VACAg.mat');
-    load('data_expcos_eps20_WATERAg.mat');
+    load('data_expcos_eps20_VACAg.mat');
+%     load('data_expcos_eps20_WATERAg.mat');
 end
 if mode == 2
     name = 'cos2';
@@ -25,15 +25,16 @@ if mode == 4
 %     load('data_cos4_eps10_VACAg.mat');
 %     load('data_cos4_eps20_WATERAg.mat');
 %     load('data_cos4_eps20_VACAgNt128N16.mat');
-    load('data_cos4_eps20_WATERAgNt128N16.mat');
+%     load('data_cos4_eps20_WATERAgNt128N16.mat');
+    load('data_cos4_eps20_WATERAg.mat');
 end
 
 if mode == 8
     name = 'cos8';
 %     load('data_cos8_eps10_VACAg.mat');
-    load('data_cos8_eps10_WATERAg.mat');
+%     load('data_cos8_eps10_WATERAg.mat');
 %     load('data_cos8_eps20_VACAg.mat');
-%     load('data_cos8_eps20_WATERAg.mat');
+    load('data_cos8_eps20_WATERAg.mat');
 end
 
 
@@ -49,8 +50,8 @@ Gn_U_norm1 = Gn_U_norm(end,:);
 Gn_W_norm1 = Gn_W_norm(end,:);
 
 lambda_crit_plot = lambda_crit*ones(M,1)';
-% norm_max = max([max(U_norm1),max(W_norm1));
-norm_max = max([max(Gn_U_norm1),max(Gn_W_norm1)]);
+norm_max = max([max(U_norm1),max(W_norm1)]);
+% norm_max = max([max(Gn_U_norm1),max(Gn_W_norm1)]);
 
 yy = linspace(0,norm_max,M)';
 
@@ -61,7 +62,7 @@ hh = gca;
 % plot(lambda,U_norm1,'b-o',lambda,W_norm1,'g-*',lambda_crit_plot,yy,'r--');
 plot(lambda,Gn_U_norm1,'b-o',lambda,Gn_W_norm1,'g-*',lambda_crit_plot,yy,'r--');
 hold on 
-plot(lambda(36),Gn_U_norm1(36),'k-*')
+% plot(lambda(36),Gn_U_norm1(36),'k-*')
 
 xlabel('$\lambda$','interpreter','latex');
 ylabel('$|\widetilde{U}|_2$ and $|\widetilde{W}|_2$','interpreter','latex');

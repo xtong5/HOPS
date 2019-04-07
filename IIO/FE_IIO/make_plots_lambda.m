@@ -1,6 +1,7 @@
 % plot
 clear all
 
+SavePlots=0;
 mode = 1; % choose functions
 
 if mode == 1
@@ -58,3 +59,12 @@ xlabel('$\lambda$','interpreter','latex');
 ylabel('$\epsilon$','interpreter','latex');
 title('$\epsilon_u$ and -Real($\epsilon_w$) versus $\lambda$','interpreter','latex');
 legend('epsilon_u','-Re[epsilon_w]','lambda_c');
+
+if(SavePlots==1)
+    filename = sprintf('fig_UWlam_%s_eps%.0f%s%s',name,Eps_max/a*100,...
+        IN,OUT);
+    saveas(1,filename,'epsc');
+    filename = sprintf('fig_index_%s_eps%.0f%s%s',name,Eps_max/a*100,...
+        IN,OUT);
+    saveas(2,filename,'epsc');
+end

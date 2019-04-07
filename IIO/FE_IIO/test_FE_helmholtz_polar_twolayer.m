@@ -122,7 +122,7 @@ for n=2:N
 end
 
 zeta_n = xi_u_n - xi_w_n; % nu_u points downwards!
-psi_n = -nu_u_n.*sigma_u - nu_w_n.*sigma_w;
+psi_n = (-nu_u_n.*sigma_u - nu_w_n.*sigma_w)/sigma_u;
 
 % Z_p = sigma_u * k_u * diff_besselh(p,1,k_u*a)./besselh(p,k_u*a);
 % Y_p = sigma_w * k_w * diff_besselj(p,1,k_w*a)./besselj(p,k_w*a);
@@ -145,9 +145,9 @@ fprintf('\n\nTwo-layer scattering by IIO\n\n');
 tic;
 [I_u_n,I_w_n] = twolayer_IIO_fe_helmholtz_polar(zeta_n,psi_n,f,f_theta,...
     p,k_u,k_w,sigma_u,sigma_w,a,N_theta,N,Y_p,Z_p);
-anp = field_fe_helmholtz_polar_exterior(I_u_n,f,f_theta,k_u,a,p,N_theta,N,sigma_u,Y_p);
+anp = field_IIO_fe_helmholtz_polar_exterior(I_u_n,f,f_theta,k_u,a,p,N_theta,N,sigma_u,Y_p);
 Q_u_n = IIO_fe_helmholtz_polar_exterior(anp,f,f_theta,k_u,a,p,N_theta,N,sigma_u,Z_p);
-dnp = field_fe_helmholtz_polar_interior(I_w_n,f,f_theta,k_w,a,p,N_theta,N,sigma_w,Z_p);
+dnp = field_IIO_fe_helmholtz_polar_interior(I_w_n,f,f_theta,k_w,a,p,N_theta,N,sigma_w,Z_p);
 S_w_n = IIO_fe_helmholtz_polar_interior(dnp,f,f_theta,k_w,a,p,N_theta,N,sigma_w,Y_p);
 Un_far = IIO_fe_farfield(anp,k_u,a,b,p,N_theta,N);
 Un = IIO_fe_Un(anp,f,k_u,a,p,N_theta,N);

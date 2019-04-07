@@ -2,7 +2,7 @@
 SavePlots=1;
 Nplot = [0 2 4 6 8 10 12 14 16];
 N = size(Nplot,2);
-mode = 2; %1=U, 2=IIOU/DNOU, 3=W, 4=IIOW/DNOW
+mode = 4; %1=U, 2=IIOU/DNOU, 3=W, 4=IIOW/DNOW
 % mode_op = 1; Operater = 'IIO'; %1=IIO, 2=DNO
 mode_op = 2; Operater = 'DNO'; 
 % mode_sing = ''; %empty, _sing12, _sing16

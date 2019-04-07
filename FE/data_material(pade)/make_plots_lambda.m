@@ -1,7 +1,7 @@
 % plot
 clear all
 
-mode = 8; % choose functions
+mode = 1; % choose functions
 
 if mode == 1
     load('data_expcos10_eps_WATERAg.mat');

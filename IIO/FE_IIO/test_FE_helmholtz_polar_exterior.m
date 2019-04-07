@@ -12,7 +12,7 @@ SavePlots = 0;
 % RunNumber = 1;
 warning off 
 
-Mode = 2; 
+Mode = 1; 
 L = 2*pi;
 k_u=2.1;
 % k_u = 1;
@@ -89,14 +89,14 @@ Y_p = k_w * diff_besselj(p,1,k_w*a)./(sigma_w*besselj(p,k_w*a));
 % Z_p = 1.1*ones(N_theta,1);
 
 
-I_u = 1/sigma_u*nu_u+ifft(Y_p.*fft(xi_u));
-I_u_n = 1/sigma_u*nu_u_n+ifft(Y_p.*fft(xi_u_n));
-Q_u = 1/sigma_u*nu_u+ifft(Z_p.*fft(xi_u));
-% Qn_u = 1/sigma_u*nu_u_n+ifft(Z_p.*fft(xi_u_n));
+I_u = sigma_u*nu_u+ifft(Y_p.*fft(xi_u));
+I_u_n = sigma_u*nu_u_n+ifft(Y_p.*fft(xi_u_n));
+Q_u = sigma_u*nu_u+ifft(Z_p.*fft(xi_u));
+% Qn_u = sigma_u*nu_u_n+ifft(Z_p.*fft(xi_u_n));
 
 
 tic;
-anp= field_fe_helmholtz_polar_exterior(I_u_n,f,f_theta,k_u,a,p,N_theta,N,sigma_u,Y_p);
+anp= field_IIO_fe_helmholtz_polar_exterior(I_u_n,f,f_theta,k_u,a,p,N_theta,N,sigma_u,Y_p);
 Qn = IIO_fe_helmholtz_polar_exterior(anp,f,f_theta,k_u,a,p,N_theta,N,sigma_u,Z_p);
 t_fe = toc;
 fprintf('  t_fe = %g\n',t_fe);
