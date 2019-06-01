@@ -10,19 +10,18 @@ SavePlots = 0;
 % RunNumber = 1;
 Mode = 2; 
 L = 2*pi;
+lambda = 0.4;
 %k=2.1;
 k=13.962634015954636;
 if(Mode==1)
   sigma = 1;
 else
-  sigma = (0.4*k/L)^2;
+  sigma = (lambda*k/L)^2;
 end
-% sigma = Inf;
 eta = 3.4;
-% eta = -1i;
 
-% Eps = 0.02;
-Eps = 0;
+Eps = 0.02;
+% Eps = 0;
 N_theta = 64;
 N = 16;
 N_r = 16;
@@ -86,7 +85,7 @@ Q_u = 1/sigma*nu_u-1i*eta*xi_u;
 Qn_u = 1/sigma*nu_u_n-1i*eta*xi_u_n;
 
 [Un,Dr_Un,Dp_Un] = field_tfe_IIO_helmholtz_polar_exterior(I_u_n,f,f_theta,k,a,b,p,N_theta,N,N_r,sigma,eta);
-% [relerr,nplot] = compute_errors_2d_polar(u_exact,Un,Eps,N,N_theta);
+[relerr,nplot] = compute_errors_2d_polar(u_exact,Un,Eps,N,N_theta);
  
 Qn_tfe = IIO_tfe_helmholtz_polar_exterior(Un,Dr_Un,Dp_Un,f,f_theta,a,b,N,sigma,eta);
 [relerr,nplot] = compute_errors_2d_polar(Q_u,Qn_tfe,Eps,N,N_theta);        

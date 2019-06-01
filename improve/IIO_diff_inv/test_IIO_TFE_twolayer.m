@@ -25,8 +25,8 @@ if(Mode==1)
   sigma_u = 1;
   sigma_w = 1;
 else
-  sigma_u = (0.4*k_u/L)^2;
-  sigma_w = (0.4*k_w/L)^2;
+  sigma_u = (lambda*k_u/L)^2;
+  sigma_w = (lambda*k_w/L)^2;
 end
 
 if(RunNumber==1)

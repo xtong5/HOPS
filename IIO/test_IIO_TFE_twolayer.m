@@ -8,14 +8,14 @@ clear all;
 close all;
 warning off;
 SavePlots = 0;
-SaveData = 1;
+SaveData = 0;
 
 RunNumber = 1;
 Mode = 2; %check 
 
 
 L = 2*pi;
-lambda = 0.45;
+lambda = 0.4;
 n_u = 1;
 % n_w = 2.5;
 k_0 = L/lambda;
@@ -27,14 +27,14 @@ if(Mode==1)
   sigma_u = 1;
   sigma_w = 1;
 else
-  sigma_u = (0.4*k_u/L)^2;
-  sigma_w = (0.4*k_w/L)^2;
+  sigma_u = (lambda*k_u/L)^2;
+  sigma_w = (lambda*k_w/L)^2;
 end
 
 if(RunNumber==1)
   % Small Deformation
-%  Eps = 0.1;
-  Eps = 0;
+  Eps = 0.02;
+%   Eps = 0;
   N_theta = 64;
 %   a = 0.025;
 %   b = 10*a;
@@ -44,8 +44,8 @@ if(RunNumber==1)
 %  a = 0.45;
    b = 1.6;
    c = 0.6;
-%  N = 16;
-  N = 0;
+ N = 16;
+%   N = 0;
   N_r = 16;
 %   N_r = 32;
 elseif(RunNumber==2)
@@ -162,10 +162,10 @@ end
 % fprintf('Press key to compute exterior layer errors...\n');
 % pause;
 
-% fprintf('  t_tfe = %g\n',t_tfe);
-% fprintf('\nEXTERIOR LAYER\n\n');
-% [relerrU,nplotU] = compute_errors_2d_polar(xi_u,Un,Eps,N,N_theta);
-% [relerrIIOU,nplotIIOU] = compute_errors_2d_polar(Q_u,Qn_u,Eps,N,N_theta);
+fprintf('  t_tfe = %g\n',t_tfe);
+fprintf('\nEXTERIOR LAYER\n\n');
+[relerrU,nplotU] = compute_errors_2d_polar(xi_u,Un,Eps,N,N_theta);
+[relerrIIOU,nplotIIOU] = compute_errors_2d_polar(Q_u,Qn_u,Eps,N,N_theta);
 % make_plots_polar(SavePlots,nplotU,relerrU);
 % make_plots_polar(SavePlots,nplotIIOU,relerrIIOU);
 % fprintf('\n');
@@ -173,14 +173,10 @@ end
 % fprintf('Press key to compute interior layer errors...\n');
 % pause;
 
-% fprintf('\nINTERIOR LAYER\n\n');
-% [relerrW,nplotW] = compute_errors_2d_polar(xi_w,Wn,Eps,N,N_theta);
-% [relerrIIOW,nplotIIOW] = compute_errors_2d_polar(S_w,Sn_w,Eps,N,N_theta);
+fprintf('\nINTERIOR LAYER\n\n');
+[relerrW,nplotW] = compute_errors_2d_polar(xi_w,Wn,Eps,N,N_theta);
+[relerrIIOW,nplotIIOW] = compute_errors_2d_polar(S_w,Sn_w,Eps,N,N_theta);
 % make_plots_polar(SavePlots,nplotW,relerrW);
 % make_plots_polar(SavePlots,nplotIIOW,relerrIIOW);
 
 
-
-
--k_u*diff_besselh(1,pp,k_u*a)+1i*eta*besselh(pp,k_u*a);
-k_w*diff_besselj(1,pp,k_w*a)+1i*eta*besselj(pp,k_w*a)
