@@ -10,54 +10,63 @@ close all;
 warning off;
 SavePlots = 0;
 SaveData = 0;
-
 Mode = 2; %check 
+RunNumber = 1;
+
 L = 2*pi;
-lambda = 0.4;
-n_u = 1;
-% n_w = 2.5;
-k_0 = L/lambda;
-k_u = n_u*k_0; 
-% k_w = n_w*k_0;
-k_w = 5.13562230184068;
+lambda = 0.45;
 eta = 3.4;
+OUT = 'VACUUM';IN = 'SILVER';
+[n_u,epsilon_u] = ri_perm(lambda,OUT);
+[n_w,epsilon_w] = ri_perm(lambda,IN);
+% n_u = 1; epsilon_u = n_u.^2;
+% n_w = 1.2; epsilon_w = n_w.^2;
+k_0 = L/lambda;
+k_u = n_u.*k_0; 
+k_w = n_w.*k_0;
+% k_w = 5.13562230184068;
 if(Mode==1)
   sigma_u = 1;
   sigma_w = 1;
 else
-  sigma_u = 1./(lambda*k_u/L)^2;
-  sigma_w = 1./(lambda*k_w/L)^2;
+  sigma_u = 1./epsilon_u;
+  sigma_w = 1./epsilon_w;
 end
-N_theta = 64;
-N_r = 16;
 
-% a = 0.025;b = 2*a;c = 0.1*a;
-% Eps = 0.01*a;
-a = 1.2; b = 1.6; c = 0.6; Eps = 0.02;
-N = 16;
-
-
-
-% L = 2*pi;
-% lambda = 0.45;
-% k_0 = L/lambda;
-% OUT = 'VACUUM';IN = 'SILVER';
-% [n_u,epsilon_u] = ri_perm(lambda,OUT);
-% [n_w,epsilon_w] = ri_perm(lambda,IN);
-% k_u = n_u*k_0; 
-% k_w = n_w*k_0;
-% if(Mode==1)
-%   sigma_u = 1;
-%   sigma_w = 1;
-% else
-%   sigma_u = 1/epsilon_u;
-%   sigma_w = 1/epsilon_w;
-% end
-
+if(RunNumber==1)
+%    Small Deformation
+  N_theta = 64;
+%   N = 16;
+  N=0;
+  N_r = 16;
+  a = 0.025; b = 10*a; c = 0.1*a;
+  Eps = 0.01*a;
+%   a = 1.2; b = 1.6; c = 0.6;
+%   Eps = 0.02;
+%   Eps = 0;
+elseif(RunNumber==2)
+%   Big Deformation (inside disk)
+  Eps = 0.3;
+  N_theta = 64;
+  a = 0.025;
+  b = 10*a;
+  c = 0.1*a;
+  N = 16;
+  N_r = 16;
+elseif(RunNumber==3)
+%   Big Deformation (outside disk)
+  Eps = 0.75;
+  N_theta = 64;
+  a = 0.025;
+  b = 10*a;
+  c = 0.1*a;
+  N = 16;
+  N_r = 16;
+end
 
 fprintf('test_IIO_TFE_twolayer\n');
 fprintf('-------------\n');
-fprintf('k_u = %g  k_w = %g\n\n',k_u,k_w);
+fprintf('k_u = %g k_w = %g sigma_u = %g sigma_w = %g\n',k_u,k_w,sigma_u,sigma_w);
 fprintf('Eps = %g  a = %g  b = %g  c = %g\n',Eps,a,b,c);
 fprintf('N_theta = %d N = %d  N_r = %d\n',N_theta,N,N_r);
 fprintf('\n');
@@ -124,10 +133,10 @@ psi_n = -sigma_u.*nu_u_n- sigma_w.*nu_w_n;
 Y_p = 1i*eta*ones(N_theta,1);
 Z_p = -1i*eta*ones(N_theta,1);
 
-I_u = sigma_u*nu_u+ifft(Y_p.*fft(xi_u));
-I_w = sigma_w*nu_w-ifft(Z_p.*fft(xi_w));
-Q_u = sigma_u*nu_u+ifft(Z_p.*fft(xi_u));
-S_w = sigma_w*nu_w-ifft(Y_p.*fft(xi_w));
+I_u = sigma_u.*nu_u+ifft(Y_p.*fft(xi_u));
+I_w = sigma_w.*nu_w-ifft(Z_p.*fft(xi_w));
+Q_u = sigma_u.*nu_u+ifft(Z_p.*fft(xi_u));
+S_w = sigma_w.*nu_w-ifft(Y_p.*fft(xi_w));
 
 % Two-layer scattering by IIO
 

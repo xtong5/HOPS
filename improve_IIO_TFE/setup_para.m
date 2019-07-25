@@ -6,8 +6,8 @@ n_u = 1;
 n_w = 2.5;
 k_0 = L/lambda;
 k_u = n_u*k_0; 
-% k_w = n_w*k_0;
-k_w = 5.13562230184068;
+k_w = n_w*k_0;
+% k_w = 5.13562230184068;
 eta = 3.4;
 if(Mode==1)
   sigma_u = 1;

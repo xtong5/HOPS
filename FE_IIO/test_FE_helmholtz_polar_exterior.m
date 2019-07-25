@@ -12,7 +12,7 @@ SavePlots = 0;
 % RunNumber = 1;
 warning off 
 
-Mode = 2; 
+Mode = 1; 
 L = 2*pi;
 k_u=2.1;
 % k_u = 1;
@@ -21,7 +21,7 @@ if(Mode==1)
   sigma_u = 1;
   sigma_w = 1;
 else
-  sigma_u = (0.4*k_u/L)^2; %lambda = 0.4
+  sigma_u = (0.4*k_u/L)^2;
   sigma_w = (0.4*k_w/L)^2;
 end
 

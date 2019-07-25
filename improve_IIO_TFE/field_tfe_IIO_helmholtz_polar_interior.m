@@ -10,6 +10,7 @@ u_n_p = zeros(N_theta*(N_r+1),N+1);
 Dr_u_n = zeros((N_r+1)*N_theta,N+1);
 Dp_u_n = zeros((N_r+1)*N_theta,N+1);
 Un = zeros(N_theta,N+1);
+Un_far = zeros(N_theta,N+1);
 Dr_Un = zeros(N_theta,N+1);
 Dp_Un = zeros(N_theta,N+1);
 

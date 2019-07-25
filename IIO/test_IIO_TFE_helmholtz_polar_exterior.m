@@ -11,7 +11,7 @@ SavePlots = 0;
 Mode = 2; 
 L = 2*pi;
 lambda = 0.4;
-%k=2.1;
+% k=2.1;
 k=13.962634015954636;
 if(Mode==1)
   sigma = 1;

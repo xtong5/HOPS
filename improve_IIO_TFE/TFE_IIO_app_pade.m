@@ -1,5 +1,5 @@
-function [lambda_crit,U_norm,W_norm,BU_norm] = ...
-    TFE_IIO_app_pade(M,f,N_theta,theta,a,b,c,N,N_r,Eps_max,N_eps,OUT,IN,eta,name)
+function [lambda_crit,U_norm,W_norm,BU_norm] = TFE_IIO_app_pade...
+    (M,f,N_theta,theta,a,b,c,N,N_r,Eps_max,N_eps,OUT,IN,Y_p,Z_p,name)
 % this function computes and saves the data to file
 %% example
 % N_theta = 64;N = 16;N_r = 16;M = 201;N_eps = 101;
@@ -89,33 +89,16 @@ for n=1:N
     (-1i*k_u(m))^(n-1).*f_nmo.*Sin.^(n-1));
 end
 
-% Z_p = sigma_u * k_u(m) * diff_besselh(p,1,k_u(m)*a)./besselh(p,k_u(m)*a);
-% Y_p = sigma_w * k_w(m) * diff_besselj(p,1,k_w(m)*a)./besselj(p,k_w(m)*a);
+[I_u_n(:,:,m),I_w_n(:,:,m)] = twolayer_IIO_TFE(zeta_n,psi_n,f,f_theta,p,k_u(m),k_w(m),sigma_u,sigma_w,a,b,c,N_theta,N,N_r,Y_p,Z_p);
+[U_n(:,:,m),B_far(:,:,m),Dr_Un,Dp_Un] = field_tfe_IIO_exterior_far(I_u_n(:,:,m),f,f_theta,k_u(m),a,b,p,N_theta,N,N_r,sigma_u,Y_p);
+Q_u_n(:,:,m) = IIO_tfe_helmholtz_polar_exterior(U_n(:,:,m),Dr_Un,Dp_Un,f,f_theta,a,b,N,sigma_u,Z_p);
+Gn_U_n(:,:,m) = dno_tfe_helmholtz_polar_exterior(Dr_Un,Dp_Un,f,f_theta,k_u(m),a,b,p,N_theta,N,N_r);
+[W_n(:,:,m),Dr_Wn,Dp_Wn] = field_tfe_IIO_helmholtz_polar_interior(I_w_n(:,:,m),f,f_theta,k_w(m),a,c,p,N_theta,N,N_r,sigma_w,Z_p);
+S_w_n(:,:,m) = IIO_tfe_helmholtz_polar_interior(W_n(:,:,m),Dr_Wn,Dp_Wn,f,f_theta,a,c,N,sigma_w,Y_p);
+Gn_W_n(:,:,m) = dno_tfe_helmholtz_polar_interior(Dr_Un,Dp_Un,f,f_theta,k_w(m),a,c,p,N_theta,N,N_r);
 
-
-Z_p = -1i*eta.*ones(N_theta,1);
-Y_p = 1i*eta.*ones(N_theta,1);
-
-[I_u_n(:,:,m),I_w_n(:,:,m)] = twolayer_IIO_TFE(zeta_n,psi_n,f,f_theta,p,k_u(m),k_w(m),sigma_u,sigma_w,a,b,c,N_theta,N,N_r,eta);
-[Un(:,:,m),Dr_Un,Dp_Un] = field_tfe_IIO_helmholtz_polar_exterior(I_u_n,f,f_theta,k_u(m),a,b,p,N_theta,N,N_r,sigma_u,eta);
-Q_u_n(:,:,m) = IIO_tfe_helmholtz_polar_exterior(Un(:,:,m),Dr_Un,Dp_Un,f,f_theta,a,b,N,sigma_u,eta);
-[Wn(:,:,m),Dr_Wn,Dp_Wn] = field_tfe_IIO_helmholtz_polar_interior(I_w_n,f,f_theta,k_w(m),a,c,p,N_theta,N,N_r,sigma_w,eta);
-S_w_n(:,:,m) = IIO_tfe_helmholtz_polar_interior(Wn(:,:,m),Dr_Wn,Dp_Wn,f,f_theta,a,c,N,sigma_w,eta);
-
-[I_u_n(:,:,m),I_w_n(:,:,m)] = twolayer_IIO_fe_helmholtz_polar(zeta_n,psi_n,f,f_theta,...
-    p,k_u(m),k_w(m),sigma_u,sigma_w,a,N_theta,N,Y_p,Z_p);
-
-apn = field_IIO_fe_helmholtz_polar_exterior(I_u_n(:,:,m),f,f_theta,k_u(m),a,p,N_theta,N,sigma_u,Y_p);
-U_n(:,:,m) = IIO_fe_Un(apn,f,k_u(m),a,p,N_theta,N);
-Gn_U_n(:,:,m) = dno_fe_helmholtz_polar_exterior(apn,f,f_theta,k_u(m),a,p,N_theta,N);
-Q_u_n(:,:,m) = IIO_fe_helmholtz_polar_exterior(apn,f,f_theta,k_u(m),a,p,N_theta,N,sigma_u,Z_p);
-
-W_n(:,:,m) = U_n(:,:,m) - zeta_n;
-dpn = field_IIO_fe_helmholtz_polar_interior(I_w_n(:,:,m),f,f_theta,k_w(m),a,p,N_theta,N,sigma_w,Z_p);
-Gn_W_n(:,:,m) = dno_fe_helmholtz_polar_interior(dpn,f,f_theta,k_w(m),a,p,N_theta,N);
-S_w_n(:,:,m) = IIO_fe_helmholtz_polar_interior(dpn,f,f_theta,k_w(m),a,p,N_theta,N,sigma_w,Y_p);
-
-B_far(:,:,m) = IIO_fe_farfield(apn,k_u(m),a,b,p,N_theta,N);
+% apn = field_IIO_fe_helmholtz_polar_exterior(I_u_n(:,:,m),f,f_theta,k_u(m),a,p,N_theta,N,sigma_u,Y_p);
+% B_far(:,:,m) = IIO_fe_farfield(apn,k_u(m),a,b,p,N_theta,N);
 
   
 for l=1:N_eps
@@ -145,10 +128,7 @@ for l=1:N_eps
 end
 
 filename = sprintf('data_%s.mat',name);
-% save(filename,'M','lambda','U_norm','W_norm','Qu_norm','Sw_norm',...
-%     'lambda_crit','epsilon_u_plot','epsilon_w_plot','epsvec','a','b',...
-%     'N_theta','N','N_eps','Eps_max','OUT','IN')
-save(filename,'M','lambda','N_theta','N','N_eps','Eps_max','OUT','IN',...
+save(filename,'M','lambda','N_theta','N','N_r','N_eps','Eps_max','OUT','IN',...
     'lambda_crit','epsilon_u_plot','epsilon_w_plot','epsvec','a','b','Y_p','Z_p',...
     'U_n','W_n','I_u_n','I_w_n','Q_u_n','S_w_n','Gn_U_n','Gn_W_n','B_far',...
     'U_norm','W_norm','Iu_norm','Iw_norm','Qu_norm','Sw_norm','Gn_U_norm','Gn_W_norm','BU_norm')

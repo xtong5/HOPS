@@ -18,14 +18,14 @@ if n==1
 end
 if n==2
     Y_u_nmo = ifft(Y_p.*fft(u_nmo));
-    Ln = (d*f.*xi_nmo - a*f.*xi_nmo + 1/sigma*(2*a*d*f.*Dr_u_nmo-d*f_theta.*Dp_u_nmo)...
+    Ln = (d*f.*xi_nmo - a*f.*xi_nmo + sigma*(2*a*d*f.*Dr_u_nmo-d*f_theta.*Dp_u_nmo)...
         -(-a*f.*Y_u_nmo+d*f.*Y_u_nmo))/(a*d);
 end
 
 if n>2
     Y_u_nmo = ifft(Y_p.*fft(u_nmo));
     Y_u_nmt = ifft(Y_p.*fft(u_nmt));
-    Ln = (d*f.*xi_nmo - a*f.*xi_nmo -f.*f.*xi_nmt + 1/sigma*(2*a*d*f.*Dr_u_nmo...
+    Ln = (d*f.*xi_nmo - a*f.*xi_nmo -f.*f.*xi_nmt + sigma*(2*a*d*f.*Dr_u_nmo...
         +d*f.*f.*Dr_u_nmt - d*f_theta.*Dp_u_nmo+f.*f_theta.*Dp_u_nmt+d*f_theta.*f_theta.*Dr_u_nmt)...
         -(-a*f.*Y_u_nmo+d*f.*Y_u_nmo-f.*f.*Y_u_nmt))/(a*d);
 end

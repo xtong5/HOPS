@@ -14,7 +14,7 @@ warning off
 
 Mode = 1; 
 L = 2*pi;
-lambda = 0.4;
+lambda = 0.45;
 n_u = 1;
 n_w = 2.5;
 k_0 = L/lambda;
@@ -25,8 +25,8 @@ if(Mode==1)
   sigma_u = 1;
   sigma_w = 1;
 else
-  sigma_u = 1/(lambda*k_u/L)^2;
-  sigma_w = 1/(lambda*k_w/L)^2;
+  sigma_u = (0.4*k_u/L)^2;
+  sigma_w = (0.4*k_w/L)^2;
 end
 
 Eps = 0.02;

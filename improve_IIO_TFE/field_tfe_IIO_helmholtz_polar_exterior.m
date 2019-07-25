@@ -36,7 +36,6 @@ for n=1:N+1
     if n == 1 % order=0
     xi_n_p = fft(xi_n(:,n));
     FF = zeros(N_r+1,1); 
-    rhs = FF;
     for i=1:N_theta
         rhs = FF;
         rhs(1) = 0;rhs(end) =xi_n_p(i);

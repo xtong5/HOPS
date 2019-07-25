@@ -6,11 +6,34 @@
 
 clear all
 %% Default
+% SavePlots = 0;
+% Mode = 2; 
+% L = 2*pi;
+% lambda = 0.4;
+% k_w=2.1;
+% if(Mode==1)
+%   sigma_w = 1;
+% else
+%   sigma_w = 1./(lambda*k_w/L)^2;
+% end
+% eta = 3.4;
+% 
+% N_theta = 64;
+% N = 16;
+% N_r = 16;
+% % a = 0.8;c = 0.4;
+% % Eps = 0.02;
+% a = 0.025;c = 0.1*a;
+% Eps = 0.01*a;
+% % Eps = 0;
+
 SavePlots = 0;
+% RunNumber = 1;
 Mode = 2; 
 L = 2*pi;
 lambda = 0.4;
 k_w=2.1;
+% k_w=5.13562230184068;
 if(Mode==1)
   sigma_w = 1;
 else
@@ -18,15 +41,14 @@ else
 end
 eta = 3.4;
 
-N_theta = 64;
-N = 16;
-N_r = 16;
-% a = 0.8;c = 0.4;
-% Eps = 0.02;
-a = 0.025;c = 0.1*a;
-Eps = 0.01*a;
+Eps = 0.02;
 % Eps = 0;
-
+N_theta = 64;
+N = 6;
+% N = 0;
+N_r = 16;
+a = 1.2;
+c = 0.8;
 
 p = [0:N_theta/2-1,-N_theta/2:-1]';
 theta = (L/N_theta)*[0:N_theta-1]';

@@ -7,7 +7,7 @@
 
 %% Default
 SavePlots = 0;
-Mode = 1; 
+Mode = 2; 
 L = 2*pi;
 lambda = 0.4;
 n_u = 1.2;
@@ -26,10 +26,9 @@ N = 16;
 N_r = 16;
 % a = 0.5;b = 0.8;
 % Eps = 0.02;
-a = 0.025;b = 2*a;%10a
+a = 0.025;b = 10*a;%10a
 Eps = 0.01*a;
 % Eps = 0;
-
 
 p = [0:N_theta/2-1,-N_theta/2:-1]';
 theta = (L/N_theta)*[0:N_theta-1]';

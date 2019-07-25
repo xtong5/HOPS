@@ -17,14 +17,17 @@ if n==1
     Ln = zeros(N_theta,1);
 end
 if n==2
+    Z_u_nmo = ifft(Z_p.*fft(u_nmo));
     Ln = (a*f.*xi_nmo + d*f.*xi_nmo - sigma*(2*a*d*f.*Dr_u_nmo-d*f_theta.*Dp_u_nmo)...
-        +Z_p.*(a*f.*u_nmo+d*f.*u_nmo))/(a*d);
+        + (a*f.*Z_u_nmo+d*f.*Z_u_nmo))/(a*d);
 end
 
 if n>2
+    Z_u_nmo = ifft(Z_p.*fft(u_nmo));
+    Z_u_nmt = ifft(Z_p.*fft(u_nmt));
     Ln = (a*f.*xi_nmo + d*f.*xi_nmo + f.*f.*xi_nmt - sigma*(2*a*d*f.*Dr_u_nmo...
         +d*f.*f.*Dr_u_nmt - d*f_theta.*Dp_u_nmo - f.*f_theta.*Dp_u_nmt + d*f_theta.*f_theta.*Dr_u_nmt)...
-        +Z_p.*(a*f.*u_nmo+d*f.*u_nmo+f.*f.*u_nmt))/(a*d);
+        +(a*f.*Z_u_nmo+d*f.*Z_u_nmo+f.*f.*Z_u_nmt))/(a*d);
 end
 
 Ln_p = fft(Ln);

@@ -15,39 +15,37 @@ Mode = 2; %check
 
 
 L = 2*pi;
-lambda = 0.4;
-n_u = 1;
-% n_w = 2.5;
-k_0 = L/lambda;
-k_u = n_u*k_0; 
-% k_w = n_w*k_0;
-k_w = 5.13562230184068;
+lambda = 0.45;
 eta = 3.4;
+OUT = 'VACUUM';IN = 'SILVER';
+[n_u,epsilon_u] = ri_perm(lambda,OUT);
+[n_w,epsilon_w] = ri_perm(lambda,IN);
+% n_u = 1; epsilon_u = n_u.^2;
+% n_w = 1.2; epsilon_w = n_w.^2;
+k_0 = L/lambda;
+k_u = n_u.*k_0; 
+k_w = n_w.*k_0;
+% k_w = 5.13562230184068;
 if(Mode==1)
   sigma_u = 1;
   sigma_w = 1;
 else
-  sigma_u = (lambda*k_u/L)^2;
-  sigma_w = (lambda*k_w/L)^2;
+  sigma_u = epsilon_u;
+  sigma_w = epsilon_w;
 end
 
 if(RunNumber==1)
-  % Small Deformation
-  Eps = 0.02;
-%   Eps = 0;
+%    Small Deformation
   N_theta = 64;
-%   a = 0.025;
-%   b = 10*a;
-%   c = 0.1*a;
-%   a = 1-1e-16;
-   a = 1.0+2e-1;
-%  a = 0.45;
-   b = 1.6;
-   c = 0.6;
- N = 16;
-%   N = 0;
+%   N = 16;
+  N=6;
   N_r = 16;
-%   N_r = 32;
+  a = 0.025; b = 10*a; c = 0.1*a;
+  Eps = 0.01*a;
+  %   a = 1-1e-16;
+%   a = 1.2; b = 1.6; c = 0.6;
+%   Eps = 0.02;
+%   Eps = 0;
 elseif(RunNumber==2)
   % Big Deformation (inside disk)
   Eps = 0.3;
@@ -71,7 +69,7 @@ end
 fprintf('test_IIO_TFE_twolayer\n');
 fprintf('-------------\n');
 fprintf('RunNumber = %d\n',RunNumber);
-fprintf('k_u = %g  k_w = %g\n\n',k_u,k_w);
+fprintf('k_u = %g k_w = %g sigma_u = %g sigma_w = %g\n',k_u,k_w,sigma_u,sigma_w);
 fprintf('Eps = %g  a = %g  b = %g  c = %g\n',Eps,a,b,c);
 fprintf('N_theta = %d N = %d  N_r = %d\n',N_theta,N,N_r);
 fprintf('\n');
@@ -133,10 +131,10 @@ for n=2:N
 end
 
 zeta_n = xi_u_n - xi_w_n; % nu_u points downwards!
-psi_n = -nu_u_n/sigma_u - nu_w_n/sigma_w;
+psi_n = -nu_u_n./sigma_u - nu_w_n./sigma_w;
 
-Q_u = 1/sigma_u*nu_u-1i*eta*xi_u;
-S_w = 1/sigma_w*nu_w-1i*eta*xi_w;
+Q_u = 1/sigma_u.*nu_u-1i*eta*xi_u;
+S_w = 1/sigma_w.*nu_w-1i*eta*xi_w;
 
 % Two-layer scattering by IIO
 
