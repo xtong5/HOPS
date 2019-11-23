@@ -41,7 +41,7 @@ if(RunNumber==1)
 %   c = 0.3;
   a = 1.2; b = 1.6; c = 0.6;
 %  N = 16;
-  N = 0;
+  N = 8;
    N_r = 16;
 %  N_r = 32;
 elseif(RunNumber==2)

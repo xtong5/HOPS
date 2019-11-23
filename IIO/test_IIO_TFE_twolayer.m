@@ -39,7 +39,7 @@ if(RunNumber==1)
   N_theta = 64;
 %   N = 16;
   N=6;
-  N_r = 16;
+  N_r = 8;
   a = 0.025; b = 10*a; c = 0.1*a;
   Eps = 0.01*a;
   %   a = 1-1e-16;
