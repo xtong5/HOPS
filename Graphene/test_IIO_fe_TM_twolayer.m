@@ -9,7 +9,7 @@ close all;
 
 warning off;
 SavePlots = 0;
-SaveData = 0;
+SaveData = 1;
 
 L = 2*pi;
 N_theta = 64;
@@ -33,8 +33,8 @@ sigma_u = 1./epsilon_u; sigma_w = 1./epsilon_w;
 % sigma_u = 1; sigma_w = 1;
 
 Y_p = 1i*3.4.*ones(N_theta,1); Z_p = -1i*3.4.*ones(N_theta,1);
-a = 1;
-Eps = 0.02;
+a = 0.025;
+Eps = 0.01*a;
 N = 16;
 % Eps = 0;
 
@@ -120,20 +120,19 @@ S_w = sigma_w*nu_w-ifft(Y_p.*fft(xi_w));
 fprintf('\n\nTwo-layer scattering by IIO\n\n');
 
 tic;
-[I_u_n,I_w_n] = IIO_fe_TM_twolayer(Nzeta_n,psi_n,f,f_theta,eta,...
-    p,k_u,k_w,sigma_u,sigma_w,a,N_theta,N,Y_p,Z_p);
+[I_u_n,I_w_n] = IIO_fe_TM_twolayer(Nzeta_n,psi_n,f,f_theta,...
+    p,k_u,k_w,sigma_u,sigma_w,eta,a,N_theta,N,Y_p,Z_p);
 anp = field_fe_IIO_helmholtz_polar_exterior(I_u_n,f,f_theta,k_u,a,p,N_theta,N,sigma_u,Y_p);
 Q_u_n = IIO_fe_helmholtz_polar_exterior(anp,f,f_theta,k_u,a,p,N_theta,N,sigma_u,Z_p);
 dnp = field_fe_IIO_helmholtz_polar_interior(I_w_n,f,f_theta,k_w,a,p,N_theta,N,sigma_w,Z_p);
 S_w_n = IIO_fe_helmholtz_polar_interior(dnp,f,f_theta,k_w,a,p,N_theta,N,sigma_w,Y_p);
 t_fe = toc;
 
-% if SaveData==1
-% % filename = sprintf('DNO_fe_Eps_%g.mat',Eps);
-% filename = sprintf('DNO_fe_Eps_%g_sing12.mat',Eps);
-% save(filename,'t_fe','Eps','N','N_theta','lambda','k_u','k_w','a',...
-%     'U_n','W_n','Gn_fe_u','Gn_fe_w','xi_u','xi_w','nu_u','nu_w');
-% end
+if SaveData==1
+filename = sprintf('IIO_fe_TM_Eps_%g.mat',Eps);
+save(filename,'t_fe','Eps','N','N_theta','lambda','a',...
+    'I_u_n','I_w_n','Q_u_n','S_w_n','I_u','I_w','Q_u','S_w');
+end
 
 fprintf('Press key to compute exterior layer errors...\n');
 pause;

@@ -30,13 +30,13 @@ eta = sigma_hat./(1i.*k_0.*epsilon_w);
 sigma_u = 1./epsilon_u; sigma_w = 1./epsilon_w;
 % sigma_u = 1; sigma_w = 1;
 
-a = 1;
-b = 1.6;
-c = 0.6;
-Eps = 0.02;
-N = 8;
+a = 0.025;
+b = 1.6*a;
+c = 0.6*a;
+Eps = 0.2*a;
+N = 16;
 N_r = 16;
-N_theta = 32;
+N_theta = 64;
 % Eps = 0;
 Y_p = 1i*3.4.*ones(N_theta,1); Z_p = -1i*3.4.*ones(N_theta,1);
 
@@ -130,12 +130,12 @@ Q_u_n = IIO_tfe_helmholtz_polar_exterior(Un,Dr_Un,Dp_Un,f,f_theta,a,b,N,sigma_u,
 S_w_n = IIO_tfe_helmholtz_polar_interior(Wn,Dr_Wn,Dp_Wn,f,f_theta,a,c,N,sigma_w,Y_p);
 t_tfe = toc;
 
-% if SaveData==1
-% % filename = sprintf('DNO_fe_Eps_%g.mat',Eps);
-% filename = sprintf('DNO_fe_Eps_%g_sing12.mat',Eps);
-% save(filename,'t_fe','Eps','N','N_theta','lambda','k_u','k_w','a',...
-%     'U_n','W_n','Gn_fe_u','Gn_fe_w','xi_u','xi_w','nu_u','nu_w');
-% end
+if SaveData==1
+% filename = sprintf('DNO_fe_Eps_%g.mat',Eps);
+filename = sprintf('IIO_tfe_Eps_%g.mat',Eps);
+save(filename,'t_fe','Eps','N','N_theta','lambda','a',...
+    'I_u_n','I_w_n','Q_u_n','S_w_n','I_u','I_w','Q_u','S_w');
+end
 
 fprintf('Press key to compute exterior layer errors...\n');
 pause;

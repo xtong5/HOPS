@@ -1,4 +1,4 @@
-function [anp] = field_IIO_fe_helmholtz_polar_exterior(I_u_n,f,f_theta,k,a,p,N_theta,N,sigma,Y_p)
+function [anp] = field_fe_IIO_helmholtz_polar_exterior(I_u_n,f,f_theta,k,a,p,N_theta,N,sigma,Y_p)
 %check the order of input
 anp = zeros(N_theta,N+1); 
 fn = zeros(N_theta,N+1);

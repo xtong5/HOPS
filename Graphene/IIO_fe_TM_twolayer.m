@@ -1,5 +1,5 @@
-function [I_u_n,I_w_n] = IIO_fe_TM_twolayer(Nzeta_n,psi_n,f,f_theta,eta,...
-    p,k_u,k_w,sigma_u,sigma_w,a,N_theta,N,Y_p,Z_p)
+function [I_u_n,I_w_n] = IIO_fe_TM_twolayer(Nzeta_n,psi_n,f,f_theta,...
+    p,k_u,k_w,sigma_u,sigma_w,eta,a,N_theta,N,Y_p,Z_p)
 
 %% set up
 I_u_n = zeros(N_theta,N+1);

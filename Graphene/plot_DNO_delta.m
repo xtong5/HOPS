@@ -9,13 +9,13 @@ close all
 SavePlots = 0;
 L = 2*pi;
 N_theta = 64;
-M = 1001;
+N_lambda = 1001;
 P = 4;
 
 lambda_low = 340;
 lambda_high = 350;
 % lambda = linspace(0.3,0.8,M)';
-lambda = linspace(lambda_low,lambda_high,M)';
+lambda = linspace(lambda_low,lambda_high,N_lambda)';
 
 k_0 = L./lambda;
 n_u = zeros(N_lambda,1); epsilon_u = zeros(N_lambda,1);
@@ -42,8 +42,8 @@ eta = sigma_hat./(1i.*k_0.*epsilon_w);
 % g_bar = 0.025;
 g_bar = 100;
 
-Delta_TE = zeros(M,P+1);
-Delta_TM = zeros(M,P+1);
+Delta_TE = zeros(N_lambda,P+1);
+Delta_TM = zeros(N_lambda,P+1);
 
 for pp = 0:P
     Delta_TE(:,pp+1) = abs((g_bar.*k_w).*diff_besselj(pp,1,g_bar.*k_w)./besselj(pp,g_bar.*k_w)...
