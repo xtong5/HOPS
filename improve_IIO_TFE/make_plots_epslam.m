@@ -3,7 +3,7 @@ clear all
 close all
 
 SavePlots=1;
-function_mode = 2; % choose functions
+function_mode = 4; % choose functions
 
 if function_mode == 1  
     name = 'expcos';
@@ -36,35 +36,37 @@ fprintf('Material: outer = %s, inner = %s\n',OUT,IN);
 fprintf('\n');
 
 
-figure(1);
-contourf(lambda,epsvec,U_norm,40);
-colorbar;
-xlabel('$\lambda$','interpreter','latex');
-ylabel('$\epsilon$','interpreter','latex');
-title('$|U|_2$ versus $\lambda$ and $\epsilon$','interpreter','latex');
+% figure(1);
+% contourf(lambda,epsvec,U_norm,40);
+% colorbar;
+% xlabel('$\lambda$','interpreter','latex');
+% ylabel('$\epsilon$','interpreter','latex');
+% title('$|U|_2$ versus $\lambda$ and $\epsilon$','interpreter','latex');
+
+
 
 figure(1);
 contourf(lambda,epsvec,Qu_norm,40);
 colorbar;
-xlabel('$\lambda$','interpreter','latex');
-ylabel('$\epsilon$','interpreter','latex');
-title('$|Qu|_2$ versus $\lambda$ and $\epsilon$','interpreter','latex');
+xlabel('$\lambda$','interpreter','latex','FontSize',16);
+ylabel('$\varepsilon$','interpreter','latex','FontSize',16);
+title('$|\tilde{I}^{(u)}|_2$ versus $\lambda$ and $\varepsilon$','interpreter','latex','FontSize',16);
 
 figure(2);
 contourf(lambda,epsvec,Sw_norm,40);
 colorbar;
-xlabel('$\lambda$','interpreter','latex');
-ylabel('$\epsilon$','interpreter','latex');
-title('$|Sw|_2$ versus $\lambda$ and $\epsilon$','interpreter','latex');
+xlabel('$\lambda$','interpreter','latex','FontSize',16);
+ylabel('$\varepsilon$','interpreter','latex','FontSize',16);
+title('$|\tilde{I}^{(w)}|_2$ versus $\lambda$ and $\varepsilon$','interpreter','latex','FontSize',16);
 
-figure(3);
-BU_norm11 = BU_norm(1,:);
-BU_ratio = BU_norm./BU_norm11;
-contourf(lambda,epsvec,BU_ratio);
-colorbar;
-xlabel('$\lambda$','interpreter','latex');
-ylabel('$\epsilon$','interpreter','latex');
-title('$|BU_{ratio}|_2$ versus $\lambda$ and $\epsilon$','interpreter','latex');
+% figure(3);
+% BU_norm11 = BU_norm(1,:);
+% BU_ratio = BU_norm./BU_norm11;
+% contourf(lambda,epsvec,BU_ratio);
+% colorbar;
+% xlabel('$\lambda$','interpreter','latex');
+% ylabel('$\epsilon$','interpreter','latex');
+% title('$|BU_{ratio}|_2$ versus $\lambda$ and $\epsilon$','interpreter','latex');
 
 
 if(SavePlots==1)
@@ -74,9 +76,9 @@ if(SavePlots==1)
     filename = sprintf('fig_IIO_Sw_%s_eps%.0flam%s%s',name,Eps_max/a*100,...
         IN,OUT);
     saveas(2,filename,'epsc');
-    filename = sprintf('fig_IIO_BU_%s_eps%.0flam%s%s',name,Eps_max/a*100,...
-        IN,OUT);
-    saveas(3,filename,'epsc');
+%     filename = sprintf('fig_IIO_BU_%s_eps%.0flam%s%s',name,Eps_max/a*100,...
+%         IN,OUT);
+%     saveas(3,filename,'epsc');
 end
 
 % saveas(1,'LSPR_2','epsc');

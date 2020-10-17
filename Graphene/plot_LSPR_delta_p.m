@@ -39,8 +39,10 @@ Delta_TM = zeros(N_lambda,N_gbar);
 
 for n = 1:N_gbar
     r = g_bar(n);
-    Delta_TM(:,n) = abs(-tau2.*(r.*k_w).*besselh(pp,r.*k_u).*diff_besselj(pp,1,r.*k_w)./besselj(pp,r.*k_w)...
-        - (r.*k_u).*besselj(pp,r.*k_w).*diff_besselh(pp,1,r.*k_u)./besselh(pp,r.*k_u));
+%     Delta_TM(:,n) = abs(-tau2.*(r.*k_w).*besselh(pp,r.*k_u).*diff_besselj(pp,1,r.*k_w)./besselj(pp,r.*k_w)...
+%         - (r.*k_u).*besselj(pp,r.*k_w).*diff_besselh(pp,1,r.*k_u)./besselh(pp,r.*k_u));
+    Delta_TM(:,n) = abs(tau2.*(r.*k_w).*diff_besselj(pp,1,r.*k_w)./besselj(pp,r.*k_w)...
+        - (r.*k_u).*diff_besselh(pp,1,r.*k_u)./besselh(pp,r.*k_u));
 end
 
    

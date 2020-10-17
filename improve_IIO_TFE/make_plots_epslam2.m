@@ -2,7 +2,7 @@
 clear all
 close all
 
-SavePlots=0;
+SavePlots=1;
 function_mode = 1; % choose functions
 
 if function_mode == 1  
@@ -39,9 +39,9 @@ fprintf('\n');
 figure(1);
 contourf(lambda,epsvec,U_norm,40);
 colorbar;
-xlabel('$\lambda$','interpreter','latex');
-ylabel('$\epsilon$','interpreter','latex');
-title('$|U|_2$ versus $\lambda$ and $\epsilon$','interpreter','latex');
+xlabel('$\lambda$','interpreter','latex','FontSize',16);
+ylabel('$\epsilon$','interpreter','latex','FontSize',16);
+title('$|U|_2$ versus $\lambda$ and $\epsilon$','interpreter','latex','FontSize',16);
 
 % figure(1);
 % contourf(lambda,epsvec,Qu_norm,40);

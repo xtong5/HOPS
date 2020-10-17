@@ -1,10 +1,10 @@
 % plot
 clear all
 
-SavePlots=1;
+SavePlots=0;
 mode = 4; % choose functions
-model_name = 'BFPV'; %or ALMA
-% model_name = 'ALMA';
+% model_name = 'BFPV'; %or ALMA
+model_name = 'ALMA';
 
 if mode == 1
     name = 'expcos';
@@ -27,13 +27,14 @@ end
 if mode == 4
     name = 'cos4';
 %     load('data_IIO_cos4_eps20_VACVAC_35to40_gbar0025_ALMA.mat');
+    load('data_nIIO_cos4_eps20_VACVAC_35to40_gbar01_ALMA.mat');
 %     load('data_IIO_cos4_eps20_VACVAC_35to40_gbar01_ALMA.mat');
 %     load('data_IIO_cos4_eps20_VACVAC_35to40_gbar1_ALMA.mat'); 
 %     load('data_IIO_cos4_eps20_VACVAC_35to45_gbar1_ALMA.mat');
 %     load('data_IIO_cos4_eps20_VACVAC_32to37_gbar0025_BFPV.mat');
 %     load('data_IIO_cos4_eps20_VACVAC_32to37_gbar01_BFPV.mat');
 %     load('data_IIO_cos4_eps20_VACVAC_32to37_gbar1_BFPV.mat');
-    load('data_IIO_cos4_eps20_VACVAC_34to40_gbar1_BFPV.mat');
+%     load('data_IIO_cos4_eps20_VACVAC_34to40_gbar1_BFPV.mat');
 end
 if mode == 8
 end
@@ -80,20 +81,20 @@ BU_ratio = BU_norm1./BU_norm11;
 figure(4);
 norm_max = max([max(Qu_norm1),max(Qu_norm0)]);
 plot(lambda,Qu_norm1,'b-o',lambda,Qu_norm0,'r-*');
-xlabel('$\lambda$','interpreter','latex','FontSize',20);
-ylabel('$|Q|_2$','interpreter','latex','FontSize',20);
-title('$|Q|_2$ versus $\lambda$','interpreter','latex','FontSize',20);
-ll = legend('$|Q|_2$ at $\varepsilon=\bar{g}/5$','$|Q|_2$ at $\varepsilon=0$');
-set(ll,'FontSize',20,'interpreter','latex','Location','best');
+xlabel('$\lambda$','interpreter','latex','FontSize',16);
+ylabel('$|Q\|_2$','interpreter','latex','FontSize',16);
+title('$\|Q\|_2$ versus $\lambda$','interpreter','latex','FontSize',16);
+ll = legend('$\varepsilon=\bar{g}/5$','$\varepsilon=0$');
+set(ll,'FontSize',14,'interpreter','latex','Location','best');
 
 figure(5);
 norm_max = max([max(Sw_norm1),max(Sw_norm0)]);
 plot(lambda,Sw_norm1,'b-o',lambda,Sw_norm0,'r-*');
-xlabel('$\lambda$','interpreter','latex','FontSize',20);
-ylabel('$|S|_2$','interpreter','latex','FontSize',20);
-title('$|S|_2$ versus $\lambda$','interpreter','latex','FontSize',20);
-ll = legend('$|S|_2$ at $\varepsilon=\bar{g}/5$','$|S|_2$ at $\varepsilon=0$');
-set(ll,'FontSize',20,'interpreter','latex','Location','best');
+xlabel('$\lambda$','interpreter','latex','FontSize',16);
+ylabel('$\|S\|_2$','interpreter','latex','FontSize',16);
+title('$\|S\|_2$ versus $\lambda$','interpreter','latex','FontSize',16);
+ll = legend('$\varepsilon=\bar{g}/5$','$\varepsilon=0$');
+set(ll,'FontSize',14,'interpreter','latex','Location','best');
 
 
 if(SavePlots==1)
@@ -105,3 +106,4 @@ if(SavePlots==1)
     filename = sprintf('fig_LGSPR_IIO_Sw_shift_%s_gbar%.0f_%s_%s',name,a*1000,IN,model_name);
     saveas(5,filename,'epsc');
 end
+

@@ -59,51 +59,51 @@ lambda_crit_plot = lambda_crit*ones(M,1)';
 % legend('|U|_2');
 
 
-figure(2);
-norm_max = max([max(Gn_U_norm1),max(Gn_W_norm1)]);
-yy = linspace(0,norm_max,M)';
-plot(lambda,Gn_U_norm1,'c-d',lambda,Gn_W_norm1,'y-+',lambda_crit_plot,yy,'r--');
-xlabel('$\lambda$','interpreter','latex');
-ylabel('$|\widetilde{U}|_2$ and $|\widetilde{W}|_2$','interpreter','latex');
-title('$|\widetilde{U}|_2$ and $|\widetilde{W}|_2$ versus $\lambda$','interpreter','latex');
-ll = legend('$|\widetilde{U}|_2$','$|\widetilde{W}|_2$','$\lambda_c$');
-set(ll,'FontSize',16,'interpreter','latex');
+% figure(2);
+% norm_max = max([max(Gn_U_norm1),max(Gn_W_norm1)]);
+% yy = linspace(0,norm_max,M)';
+% plot(lambda,Gn_U_norm1,'c-d',lambda,Gn_W_norm1,'y-+',lambda_crit_plot,yy,'r--');
+% xlabel('$\lambda$','interpreter','latex');
+% ylabel('$|\widetilde{U}|_2$ and $|\widetilde{W}|_2$','interpreter','latex');
+% title('$|\widetilde{U}|_2$ and $|\widetilde{W}|_2$ versus $\lambda$','interpreter','latex');
+% ll = legend('$|\widetilde{U}|_2$','$|\widetilde{W}|_2$','$\lambda_c$');
+% set(ll,'FontSize',16,'interpreter','latex');
 
 figure(3);
 norm_max = max([max(Qu_norm1),max(Sw_norm1)]);
 yy = linspace(0,norm_max,M)';
 plot(lambda,Qu_norm1,'b-d',lambda,Sw_norm1,'g-+',lambda_crit_plot,yy,'r--');
-xlabel('$\lambda$','interpreter','latex');
-ylabel('$|Qu|_2$ and $|Sw|_2$','interpreter','latex');
-title('$|Qu|_2$ and $|Sw|_2$ versus $\lambda$','interpreter','latex');
-legend('|Qu|_2','|Sw|_2','lambda_c');
+xlabel('$\lambda$','interpreter','latex','FontSize',16);
+ylabel('$|\tilde{I}^{(u)}|_2$ and $|\tilde{I}^{(w)}|_2$','interpreter','latex','FontSize',16);
+title('$|\tilde{I}^{(u)}|_2$ and $|\tilde{I}^{(w)}|_2$ versus $\lambda$','interpreter','latex','FontSize',16);
+legend('$|\tilde{I}^{(u)}|_2$','$|\tilde{I}^{(w)}|_2$','$\lambda_c$','interpreter','latex','FontSize',16);
 
-figure(4);
-plot(lambda,BU_ratio,'b-o');
-xlabel('$\lambda$','interpreter','latex');
-ylabel('ratio');
-title('$|BU|_2$ ratio versus $\lambda$','interpreter','latex');
-
-figure(5);
-eps_max = max(max(epsilon_u_plot),max(-real(epsilon_w_plot)));
-yy= linspace(0,eps_max,M)';
-plot(lambda,epsilon_u_plot,'b-o',lambda,-real(epsilon_w_plot),'g-*',...
-    lambda_crit_plot,yy,'r--');
-xlabel('$\lambda$','interpreter','latex');
-ylabel('$\epsilon$','interpreter','latex');
-title('$\epsilon_u$ and -Real($\epsilon_w$) versus $\lambda$','interpreter','latex');
-legend('epsilon_u','-Re[epsilon_w]','lambda_c');
+% figure(4);
+% plot(lambda,BU_ratio,'b-o');
+% xlabel('$\lambda$','interpreter','latex');
+% ylabel('ratio');
+% title('$|BU|_2$ ratio versus $\lambda$','interpreter','latex');
+% 
+% figure(5);
+% eps_max = max(max(epsilon_u_plot),max(-real(epsilon_w_plot)));
+% yy= linspace(0,eps_max,M)';
+% plot(lambda,epsilon_u_plot,'b-o',lambda,-real(epsilon_w_plot),'g-*',...
+%     lambda_crit_plot,yy,'r--');
+% xlabel('$\lambda$','interpreter','latex');
+% ylabel('$\epsilon$','interpreter','latex');
+% title('$\epsilon_u$ and -Real($\epsilon_w$) versus $\lambda$','interpreter','latex');
+% legend('epsilon_u','-Re[epsilon_w]','lambda_c');
 
 if(SavePlots==1)
-    filename = sprintf('fig_IIO_UWlam_%s_eps%.0f%s%s',name,Eps_max/a*100,...
-        IN,OUT);
-    saveas(2,filename,'epsc');
+%     filename = sprintf('fig_IIO_UWlam_%s_eps%.0f%s%s',name,Eps_max/a*100,...
+%         IN,OUT);
+%     saveas(2,filename,'epsc');
     filename = sprintf('fig_IIO_QuSwlam_%s_eps%.0f%s%s',name,Eps_max/a*100,...
         IN,OUT);
     saveas(3,filename,'epsc');
-    filename = sprintf('fig_IIO_BUratiolam_%s_eps%.0f%s%s',name,Eps_max/a*100,...
-        IN,OUT);
-    saveas(4,filename,'epsc');
+%     filename = sprintf('fig_IIO_BUratiolam_%s_eps%.0f%s%s',name,Eps_max/a*100,...
+%         IN,OUT);
+%     saveas(4,filename,'epsc');
 %     filename = sprintf('fig_index_%s_eps%.0f%s%s',name,Eps_max/a*100,...
 %         IN,OUT);
 %     saveas(5,filename,'epsc');

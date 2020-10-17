@@ -1,6 +1,6 @@
 clear all; close all;
 
-PlotNum = 3;
+PlotNum = 2;
 
 plot_gbar = 1;
 plot_ab = 0;
@@ -108,5 +108,5 @@ end
 % saveas(gca,'boplot0_bdry2','epsc');
 
 % saveas(gca,'boplot0','epsc');
-saveas(gca,'boplotcos4','epsc');
-% saveas(gca,'boplotcos2','epsc');
+% saveas(gca,'boplotcos4','epsc');
+saveas(gca,'boplotcos2','epsc');

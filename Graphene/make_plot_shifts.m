@@ -1,28 +1,28 @@
 
 close all
 
-SavePlots = 1;
+SavePlots = 0;
 
 % load('data_IIO_shifts_radius_VACVAC_0.025to1_ALMA32.mat');
 % load('data_IIO_shifts_radius_VACVAC_0.025to1_ALMA.mat');
 % load('data_IIO_shifts_Ngbars10_Nlamb51_ALMA.mat');
 % load('data_IIO_shifts_Ngbars5_Nlamb101_ALMAhalf2.mat');
-load('data_IIO_shifts_Nlamb101_ALMA.mat');
-% load('data_IIO_shifts_Nlamb101_BFPV.mat');
+% load('data_IIO_shifts_Nlamb101_ALMA.mat');
+load('data_IIO_shifts_Nlamb101_BFPV.mat');
 % fprintf('shift of Qu = %g, shift of Sw = %g\n', d_shift_Qu(end),d_shift_Sw(end));
 
 figure(1)
 plot(g_bar,d_shift_Qu,'b-o',g_bar,d_shift_Sw,'r-*','LineWidth',2);
-xlabel('$\bar{g}$','interpreter','latex','FontSize',20);
-ylabel('Shift','FontSize',20);
-title('Shift versus $\bar{g}$','interpreter','latex','FontSize',20);
-ll = legend('Shift Qu','Shift Sw');
-set(ll,'FontSize',20,'interpreter','latex','Location','best');
+xlabel('$\bar{g}$','interpreter','latex','FontSize',16);
+ylabel('Shift','interpreter','latex','FontSize',16);
+title('Shift versus $\bar{g}$','interpreter','latex','FontSize',16);
+ll = legend('$\| Q \|_2$','$\| S \|_2$');
+set(ll,'FontSize',14,'interpreter','latex','Location','best');
 
 
 if(SavePlots==1)
-    filename = 'Fig_shiftVSradius_VACVAC_ALMA';
-%     filename = 'Fig_shiftVSradius_VACVAC_BFPV';
+%     filename = 'Fig_shiftVSradius_VACVAC_ALMA';
+    filename = 'Fig_shiftVSradius_VACVAC_BFPV';
     saveas(1,filename,'epsc');
 end
 

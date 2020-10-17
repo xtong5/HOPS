@@ -2,7 +2,7 @@ clear all; close all;
 
 PlotNum = 3;
 
-plot_gbar = 0;
+plot_gbar = 1;
 plot_ab = 0;
 
 N = 100;
@@ -59,36 +59,42 @@ set(gca,'ytick',[]);
 aa = 1.4;
 M = 0.4;
 
-% WaveColor = 'Green';
-% 
+WaveColor = 'Green';
+
 % a = aa - 0.1; x = [-a-M;-a+M]; y = [a-M;a+M];
 %   line(x,y,'LineWidth',2,'Color',WaveColor);
 % a = aa; x = [-a-M;-a+M]; y = [a-M;a+M];
 %   line(x,y,'LineWidth',2,'Color',WaveColor);
 % a = aa + 0.1; x = [-a-M;-a+M]; y = [a-M;a+M];
 %   line(x,y,'LineWidth',2,'Color',WaveColor);
-% 
-% hold on;
-% a = aa; start = [-a-M;a+M]; stop = [-a+M;a-M];
-%   arrow(start,stop,6.0,WaveColor);
-% hold on;
+  
+x = [-0.5;0.5]; y = [2;2];
+  line(x,y,'LineWidth',2,'Color',WaveColor);
+y = [2-0.2;2-0.2];
+  line(x,y,'LineWidth',2,'Color',WaveColor);
+y = [2-0.4;2-0.4];
+  line(x,y,'LineWidth',2,'Color',WaveColor);
 
-% text(stop(1),start(2)+.2,'$(\alpha,-\gamma^u)$',...
-%     'interpreter','latex','FontSize',24);
-% 
+hold on;
+start = [0;2.2]; stop = [0;1.4];
+  arrow(start,stop,6.0,WaveColor);
+hold on;
+
+text(0.6,1.8,'$(0,-k^u)$','interpreter','latex','FontSize',24);
+
 axis equal;
 axis([-L L -L L]);
 
-% text(-0.2,0,'$S^w$','interpreter','latex','FontSize',40);
+text(-0.2,0,'$S^w$','interpreter','latex','FontSize',40);
 text(-1.2,-1.2,'$S^u$','interpreter','latex','FontSize',40);
-text(-1.2,0,'$S^w$','interpreter','latex','FontSize',40);
+% text(-1.2,0,'$S^w$','interpreter','latex','FontSize',40);
 
 
 % text(0.8,-0.6,'$\leftarrow r = \bar{g}$','Color','blue','interpreter','latex','FontSize',20);
-% text(0.25,1.1,'$\leftarrow r = \bar{g} +g$','interpreter','latex','FontSize',20);
+% text(0.8,1.1,'$\leftarrow r = \bar{g} +g$','interpreter','latex','FontSize',20);
 
-text(1.5,1.7,'$S^o$','color','r','interpreter','latex','FontSize',40);
-text(-0.2,0,'$S_i$','color','m','interpreter','latex','FontSize',40);
+% text(1.5,1.7,'$S^o$','color','r','interpreter','latex','FontSize',40);
+% text(-0.2,0,'$S_i$','color','m','interpreter','latex','FontSize',40);
 
 if(plot_ab==1)
   plot(xxb,yyb,'r--');
@@ -100,13 +106,14 @@ if(plot_ab==1)
   text(x2,y2,'$\Omega$','interpreter','latex','FontSize',40);
 end
 
-plot(xxb,yyb,'r--');
-text(-0.4,1.8,'$r=R^o$','Color','r','interpreter','latex','FontSize',24);
-
-plot(xxc,yyc,'m--');
-text(-0.4,0.6,'$r=R_i$','Color','m','interpreter','latex','FontSize',24);
-saveas(gca,'boplot0_bdry2','epsc');
+% plot(xxb,yyb,'r--');
+% text(-0.4,1.8,'$r=R^o$','Color','r','interpreter','latex','FontSize',24);
+% 
+% plot(xxc,yyc,'m--');
+% text(-0.4,0.6,'$r=R_i$','Color','m','interpreter','latex','FontSize',24);
+% saveas(gca,'boplot0_bdry2','epsc');
 
 % saveas(gca,'boplot0','epsc');
 % saveas(gca,'boplot0_1','epsc');
 % saveas(gca,'boplot0_bdry1','epsc');
+saveas(gca,'boplotcos4_inc','epsc');

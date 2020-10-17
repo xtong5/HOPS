@@ -20,7 +20,8 @@ if function_mode == 2
 end
 if function_mode == 4
     name = 'cos4';
-    load('data_cos4_eps10_VACAg.mat');   
+    load('data_cos4_eps20_VACAg.mat');  
+%     load('data_cos4_eps10_VACAg.mat');   
 %     load('data_cos4_eps20_VACAg_Nth128.mat');   
 %     load('data_cos4_eps10_WATERAg.mat');   
 %     load('data_cos4_eps20_WATERAg_Nth128.mat');   
@@ -48,15 +49,16 @@ BU_ratio = BU_norm1./BU_norm11;
 
 lambda_crit_plot = lambda_crit*ones(M,1)';
 
+
 figure(1);
 % norm_max = max([max(U_norm1),max(W_norm1),max(BU_norm1)]);
 norm_max = max([max(U_norm1)]);
 yy = linspace(0,norm_max,M)';
 plot(lambda,U_norm1,'b-d',lambda_crit_plot,yy,'r--');
-xlabel('$\lambda$','interpreter','latex');
-ylabel('$|U|_2$' ,'interpreter','latex');
-title('$|U|_2$  versus $\lambda$','interpreter','latex');
-legend('|U|_2');
+xlabel('$\lambda$','interpreter','latex','FontSize',16);
+ylabel('$|U|_2$' ,'interpreter','latex','FontSize',16);
+title('$|U|_2$  versus $\lambda$','interpreter','latex','FontSize',16);
+legend('|U|_2','FontSize',16);
 
 
 % figure(2);

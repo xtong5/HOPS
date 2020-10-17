@@ -50,9 +50,9 @@ fprintf('\n');
 %       relerr(n+1,5),relerr(n+1,6));
 % end
 
-fprintf('n  FE(T)  FE(P)  \n');
-fprintf('-----------------\n');
+fprintf('n  FE(T)  FE(P)  TFE(T)  TFE(P) \n');
+fprintf('-----------------------------------------------\n');
 for n=0:N
-  fprintf('%d  %g  %g\n',nplot(n+1), relerr(n+1,1),relerr(n+1,2));
+  fprintf('%d  %g  %g  %g  %g\n',nplot(n+1), relerr(n+1,1),relerr(n+1,2), relerr(n+1,3),relerr(n+1,4));
 end
 return;

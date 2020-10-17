@@ -5,9 +5,9 @@ N = size(Nplot,2);
 mode = 4; %1=U, 2=IIOU/DNOU, 3=W, 4=IIOW/DNOW
 % mode_op = 1; Operater = 'IIO'; %1=IIO, 2=DNO
 mode_op = 2; Operater = 'DNO'; 
-% mode_sing = ''; %empty, _sing12, _sing16
+mode_sing = ''; %empty, _sing12, _sing16
 % mode_sing = '_sing12'; 
-mode_sing = '_sing16'; 
+% mode_sing = '_sing16'; 
 
 name1 = sprintf('errors_%s_Eps_0.005_Nr32%s.mat',Operater,mode_sing);
 name2 = sprintf('errors_%s_Eps_0.01_Nr32%s.mat',Operater,mode_sing);
@@ -65,12 +65,13 @@ for i=1:N
 end
 
 figure(1);
-semilogy(Nplot,error1,'c-d',Nplot,error2,'y-+',Nplot,error3,'r-o',Nplot,error4,'b-*');
+semilogy(Nplot,error1,'c-d',Nplot,error2,'y-+',Nplot,error3,'r-o',Nplot,error4,'b-*',...
+    'LineWidth',2,'MarkerSize',8);
 xlabel('$N$','interpreter','latex');
-ylabel('Relative Error','interpreter','latex');
-title('Relative Error versus $N$','interpreter','latex');
-ll = legend('$\varepsilon=0.005$','$\varepsilon=0.01$','$\varepsilon=0.05$','$\varepsilon=0.1$');
-set(ll,'FontSize',10,'interpreter','latex');
+ylabel('Relative Error','interpreter','latex','FontSize',16);
+title('Relative Error versus $N$','interpreter','latex','FontSize',16);
+ll = legend('$\varepsilon=0.005$','$\varepsilon=0.01$','$\varepsilon=0.05$','$\varepsilon=0.1$','FontSize',16);
+set(ll,'FontSize',12,'interpreter','latex','Location','best');
 
 eps = [0.005 0.01 0.05 0.1];
 Error0(1) = relerr1(1);Error0(2) = relerr2(1);Error0(3) = relerr3(1);Error0(4) = relerr4(1);
@@ -81,12 +82,13 @@ Error16(1) = relerr1(1+16);Error16(2) = relerr2(1+16);Error16(3) = relerr3(1+16)
 
 figure(2);
 % semilogy(eps,Error0,'c-d',eps,Error4,'y-+',eps,Error8,'r-o',eps,Error12,'b-*',eps,Error16,'k-^');
-loglog(eps,Error0,'c-d',eps,Error4,'y-+',eps,Error8,'r-o',eps,Error12,'b-*',eps,Error16,'k-^');
-xlabel('$\varepsilon$','interpreter','latex');
-ylabel('Relative Error','interpreter','latex');
-title('Relative Error versus $\varepsilon$','interpreter','latex');
+loglog(eps,Error0,'c-d',eps,Error4,'y-+',eps,Error8,'r-o',eps,Error12,'b-*',eps,Error16,'k-^',...
+    'LineWidth',2,'MarkerSize',8);
+xlabel('$\varepsilon$','interpreter','latex','FontSize',16);
+ylabel('Relative Error','interpreter','latex','FontSize',16);
+title('Relative Error versus $\varepsilon$','interpreter','latex','FontSize',16);
 ll = legend('$N=0$','$N=4$','$N=8$','$N=12$','$N=16$');
-set(ll,'FontSize',10,'interpreter','latex');
+set(ll,'FontSize',12,'interpreter','latex','Location','best');
 
 if(SavePlots==1)
     filename = sprintf('fig_ErrrorVsN_%s%s', Operater,mode_sing);

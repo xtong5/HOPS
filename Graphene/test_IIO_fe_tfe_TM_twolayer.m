@@ -2,7 +2,8 @@
 %
 % Script to test IIO solvers in polar (two layers) for Graphene TM mode 
 %
-% XT 9/19
+% XT 9/19  5/20
+
 
 clear all;
 close all;
@@ -36,7 +37,9 @@ c = 0.6*a;
 Eps = 0.4*a;
 N = 16;
 N_r = 32;
-N_theta = 64;
+% N_r = 48;
+% N_theta = 64;
+N_theta = 96;
 % Eps = 0;
 Y_p = 1i*3.4.*ones(N_theta,1); Z_p = -1i*3.4.*ones(N_theta,1);
 
@@ -50,14 +53,14 @@ fprintf('\n');
 theta = (L/N_theta)*[0:N_theta-1]';
 p = [0:N_theta/2-1,-N_theta/2:-1]';
 
-f = exp(cos(theta));
+% f = exp(cos(theta));
+f = cos(4*theta); name = 'cos4';
 f_theta = ifft(1i*p.*fft(f));
 
 A=a+Eps.*f;
 
 Ar_u = 2; pp = 2; % take a special wavenumber
-Ar_w = 1; %r = 2; % take a special wavenumber ???same
-
+Ar_w = 1; %r = 2; % take a special wavenumber 
 xi_u = Ar_u*besselh(pp,k_u.*A).*exp(1i*pp.*theta);
 nu_u = Ar_u*((-k_u.*A.*(diff_besselh(pp,1,k_u.*A))+...
     1i*pp*Eps.*f_theta.*besselh(pp,k_u.*A)./A ).*exp(1i*pp.*theta)); 
@@ -130,7 +133,7 @@ S_w_n_tfe = IIO_tfe_helmholtz_polar_interior(Wn,Dr_Wn,Dp_Wn,f,f_theta,a,c,N,sigm
 t_tfe = toc;
 
 if SaveData==1
-filename = sprintf('IIO_tfe_TM_Eps_%g.mat',Eps*100/a);
+filename = sprintf('nIIO_tfe_TM_%s_Eps_%g_Nr%g_Nth%g.mat',name,Eps*100/a,N_r,N_theta);
 save(filename,'t_tfe','Eps','N','N_theta','lambda','N_r','a',...
     'I_u_n_tfe','I_w_n_tfe','Q_u_n_tfe','S_w_n_tfe','I_u','I_w','Q_u','S_w');
 end
@@ -145,7 +148,7 @@ S_w_n_fe = IIO_fe_helmholtz_polar_interior(dnp,f,f_theta,k_w,a,p,N_theta,N,sigma
 t_fe = toc;
 
 if SaveData==1
-filename = sprintf('IIO_fe_TM_Eps_%g.mat',Eps*100/a);
+filename = sprintf('nIIO_fe_TM_%s_Eps_%g_Nr%g_Nth%g.mat',name,Eps*100/a,N_r,N_theta);
 save(filename,'t_fe','Eps','N','N_theta','lambda','a',...
     'I_u_n_fe','I_w_n_fe','Q_u_n_fe','S_w_n_fe','I_u','I_w','Q_u','S_w');
 end
